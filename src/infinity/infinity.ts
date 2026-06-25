@@ -148,7 +148,11 @@ export function solaritylevelrequium(): Decimal {
 }
 
 // i just shit my pants because this is a terraria calamity reference
+<<<<<<< Updated upstream:src/infinity/infinity.ts
 
+=======
+// you're not gonna see leaks to the new update bucko! wait until i actually finish ts!!!!
+>>>>>>> Stashed changes:vite-project/src/infinity/infinity.ts
 
 export function calamitytiergain() {
   if(player.infinity.solarity.solaritylevel.gte(2) && player.infinity.calamitytier.eq(0)) {
