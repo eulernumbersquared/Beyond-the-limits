@@ -3,10 +3,6 @@ import Decimal from 'break_eternity.js'
 import { fupgrades, requirelessfinity } from './finity'
 import { player } from './main'
 
-<<<<<<< Updated upstream:src/finalcorruption.ts
-=======
-// i am very good at efficeny fr trust me on this
->>>>>>> Stashed changes:vite-project/src/finalcorruption.ts
 export function startFC() {
     if (player.FCo.FCunl && !player.FCo.FCfin && !player.FCo.inFinalCorruption) {
         player.FCo.inFinalCorruption = true

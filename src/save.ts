@@ -7,7 +7,6 @@ export function saveGame() {
     if (value instanceof Decimal) return value.toString()
     return value
   })
-<<<<<<< Updated upstream:src/save.ts
   localStorage.setItem("incrementalSave", saveData)
 }
 
@@ -16,24 +15,6 @@ export function loadGame() {
   if (!saved) return
 
   const restored = JSON.parse(saved)
-=======
-  const encoded = btoa(saveData)
-  localStorage.setItem("savedata", encoded)
-}
-
-export function loadGame() {
-  const saved = localStorage.getItem("savedata")
-  if (!saved) return
-
-  let decoded: string
-  try {
-    decoded = atob(saved)
-  } catch {
-    decoded = saved
-  }
-
-  const restored = JSON.parse(decoded)
->>>>>>> Stashed changes:vite-project/src/save.ts
 
   function restoreValues(target: any, src: any) {
     if (src == null) return
@@ -76,11 +57,7 @@ export function loadGame() {
 }
 
 export function hardReset() {
-<<<<<<< Updated upstream:src/save.ts
   localStorage.removeItem("incrementalSave")
-=======
-  localStorage.removeItem("savedata")
->>>>>>> Stashed changes:vite-project/src/save.ts
 
   player.pupgrades.forEach(upg => upg.bought = false)
   player.repeatableUpgrades.forEach(rep => {
@@ -89,10 +66,6 @@ export function hardReset() {
   })
   player.fupgrades.forEach(upg => upg.bought = false)
 
-<<<<<<< Updated upstream:src/save.ts
-
-=======
->>>>>>> Stashed changes:vite-project/src/save.ts
   player.iupgrades.forEach(upg => {
     upg.bought = false
     upg.cost = upg.id === "1" ? new Decimal(0) : new Decimal(2)
