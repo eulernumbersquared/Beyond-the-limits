@@ -12,7 +12,6 @@ import { gainCM } from './CM.ts'
 import { DCboost, DCprecentupd } from './Decorr.ts'
 import { godstatus } from './gods.ts'
 import { calcsolarenergy, iupgrades, solaritygen } from './infinity/infinity.ts'
-import { isInterfaceDeclaration } from 'typescript'
 
 export const TICK_MS = 100
 export const TICK_SCALE = TICK_MS / 1000
@@ -272,4 +271,3 @@ setInterval(() => {
   saveGame()
 }, 10000)
 
-createApp(App).mount('#app')

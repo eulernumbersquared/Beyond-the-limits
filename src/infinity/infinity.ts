@@ -149,7 +149,6 @@ export function solaritylevelrequium(): Decimal {
 
 // i just shit my pants because this is a terraria calamity reference
 
-
 export function calamitytiergain() {
   if(player.infinity.solarity.solaritylevel.gte(2) && player.infinity.calamitytier.eq(0)) {
     player.infinity.calamitytier = player.infinity.calamitytier.add(1)

@@ -66,7 +66,6 @@ export function hardReset() {
   })
   player.fupgrades.forEach(upg => upg.bought = false)
 
-
   player.iupgrades.forEach(upg => {
     upg.bought = false
     upg.cost = upg.id === "1" ? new Decimal(0) : new Decimal(2)
