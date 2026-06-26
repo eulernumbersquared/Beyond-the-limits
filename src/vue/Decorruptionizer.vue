@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { DCboost } from '../Decorr';
-import { player } from '../main';
+import { player } from '../player';
 import { formatdiff, formatNumber } from '../format';
 </script>
 

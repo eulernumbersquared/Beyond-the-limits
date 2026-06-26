@@ -1,6 +1,7 @@
 import Decimal from "break_eternity.js";
-import { player } from "./main";
+import { player } from "./player.ts";
 import { matterionAutomationEnabled } from "./settings"
+
 
 export function focus() {
   if (player.mattergens.Mfocus) return "monofocus"
@@ -163,3 +164,4 @@ export function autobuymatterion() {
     }
   }
 }
+

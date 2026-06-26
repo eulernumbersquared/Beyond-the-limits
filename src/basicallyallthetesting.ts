@@ -1,6 +1,6 @@
 
 import Decimal from "break_eternity.js"
-import { player } from "./main"
+import { player } from "./player.ts"
 
 export function failing() {
   player.finity.amount = new Decimal("1")

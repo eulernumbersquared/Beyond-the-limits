@@ -1,6 +1,6 @@
 import Decimal from "break_eternity.js"
 import { requirelessfinity, fupgrades } from "./finity"
-import { player } from "./main"
+import { player } from "./player"
 
 export function enterCorruption() {
   if (fupgrades[1].bought) {

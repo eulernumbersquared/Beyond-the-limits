@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { formatdiff, formatNumber } from "../format"
 import { boost, gainCM } from "../CM"
-import { player } from "../main"
+import { player } from "../player"
 import Decimal from "break_eternity.js"
 </script>
 

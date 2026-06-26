@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { monoboost, monogen, getUpgradeCost, trigen, buyUpgrade, realityfocus, focus, duogen } from '../matterions'
 import { formatNumber } from '../format'
-import { player } from '../main';
+import { player } from '../player';
 </script>
 
 <template>

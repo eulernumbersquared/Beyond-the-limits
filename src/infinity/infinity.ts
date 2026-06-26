@@ -1,6 +1,6 @@
 import Decimal from "break_eternity.js";
 import { resetFinity } from "../finity";
-import { player, type RepeatableUpgrade, type upgrades } from "../main";
+import { player, type RepeatableUpgrade, type upgrades } from "../player";
 import { reactive } from "vue";
 
 const BASE_REQ = new Decimal("1.79e308");
@@ -155,3 +155,5 @@ export function calamitytiergain() {
     
   }
 }
+
+// testing!

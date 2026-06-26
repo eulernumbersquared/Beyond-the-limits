@@ -1,5 +1,5 @@
 import Decimal from "break_eternity.js"
-import { player } from "./main"
+import { player } from "./player"
 
 export function DCprecentupd() {
     if (player.CM.CM.gte(1000) && player.DCs.DCprecent.lte(100)) {

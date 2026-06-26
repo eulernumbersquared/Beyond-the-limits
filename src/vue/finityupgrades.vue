@@ -2,7 +2,7 @@
 import { fupgrades, buyFpUpgrade } from '../finity'
 import { computed } from 'vue'
 import { formatNumber } from '../format'
-import { player } from '../main'
+import { player } from '../player'
 
 
 const fpUpgrades = computed(() => {

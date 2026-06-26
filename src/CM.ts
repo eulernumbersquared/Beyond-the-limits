@@ -1,5 +1,5 @@
 import Decimal from "break_eternity.js"
-import { player } from "./main"
+import { player } from "./player"
 import { DCboost } from "./Decorr"
 import { pupgrades } from "./points"
 

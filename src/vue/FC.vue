@@ -1,5 +1,5 @@
 <script lang="ts">
-import { player } from "../main.ts"
+import { player } from "../player.ts"
 import { startFC } from "../finalcorruption.ts"
 
 export default {

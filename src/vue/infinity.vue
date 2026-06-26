@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import Decimal from 'break_eternity.js';
 import { infinitygain, infinityreset, iupgrades, buyIUpgradesReal } from '../infinity/infinity';
-import { player } from '../main';
+import { player } from '../player.ts';
 import { formatNumber } from '../format';
 import solarity from './infinityvue.vue/solarity.vue'
 import CT from './infinityvue.vue/CT.vue';

@@ -1,5 +1,5 @@
 import Decimal from "break_eternity.js"
-import { player } from "./main"
+import { player } from "./player"
 import { getRepeatableCost } from "./points"
 
 export function saveGame() {

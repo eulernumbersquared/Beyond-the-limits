@@ -1,7 +1,7 @@
 import { reactive } from "vue";
 import Decimal from "break_eternity.js";
-import { player } from "./main";
-import type { upgrades } from "./main";
+import { player } from "./player";
+import type { upgrades } from "./player";
 import { formatNumber } from "./format";
 export function canResetFinity(): boolean {
   if (player.FCo.inFinalCorruption) return false

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { canResetFinity, resetFinity, FPgain } from "../finity";
-import { player } from "../main";
+import { player } from "../player";
 import { formatNumber } from "../format";
 </script>
 

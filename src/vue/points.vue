@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch, onMounted } from 'vue'
 import { formatNumber } from '../format'
-import { player } from '../main'
+import { player } from '../player'
 import { buyUpgrade, buyRepeatable, upgradeDescriptions, upgradeCosts, getRepeatableCost } from '../points'
 
 const activeTab = ref<'upgrades' | 'repeatables'>('upgrades')

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { formatdiff, formatNumber } from '../../format';
 import { calcsolarenergy, investsolarityxp, lunargen, solarenergyboost, solargen, solaritylevelboost, solaritylevelrequium } from '../../infinity/infinity';
-import { player } from '../../main';
+import { player } from '../../player';
 
 function enableLunarGen() {
   player.infinity.solarity.lunargeneration = true

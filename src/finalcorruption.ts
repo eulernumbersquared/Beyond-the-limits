@@ -1,7 +1,7 @@
 
 import Decimal from 'break_eternity.js'
 import { fupgrades, requirelessfinity } from './finity'
-import { player } from './main'
+import { player } from './player'
 
 export function startFC() {
     if (player.FCo.FCunl && !player.FCo.FCfin && !player.FCo.inFinalCorruption) {

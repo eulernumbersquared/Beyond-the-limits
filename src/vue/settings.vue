@@ -2,7 +2,7 @@
 import { ref } from "vue"
 import { loadGame, saveGame, hardReset } from "../save"
 import { matterionAutomationEnabled, pointupgrepenabled } from "../settings"
-import { player } from "../main"
+import { player } from "../player"
 const showLoadPopup = ref(false)
 const saveInput = ref("")
 const errorMessage = ref("")

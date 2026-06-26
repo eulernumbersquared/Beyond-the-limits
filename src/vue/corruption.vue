@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { enterCorruption, exitCorruption, corruptionTick, calculatepointboosting } from "../corruption"
-import { player } from '../main'
+import { player } from '../player'
 import { formatNumber } from "../format"
 </script>
 
