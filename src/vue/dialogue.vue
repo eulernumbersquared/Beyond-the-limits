@@ -51,13 +51,13 @@ import { inDialogue, currentMessage, currentSpeakerImg, nextLine } from '../../i
   height: 100px;
   object-fit: contain;
   margin-right: 20px;
-  border-right: 2px solid crimson; /* barrier line */
+  border-right: 2px solid crimson;
   padding-right: 20px;
 }
 
 #dialogue-box h2 {
   flex: 1;
-  font-size: 16px;       /* smaller text */
+  font-size: 16px;
   line-height: 1.4;
   margin-left: 20px;
   overflow-wrap: break-word;
