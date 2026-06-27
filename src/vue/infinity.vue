@@ -6,6 +6,7 @@ import { player } from '../player.ts';
 import { formatNumber } from '../format';
 import solarity from './infinityvue.vue/solarity.vue'
 import CT from './infinityvue.vue/CT.vue';
+import EL from './infinityvue.vue/EL.vue';
 
 const BASE_REQ = new Decimal("1.79e308");
 
@@ -14,7 +15,7 @@ function nextIPRequirement() {
 }
 
 const savedTab = (localStorage.getItem('activeTab') as 'infinity'  |'iupgrades'| 'Solarity' | null) ?? 'infinity';
-const activeTab = ref<'infinity' | 'iupgrades' | 'Solarity' | 'Calamity tier'>(savedTab);
+const activeTab = ref<'infinity' | 'iupgrades' | 'Solarity' | 'Calamity tier' | 'Eternal letters'>(savedTab);
 
 
 const visibleInfinityUpgrades = computed(() => {
@@ -33,6 +34,7 @@ const visibleInfinityUpgrades = computed(() => {
     <button :class="{active: activeTab === 'iupgrades'}" @click="activeTab = 'iupgrades'">Upgrades</button>
     <button :class="{active: activeTab === 'Solarity'}" @click="activeTab = 'Solarity'" v-if="iupgrades[0].bought">Solarity</button>
     <button :class="{active: activeTab === 'Calamity tier'}" @click="activeTab = 'Calamity tier'" v-if="player.infinity.solarity.solaritylevel.gte(2)">Calamity tier</button>
+    <button :class="{active: activeTab === 'Eternal letters'}" @click="activeTab = 'Eternal letters'" v-if="player.infinity.calamitytier.gte(1)">Eternal letters</button>
   </div>
 
   <section v-if="activeTab === 'infinity'" class="infinity-panel">
@@ -76,6 +78,11 @@ const visibleInfinityUpgrades = computed(() => {
     <section v-if="activeTab === 'Calamity tier'" class="infinity-panel">
     <c-t />
   </section>
+  <keep-alive>
+  <section v-if="activeTab === 'Eternal letters'" class="infinity-panel">
+    <e-l />
+  </section>
+  </keep-alive>
 </template>
 
 <style scoped>

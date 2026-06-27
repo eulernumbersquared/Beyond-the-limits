@@ -1,6 +1,7 @@
 import Decimal from "break_eternity.js"
 import { player } from "./player"
 import { getRepeatableCost } from "./points"
+import { reactive } from "vue"
 
 export function saveGame() {
   const saveData = JSON.stringify(player, (_key, value) => {
@@ -54,6 +55,9 @@ export function loadGame() {
   player.iupgrades.forEach((upg: any) => {
     if (!(upg.cost instanceof Decimal)) upg.cost = new Decimal(upg.cost ?? 0)
   })
+player.infinity.eternalLetters.grid = reactive(
+  player.infinity.eternalLetters.grid
+)
 }
 
 export function hardReset() {
@@ -74,6 +78,10 @@ export function hardReset() {
   player.maincurrencies.Points = new Decimal(0)
   player.maincurrencies.IP = new Decimal(0)
   player.maincurrencies.FP = new Decimal(0)
+
+  player.infinity.eternalLetters.grid.forEach(row =>
+    row.forEach(cell => cell.letter = null)
+  )
 
   location.reload()
 }

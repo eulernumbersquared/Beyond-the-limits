@@ -1,6 +1,6 @@
 import Decimal from "break_eternity.js";
 import { resetFinity } from "../finity";
-import { player, type RepeatableUpgrade, type upgrades } from "../player";
+import { milestone, player, type RepeatableUpgrade, type upgrades } from "../player";
 import { reactive } from "vue";
 
 const BASE_REQ = new Decimal("1.79e308");
@@ -17,6 +17,29 @@ export function infinityreset() {
     const gain = infinitygain();
     player.maincurrencies.IP = player.maincurrencies.IP.add(gain);
     player.infinity.amount = player.infinity.amount.add(1)
+    resetFinity();
+
+    player.maincurrencies.Points = new Decimal(0);
+    player.maincurrencies.FP = new Decimal(0);
+
+    player.repeatableUpgrades.forEach((a: RepeatableUpgrade) => {
+        a.amountbought = new Decimal(0);
+        a.scaling();
+    });
+
+    player.corrupt.BPiC = new Decimal(0);
+    player.corrupt.Cpoints = new Decimal(0);
+
+    player.fupgrades.forEach(u => {
+        u.bought = false;
+    });
+
+    player.pupgrades.forEach(u => {
+        u.bought = false;
+    });
+}
+
+export function requirelessinfinity() {
     resetFinity();
 
     player.maincurrencies.Points = new Decimal(0);
@@ -149,11 +172,43 @@ export function solaritylevelrequium(): Decimal {
 
 // i just shit my pants because this is a terraria calamity reference
 
-export function calamitytiergain() {
-  if(player.infinity.solarity.solaritylevel.gte(2) && player.infinity.calamitytier.eq(0)) {
+export function calamityReset(): void {
+  const requiredLevels = new Decimal(2).mul(Decimal.pow(10, player.infinity.calamitytier))
+
+  if (player.infinity.solarity.solaritylevel.gte(requiredLevels)) {
+    calamitymilestones.forEach(m => {
+      if (!m.achieved) {
+        m.achieved = true
+        console.log(`Milestone ${m.id} achieved: ${m.description}`)
+      }
+    })
+
+    player.maincurrencies.Points = new Decimal(0)
+    player.maincurrencies.FP = new Decimal(0)
+
+    player.repeatableUpgrades.forEach(u => {
+      u.amountbought = new Decimal(0)
+      u.scaling()
+    })
+    player.fupgrades.forEach(u => (u.bought = false))
+    player.pupgrades.forEach(u => (u.bought = false))
+
+    requirelessinfinity()
+
     player.infinity.calamitytier = player.infinity.calamitytier.add(1)
-    
   }
 }
 
-// testing!
+export function calamityRequirement(): Decimal {
+  return new Decimal(2).mul(Decimal.pow(10, player.infinity.calamitytier))
+}
+
+export const calamitymilestones: milestone[] = [
+  {
+    id: "1",
+    title: "Calamity tier 1",
+    description: "^0.5 points, unlock the eternal letters. Yes, you saw that correctly.",
+    achieved: false,
+  }
+]
+

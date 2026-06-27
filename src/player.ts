@@ -11,6 +11,7 @@ import { gainCM } from './CM.ts'
 import { DCboost, DCprecentupd } from './Decorr.ts'
 import { godstatus } from './gods.ts'
 import { calcsolarenergy, iupgrades, solaritygen } from './infinity/infinity.ts'
+import type { Cell } from "./infinity/EL"
 
 export const TICK_MS = 100
 export const TICK_SCALE = TICK_MS / 1000
@@ -88,8 +89,8 @@ export interface RepeatableUpgrade {
 }
 
 export interface milestone {
-  id: string
-  title: string
+  id: string,
+  title: string,
   description: string
   achieved: boolean
   effect?: () => Decimal
@@ -169,7 +170,16 @@ export const player = reactive({
       solaritylevel: new Decimal('0'),
       solarityxp: new Decimal('0'),
     },
-    calamitytier: new Decimal('0')
+    calamitytier: new Decimal('0'),
+    eternalLetters: {
+      grid: Array.from({ length: 4 }, (_, r) =>
+        Array.from({ length: 4 }, (_, c) => ({
+          row: r,
+          col: c,
+          letter: null as Cell["letter"]
+        }))
+      )
+    }
   },
   pupgrades,
   fupgrades,

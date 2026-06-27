@@ -1,4 +1,18 @@
 <script setup lang="ts">
+import { reactive, computed } from "vue"
+import { calamitymilestones, calamityRequirement, calamityReset } from "../../infinity/infinity"
+
+const milestones = reactive(calamitymilestones)
+
+const visibleMilestones = computed(() => {
+  const result = []
+  for (let i = 0; i < milestones.length; i++) {
+    const milestone = milestones[i]
+    const prevAchieved = i === 0 ? true : milestones[i - 1].achieved
+    if (prevAchieved) result.push(milestone)
+  }
+  return result
+})
 </script>
 
 <template>
@@ -6,13 +20,23 @@
     <h1>Calamity Tier</h1>
     <i>"The greatest hell that shall be unleashed upon thee."</i>
     <i>However, i haven't added this yet! So, for now, solarity level 2 is endgame. You can try and push for more solarity levels however.</i>
-    <button id="calamity">
+    <button id="calamity" @click="calamityReset()">
       Reset for a Calamity Tier<br/>
-      (Does nothing..... for now.)
+      Requires solarity level {{ calamityRequirement() }} 
     </button>
   </div>
-  <div id="milestone-container">
 
+  <div id="milestone-container">
+    <h2>Milestones</h2>
+    <div 
+      v-for="m in visibleMilestones" 
+      :key="m.id" 
+      class="milestone-box"
+      :class="{ achieved: m.achieved }"
+    >
+      <h3>{{ m.title }}</h3>
+      <p>{{ m.description }}</p>
+    </div>
   </div>
 </template>
 
@@ -43,5 +67,18 @@ i {
   box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
   transition: all 0.3s ease;
 }
-
+.milestone-box {
+  border: 2px solid crimson;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px auto;
+  width: 300px;
+  background: #1a1a1a;
+  color: white;
+  box-shadow: 0 0 10px rgba(255,0,0,0.6);
+}
+.milestone-box.achieved {
+  border-color: limegreen;
+  box-shadow: 0 0 15px rgba(0,255,0,0.8);
+}
 </style>
