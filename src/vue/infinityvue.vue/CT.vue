@@ -19,7 +19,6 @@ const visibleMilestones = computed(() => {
   <div id="calamity-container">
     <h1>Calamity Tier</h1>
     <i>"The greatest hell that shall be unleashed upon thee."</i>
-    <i>However, i haven't added this yet! So, for now, solarity level 2 is endgame. You can try and push for more solarity levels however.</i>
     <button id="calamity" @click="calamityReset()">
       Reset for a Calamity Tier<br/>
       Requires solarity level {{ calamityRequirement() }} 

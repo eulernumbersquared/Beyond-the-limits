@@ -1,8 +1,8 @@
-import esquared from './esquared.png'
-import mc from './maincharacter.png'
-import nat from './Narrator.png'
-import GoC from './GoC.png'
-import GoCe from './GoCbutpissed.png'
+const esquared = new URL('./esquared.png', import.meta.url).href
+const mc = new URL('./maincharacter.png', import.meta.url).href
+const nat = new URL('./Narrator.png', import.meta.url).href
+const GoC = new URL('./GoC.png', import.meta.url).href
+const GoCe = new URL('./GoCbutpissed.png', import.meta.url).href
 import { ref } from 'vue'
 
 export interface DialogueLine {
