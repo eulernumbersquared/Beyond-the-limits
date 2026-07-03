@@ -2,6 +2,7 @@ import Decimal from "break_eternity.js";
 import { resetFinity } from "../finity";
 import { milestone, player, type RepeatableUpgrade, type upgrades } from "../player";
 import { reactive } from "vue";
+import { boostlunars, boostSE, boostsolars } from "./EL";
 
 const BASE_REQ = new Decimal("1.79e308");
 
@@ -109,12 +110,14 @@ export function solaritylevelboost() {
 export function lunargen() {
   let gain = new Decimal('0.0001')
   gain = gain.mul(solaritylevelboost())
+  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(boostlunars())
   return gain
 }
 
 export function solargen() {
   let gain = new Decimal('0.0001')
   gain = gain.mul(solaritylevelboost())
+  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(boostsolars())
   return gain
 }
 export function solaritygen() {
@@ -139,7 +142,7 @@ export function calcsolarenergy() {
   let solar = player.infinity.solarity.solars
 
   gain = gain.mul(lunar.mul(solar))
-
+  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(boostSE())
   return gain
 }
 
@@ -150,19 +153,23 @@ export function solarenergyboost() {
 }
 
 export function solaritylevelthingie() {
-  let level = new Decimal('1').mul(Decimal.pow(10, player.infinity.solarity.solaritylevel))
-
-  if (player.infinity.solarity.solarityxp.gte(level)) {
-    player.infinity.solarity.solaritylevel = player.infinity.solarity.solaritylevel.add(1)
-    player.infinity.solarity.solarityxp = player.infinity.solarity.solarityxp.sub(level)
+  let level = Decimal.pow(10, player.infinity.solarity.solaritylevel)
+  while (player.infinity.solarity.solarityxp.gte(level)) {
+    player.infinity.solarity.solaritylevel =
+    player.infinity.solarity.solaritylevel.add(1)
+    player.infinity.solarity.solarityxp =
+    player.infinity.solarity.solarityxp.sub(level)
+    level = Decimal.pow(10, player.infinity.solarity.solaritylevel)
   }
 }
 
-export function investsolarityxp(amount: Decimal) {
-  if (player.infinity.solarity.solarenergy.gte(0)) {
-    player.infinity.solarity.solarenergy = player.infinity.solarity.solarenergy.sub(amount);
-    player.infinity.solarity.solarityxp = player.infinity.solarity.solarityxp.add(amount);
-    solaritylevelthingie();
+export function investsolarityxp() {
+  const energy = player.infinity.solarity.solarenergy
+  if (energy.gt(0)) {
+    player.infinity.solarity.solarityxp =
+      player.infinity.solarity.solarityxp.add(energy)
+    player.infinity.solarity.solarenergy = new Decimal(0)
+    solaritylevelthingie()
   }
 }
 
@@ -176,12 +183,14 @@ export function calamityReset(): void {
   const requiredLevels = new Decimal(2).mul(Decimal.pow(10, player.infinity.calamitytier))
 
   if (player.infinity.solarity.solaritylevel.gte(requiredLevels)) {
-    calamitymilestones.forEach(m => {
-      if (!m.achieved) {
-        m.achieved = true
-        console.log(`Milestone ${m.id} achieved: ${m.description}`)
-      }
-    })
+    player.infinity.calamitytier = player.infinity.calamitytier.add(1)
+
+    const tierIndex = player.infinity.calamitytier.toNumber() - 1
+    const milestone = calamitymilestones[tierIndex]
+    if (milestone && !milestone.achieved) {
+      milestone.achieved = true
+      console.log(`Milestone ${milestone.id} achieved: ${milestone.description}`)
+    }
 
     player.maincurrencies.Points = new Decimal(0)
     player.maincurrencies.FP = new Decimal(0)
@@ -192,10 +201,8 @@ export function calamityReset(): void {
     })
     player.fupgrades.forEach(u => (u.bought = false))
     player.pupgrades.forEach(u => (u.bought = false))
-
+    player.infinity.solarity.solaritylevel = new Decimal("0")
     requirelessinfinity()
-
-    player.infinity.calamitytier = player.infinity.calamitytier.add(1)
   }
 }
 
@@ -209,6 +216,18 @@ export const calamitymilestones: milestone[] = [
     title: "Calamity tier 1",
     description: "^0.5 points, unlock the eternal letters. Yes, you saw that correctly.",
     achieved: false,
-  }
+  },
+  {
+    id: "2",
+    title: "Calamity tier 2",
+    description: "FP's gain is entirely disabled but keep matterion's automation, unlock the farm of infinity and eternal letters E and F.",
+    achieved: false,
+  },
+  {
+    id: "3",
+    title: "Calamity tier 3",
+    description: "Unlock more eternal letters.",
+    achieved: false,
+  },
 ]
 

@@ -10,7 +10,7 @@ import { checkunlFC } from './finalcorruption.ts'
 import { gainCM } from './CM.ts'
 import { DCboost, DCprecentupd } from './Decorr.ts'
 import { godstatus } from './gods.ts'
-import { calcsolarenergy, iupgrades, solaritygen } from './infinity/infinity.ts'
+import { calamitymilestones, calcsolarenergy, iupgrades, solaritygen } from './infinity/infinity.ts'
 import type { Cell } from "./infinity/EL"
 
 export const TICK_MS = 100
@@ -134,6 +134,7 @@ export const player = reactive({
     FC3: false,
     FCfinale: false,
     infinityintro: false,
+    CT1: false,
   },
   corrupt: {
     Incorruption: false,
@@ -185,6 +186,7 @@ export const player = reactive({
   fupgrades,
   repeatableUpgrades,
   iupgrades,
+  calamitymilestones,
 })
 
 function checkMilestones() {
@@ -239,6 +241,10 @@ function checkMilestones() {
   if (player.maincurrencies.Points.gte(1.79e308) && !player.dialog.infinityintro) {
     startDialogue("infinityintro")
     player.dialog.infinityintro = true
+  }
+  if (player.infinity.calamitytier.eq(1) && !player.dialog.CT1) {
+    startDialogue("calamity1")
+    player.dialog.CT1 = true
   }
 }
 

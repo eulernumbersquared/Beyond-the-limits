@@ -4,44 +4,32 @@ import { getRepeatableCost } from "./points"
 import { reactive } from "vue"
 
 export function saveGame() {
+  // stringify player and convert Decimals to strings
   const saveData = JSON.stringify(player, (_key, value) => {
     if (value instanceof Decimal) return value.toString()
     return value
   })
-  localStorage.setItem("incrementalSave", saveData)
+  // Base64 encode directly (no encodeURIComponent!)
+  const encoded = btoa(saveData)
+  localStorage.setItem("incrementalSave", encoded)
 }
 
 export function loadGame() {
   const saved = localStorage.getItem("incrementalSave")
   if (!saved) return
 
-  const restored = JSON.parse(saved)
-
-  function restoreValues(target: any, src: any) {
-    if (src == null) return
-    for (const key of Object.keys(target)) {
-      const tVal = target[key]
-      const sVal = src?.[key]
-      if (sVal === undefined) continue
-
-      if (tVal instanceof Decimal) {
-        target[key] = new Decimal(sVal ?? 0)
-      } else if (Array.isArray(tVal) && Array.isArray(sVal)) {
-        for (let i = 0; i < tVal.length; i++) {
-          if (sVal[i] === undefined) continue
-          if (tVal[i] instanceof Decimal) {
-            tVal[i] = new Decimal(sVal[i] ?? 0)
-          } else if (typeof tVal[i] === "object" && tVal[i] !== null) {
-            restoreValues(tVal[i], sVal[i])
-          } else {
-            tVal[i] = sVal[i]
-          }
-        }
-      } else if (typeof tVal === "object" && tVal !== null) {
-        restoreValues(tVal, sVal)
-      } else {
-        target[key] = sVal
-      }
+  let restored: any
+  try {
+    // Try Base64 decode
+    const decoded = atob(saved)
+    restored = JSON.parse(decoded)
+  } catch {
+    try {
+      // Fallback: maybe it was plain JSON (old saves)
+      restored = JSON.parse(saved)
+    } catch (err) {
+      console.error("Failed to load save", err)
+      return
     }
   }
 
@@ -55,9 +43,36 @@ export function loadGame() {
   player.iupgrades.forEach((upg: any) => {
     if (!(upg.cost instanceof Decimal)) upg.cost = new Decimal(upg.cost ?? 0)
   })
-player.infinity.eternalLetters.grid = reactive(
-  player.infinity.eternalLetters.grid
-)
+
+  player.infinity.eternalLetters.grid = reactive(player.infinity.eternalLetters.grid)
+}
+
+function restoreValues(target: any, src: any) {
+  if (src == null) return
+  for (const key of Object.keys(target)) {
+    const tVal = target[key]
+    const sVal = src?.[key]
+    if (sVal === undefined) continue
+
+    if (tVal instanceof Decimal) {
+      target[key] = new Decimal(sVal ?? 0)
+    } else if (Array.isArray(tVal) && Array.isArray(sVal)) {
+      for (let i = 0; i < tVal.length; i++) {
+        if (sVal[i] === undefined) continue
+        if (tVal[i] instanceof Decimal) {
+          tVal[i] = new Decimal(sVal[i] ?? 0)
+        } else if (typeof tVal[i] === "object" && tVal[i] !== null) {
+          restoreValues(tVal[i], sVal[i])
+        } else {
+          tVal[i] = sVal[i]
+        }
+      }
+    } else if (typeof tVal === "object" && tVal !== null) {
+      restoreValues(tVal, sVal)
+    } else {
+      target[key] = sVal
+    }
+  }
 }
 
 export function hardReset() {

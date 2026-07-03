@@ -1,4 +1,6 @@
 <template>
+  <h3 class="letter-info">The Eternal Letters.</h3>
+  <p class="letter-info">Place letters on the grid for certain effects. Be ware, however, that any letter placed adjacent to another will "nullify" (i.e. ^0.5) its effect.</p>
   <div class="letter-strip">
     <div class="letters">
       <div v-for="letter in letters"
@@ -15,7 +17,7 @@
   <div class="letter-info">
     <h3>Letter {{ selectedLetter }}</h3>
     <p>{{ letterDescriptions[selectedLetter] }}</p>
-    <p>Total Effective Multiplier: {{ currentEffect }}</p>
+    <p>Total multiplayer: {{ currentEffect }}</p>
   </div>
 
   <div class="grid-container">
@@ -37,14 +39,14 @@
 <script setup lang="ts">
 import { ref, computed } from "vue"
 import { player } from "../../player"
-import type { Letter } from "../../infinity/EL"
-import { setGrid, boostPoints, boostFP } from "../../infinity/EL"
+import { setGrid, boostsolars, boostlunars, boostSE } from "../../infinity/EL"
+import { formatNumber } from "../../format"
 
 const grid = player.infinity.eternalLetters.grid
 setGrid(grid)
 
-const letters: ("A" | "B" | "C")[] = ["A","B","C"]
-const selectedLetter = ref<"A" | "B" | "C">("A")
+const letters: ("A" | "B" | "C" | "D")[] = ["A","B","C", "D"]
+const selectedLetter = ref<"A" | "B" | "C" | "D">("A")
 
 function placeLetter(row: number, col: number): void {
   grid[row][col].letter = selectedLetter.value
@@ -58,17 +60,19 @@ function clearAll(): void {
   grid.forEach(row => row.forEach(cell => cell.letter = null))
 }
 
-const letterDescriptions: Record<"A" | "B" | "C", string> = {
-  A: "Boosts Points exponentially (10^count).",
-  B: "Boosts FP exponentially (2^count).",
-  C: "Boosts diagonally adjacent A/B pieces ×2."
+const letterDescriptions: Record<"A" | "B" | "C" | "D", string> = {
+  A: "Boost solars based on amount of A's placed",
+  B: "Boosts lunars based on amount of B's placed",
+  C: "Anything on the diagonals of C is empowered by ^3 (Effect stacks)",
+  D: "Boost solar energy based on amount of D's placed"
 }
 
 const currentEffect = computed(() => {
   switch (selectedLetter.value) {
-    case "A": return boostPoints().toString()
-    case "B": return boostFP().toString()
-    case "C": return "Boosts diagonally adjacent A/B pieces"
+    case "A": return boostsolars().toString()
+    case "B": return boostlunars().toString()
+    case "C": return "Diagonally boosting pieces by ^3"
+    case "D": return formatNumber(boostSE())
   }
 })
 </script>
@@ -97,7 +101,7 @@ const currentEffect = computed(() => {
   cursor: pointer;
   border-radius: 4px;
   transition: background 0.2s;
-  background: royalblue; /* all letters blue */
+  background: royalblue;
 }
 .letter.active {
   outline: 2px solid white;
@@ -110,7 +114,7 @@ const currentEffect = computed(() => {
 }
 
 .cell.placed {
-  background: royalblue; /* all placed letters blue */
+  background: royalblue;
 }
 
 .grid-container {
@@ -137,7 +141,7 @@ const currentEffect = computed(() => {
   font-weight: bold;
   cursor: pointer;
   border-radius: 6px;
-  border: 2px solid white; /* white outline for each box */
+  border: 2px solid white;
 }
 .delete-btn {
   position: absolute;

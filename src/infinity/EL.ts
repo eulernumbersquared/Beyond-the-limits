@@ -1,6 +1,6 @@
 import Decimal from "break_eternity.js"
 
-export type Letter = "A" | "B" | "C" | null
+export type Letter = "A" | "B" | "C" | "D" | null
 
 export interface Cell {
   row: number
@@ -14,18 +14,17 @@ export function setGrid(grid: Cell[][]) {
   gridRef = grid
 }
 
-function hasDebuff(row: number, col: number): boolean {
-  if (!gridRef) return false
-  const current = gridRef[row][col].letter
-  if (!current) return false
+function countAdjacentLetters(r: number, c: number): number {
+  if (!gridRef) return 0
   const dirs: [number, number][] = [[0,1],[0,-1],[1,0],[-1,0]]
+  let count = 0
   for (const [dr,dc] of dirs) {
-    const nr = row+dr, nc = col+dc
+    const nr = r+dr, nc = c+dc
     if (nr>=0 && nr<4 && nc>=0 && nc<4) {
-      if (gridRef[nr][nc].letter) return true
+      if (gridRef[nr][nc].letter) count++
     }
   }
-  return false
+  return count
 }
 
 function isCornerNeighbor(r: number, c: number, targetR: number, targetC: number): boolean {
@@ -45,7 +44,7 @@ function countCornerCs(r: number, c: number): number {
   return count
 }
 
-export function boostPoints(): Decimal {
+export function boostsolars(): Decimal {
   if (!gridRef) return new Decimal(1)
   let mult = new Decimal(1)
   let countA = 0
@@ -55,10 +54,18 @@ export function boostPoints(): Decimal {
       const cell = gridRef[r][c]
       if (cell.letter === "A") {
         countA++
-        let effect = Decimal.pow(10, countA)
+        let effect = Decimal.pow(1.2, countA)
+
         const cornerCount = countCornerCs(r, c)
-        if (cornerCount > 0) effect = effect.mul(Decimal.pow(2, cornerCount))
-        if (hasDebuff(r, c)) effect = effect.sqrt()
+        if (cornerCount > 0) {
+          effect = effect.pow(Decimal.pow(2, cornerCount))
+        }
+
+        const debuffCount = countAdjacentLetters(r, c)
+        if (debuffCount > 0) {
+          effect = effect.pow(Decimal.pow(0.1, debuffCount))
+        }
+
         mult = mult.mul(effect)
       }
     }
@@ -66,7 +73,7 @@ export function boostPoints(): Decimal {
   return mult
 }
 
-export function boostFP(): Decimal {
+export function boostlunars(): Decimal {
   if (!gridRef) return new Decimal(1)
   let mult = new Decimal(1)
   let countB = 0
@@ -76,13 +83,51 @@ export function boostFP(): Decimal {
       const cell = gridRef[r][c]
       if (cell.letter === "B") {
         countB++
-        let effect = Decimal.pow(2, countB)
+        let effect = Decimal.pow(1.2, countB)
+
         const cornerCount = countCornerCs(r, c)
-        if (cornerCount > 0) effect = effect.mul(Decimal.pow(2, cornerCount))
-        if (hasDebuff(r, c)) effect = effect.sqrt()
+        if (cornerCount > 0) {
+          effect = effect.pow(Decimal.pow(2, cornerCount))
+        }
+
+        const debuffCount = countAdjacentLetters(r, c)
+        if (debuffCount > 0) {
+          effect = effect.pow(Decimal.pow(0.1, debuffCount))
+        }
+
         mult = mult.mul(effect)
       }
     }
   }
   return mult
 }
+
+export function boostSE(): Decimal {
+  if (!gridRef) return new Decimal(1)
+  let mult = new Decimal(1)
+  let countB = 0
+
+  for (let r = 0; r < 4; r++) {
+    for (let c = 0; c < 4; c++) {
+      const cell = gridRef[r][c]
+      if (cell.letter === "D") {
+        countB++
+        let effect = Decimal.pow(1.1, countB)
+
+        const cornerCount = countCornerCs(r, c)
+        if (cornerCount > 0) {
+          effect = effect.pow(Decimal.pow(1.1, cornerCount))
+        }
+
+        const debuffCount = countAdjacentLetters(r, c)
+        if (debuffCount > 0) {
+          effect = effect.pow(Decimal.pow(0.1, debuffCount))
+        }
+
+        mult = mult.mul(effect)
+      }
+    }
+  }
+  return mult
+}
+

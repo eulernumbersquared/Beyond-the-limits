@@ -8,7 +8,6 @@ import type { upgrades } from "./player"
 import type { RepeatableUpgrade } from "./player"
 import { pointupgrepenabled } from "./settings"
 import { solarenergyboost } from "./infinity/infinity"
-import { boostPoints } from "./infinity/EL"
 
 export function pointgen(): Decimal {
   let gain = new Decimal(1)
@@ -69,7 +68,6 @@ export function pointgen(): Decimal {
   if (player.pupgrades[24].bought) {gain = gain.mul(1e65)}
   if (player.fupgrades[7]?.bought) { gain = gain.mul(player.fupgrades[7].effect?.() ?? 1)}
   if (player.iupgrades[0]?.bought && player.infinity.solarity.solarenergy.gte(0.0001)) { gain = gain.mul(solarenergyboost())}
-  if (player.infinity.calamitytier.gte(1)) { gain = gain.mul(boostPoints() ?? 1)}
   if (player.infinity.calamitytier.gte(1)) { gain = gain.pow(0.5)}
 
   return gain.isFinite() && !gain.isNan() ? gain : new Decimal(1)

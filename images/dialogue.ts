@@ -3,6 +3,7 @@ const mc = new URL('./maincharacter.png', import.meta.url).href
 const nat = new URL('./Narrator.png', import.meta.url).href
 const GoC = new URL('./GoC.png', import.meta.url).href
 const GoCe = new URL('./GoCbutpissed.png', import.meta.url).href
+const GoHUH = new URL('./GoHunhindered.png', import.meta.url).href
 import { ref } from 'vue'
 
 export interface DialogueLine {
@@ -164,7 +165,34 @@ export const dialogues: Record<string, Dialogue> = {
       {text: "It will be very brutal....", speakerImg: nat},
       {text: "You feel much better after reading that....", speakerImg: nat},
     ]
-  }
+  },
+  calamity1: {
+    id: "calamity1",
+    lines: [
+      {text: "You notice your gaining less points, and the area you are in starts to turn red. Just then, you hear a voice.", speakerImg: nat},
+      {text: "Congrats on reaching the calamity tier.", speakerImg: GoHUH},
+      {text: "The mercy of this plane however, shall smite you with the power of the god of fundamentals", speakerImg: GoHUH},
+      {text: "For under great accomplishments, comes great consequences.", speakerImg: GoHUH},
+      {text: "Just note from now on.", speakerImg: GoHUH},
+      {text: "There is no more mercy here.", speakerImg: GoHUH},
+      {text: "Who are you? What are you?", speakerImg: mc},
+      {text: "You must've heard my name from the god of corruptions.", speakerImg: GoHUH},
+      {text: "You're the god of hindrances?", speakerImg: mc},
+      {text: "A form of him, he is very strategic in his ways.", speakerImg: GoHUH},
+      {text: "Goodbye, i'll see you the next time you do the calamity tier. If i'll even see you do such thing", speakerImg: GoHUH},
+    ]
+  },
+    calamity2: {
+    id: "calamity2",
+    lines: [
+      {text: "You're pretty persistent.", speakerImg: GoHUH},
+      {text: "But, this is only the start of hell.", speakerImg: GoHUH},
+      {text: "I have destroyed the finity. Good luck trying to get the finity to help you!", speakerImg: GoHUH},
+      {text: "You notice a field appears infront of you. Some sort of garden?", speakerImg: nat},
+      {text: "The entity disappears infront of your eyes", speakerImg: nat},
+      {text: "An empty garden with a set of seeds. These seeds should start rejuvenating the garden with plants!", speakerImg: mc},
+    ]
+  },
 }
 
 export const inDialogue = ref(false)

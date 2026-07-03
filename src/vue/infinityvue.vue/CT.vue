@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { reactive, computed } from "vue"
 import { calamitymilestones, calamityRequirement, calamityReset } from "../../infinity/infinity"
+import { player } from "../../player"
 
 const milestones = reactive(calamitymilestones)
 
@@ -8,8 +9,16 @@ const visibleMilestones = computed(() => {
   const result = []
   for (let i = 0; i < milestones.length; i++) {
     const milestone = milestones[i]
+    const tierRequirement = i + 1
     const prevAchieved = i === 0 ? true : milestones[i - 1].achieved
-    if (prevAchieved) result.push(milestone)
+
+    // Only show milestone if previous is achieved
+    if (prevAchieved) {
+      result.push({
+        ...milestone,
+        locked: player.infinity.calamitytier.lt(tierRequirement)
+      })
+    }
   }
   return result
 })
@@ -18,6 +27,7 @@ const visibleMilestones = computed(() => {
 <template>
   <div id="calamity-container">
     <h1>Calamity Tier</h1>
+    <h1>You have {{ player.infinity.calamitytier }} calamity tier(s).</h1>
     <i>"The greatest hell that shall be unleashed upon thee."</i>
     <button id="calamity" @click="calamityReset()">
       Reset for a Calamity Tier<br/>
@@ -31,10 +41,11 @@ const visibleMilestones = computed(() => {
       v-for="m in visibleMilestones" 
       :key="m.id" 
       class="milestone-box"
-      :class="{ achieved: m.achieved }"
+      :class="{ achieved: m.achieved, locked: m.locked }"
     >
       <h3>{{ m.title }}</h3>
-      <p>{{ m.description }}</p>
+      <p v-if="m.achieved">{{ m.description }}</p>
+      <p v-else-if="m.locked">{{ m.description }}</p>
     </div>
   </div>
 </template>
@@ -66,6 +77,7 @@ i {
   box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
   transition: all 0.3s ease;
 }
+
 .milestone-box {
   border: 2px solid crimson;
   border-radius: 8px;
@@ -76,8 +88,15 @@ i {
   color: white;
   box-shadow: 0 0 10px rgba(255,0,0,0.6);
 }
+
 .milestone-box.achieved {
   border-color: limegreen;
   box-shadow: 0 0 15px rgba(0,255,0,0.8);
+}
+
+.milestone-box.locked {
+  border-color: gray;
+  box-shadow: none;
+  opacity: 0.5;
 }
 </style>

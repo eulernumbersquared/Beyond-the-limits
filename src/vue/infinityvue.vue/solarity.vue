@@ -16,7 +16,7 @@ function enableSolarGen() {
 function investAll() {
   const amount = player.infinity.solarity.solarenergy;
   if (amount.gte(0)) {
-    investsolarityxp(amount);
+    investsolarityxp();
   }
 }
 </script>

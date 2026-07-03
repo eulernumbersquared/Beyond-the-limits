@@ -15,6 +15,7 @@ export function FPgain() {
   if(player.pupgrades[16].bought) gain = gain.mul(player.pupgrades[16].effect?.() ?? new Decimal("1"))
   if(player.repeatableUpgrades[2].amountbought.gte(1)) gain = gain.mul(player.repeatableUpgrades[2].effect?.() ?? new Decimal("1"))
   if(player.pupgrades[21].bought) gain = gain.mul(10)
+  if(player.infinity.calamitytier.gte(2)) gain = gain.mul(0)
   return gain
 }
 

@@ -63,7 +63,7 @@ const activeFinityTab = makePersistentTab('activeFinityTab', finityTabs.value, '
   <button @click="hardReset()">unstylized button.mp4</button>
   <button @click="failing()">return of unstylized button.mp3</button>
   <button @click="balancefixing()">ok this button does something useful</button>
-  <button @click="debugToFupgrade6()">instant fupgrade 6 setup</button>
+  <button @click="debugToFupgrade6()">free endgamer!!!!! (for version alpha)</button>
   <input type="Decimal" v-model.number="fpAmount" placeholder="Enter FP to add" />
   <button @click="addFP()">Add FP</button>
 

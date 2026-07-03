@@ -28,7 +28,12 @@ export function debugToFupgrade6() {
   player.fupgrades.forEach((upgrade) => {
     upgrade.bought = true
   })
-
+  player.iupgrades[0].bought = true
+  player.infinity.solarity.solaritylevel = new Decimal("2")
+  player.FCo.FCfin = true
+  player.gods.god1com = true
+  player.infinity.amount = new Decimal("1")
+  
 }
 
 import { ref } from 'vue'
