@@ -152,7 +152,7 @@ export function monoboost() {
 export function autobuymatterion() {
   if (!matterionAutomationEnabled.value) return
   if (player.corrupt.Incorruption) return
-  if (player.fupgrades[1]?.bought && player.pupgrades[2].bought) {
+  if (player.pupgrades[2].bought && (player.fupgrades[1]?.bought || player.infinity.calamitytier.gte(2))) {
     while (player.maincurrencies.Points.gte(getUpgradeCost("mono"))) {
       costlessmatterion("mono")
     }

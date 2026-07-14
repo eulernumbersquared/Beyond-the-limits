@@ -42,3 +42,10 @@ export function formatdiff(num: Decimal): string {
 
   return scaled.toFixed(4) + suffix;
 }
+
+export function formatTime(ms: number): string {
+  const totalSeconds = Math.ceil(ms / 1000)
+  const minutes = Math.floor(totalSeconds / 60)
+  const seconds = totalSeconds % 60
+  return minutes > 0 ? `${minutes}m ${seconds}s left` : `${seconds}s left`
+}

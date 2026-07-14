@@ -10,12 +10,15 @@ import Finity from './finity.vue'
 import Settings from './settings.vue'
 import Finityupgrades from './finityupgrades.vue'
 import Corruption from './corruption.vue'
-import { secretdebug, balancefixing, failing, okthisoneisforpoints, activateDialogue, dialogueInput, debugToFupgrade6 } from '../basicallyallthetesting.ts'
+import { secretdebug, balancefixing, failing, okthisoneisforpoints, activateDialogue, dialogueInput, debugToFupgrade6, reachcalamitytier1likeagoodboy } from '../basicallyallthetesting.ts'
 import { player } from '../player.ts'
 import FC from './FC.vue'
 import CMM from './CMM.vue'
 import Decorruptionizer from './Decorruptionizer.vue'
 import Infinity from './infinity.vue'
+import { requirelessfinity } from '../finity.ts'
+import { requirelessinfinity } from '../infinity/infinity.ts'
+import { synergyTick } from '../infinity/FoI.ts'
 
 const fpAmount = ref<number>(0)
 const pointA = ref<number>(0)
@@ -66,13 +69,13 @@ const activeFinityTab = makePersistentTab('activeFinityTab', finityTabs.value, '
   <button @click="debugToFupgrade6()">free endgamer!!!!! (for version alpha)</button>
   <input type="Decimal" v-model.number="fpAmount" placeholder="Enter FP to add" />
   <button @click="addFP()">Add FP</button>
-
-
+  <button @click="requirelessinfinity()">ok now pelase click this if ur CT2 for balancing reasons</button>
+  <button @click="synergyTick()">by the grace of some gods idk cast a farm tick!</button>
     <div>
     <input v-model="dialogueInput" placeholder="Enter dialogue ID" />
     <button @click="activateDialogue">Start Dialogue</button>
   </div>
-
+  <button @click="reachcalamitytier1likeagoodboy()">CT1 scary</button>
 
   <input type="Decimal" v-model.number="pointA" placeholder ="Points!!!" />
   <button @click="addPoint()">ok now this is for points</button>

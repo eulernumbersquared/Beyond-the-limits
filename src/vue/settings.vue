@@ -45,6 +45,13 @@ function confirmHardReset() {
   hardReset()
   showConfirmReset.value = false
 }
+function toggleMatterionAutomation() {
+  matterionAutomationEnabled.value = !matterionAutomationEnabled.value
+}
+
+function togglePointUpgradeAutomation() {
+  pointupgrepenabled.value = !pointupgrepenabled.value
+}
 </script>
 
 <template>
@@ -88,6 +95,29 @@ function confirmHardReset() {
       </div>
     </div>
   </div>
+  <div class="automation-section">
+  <h3 class="automation-title">Automation</h3>
+
+  <div v-if="player.fupgrades[1].bought || player.infinity.calamitytier.gte(2)">
+    <p class="automation-title">Matterion autobuyer:
+      <span v-if="matterionAutomationEnabled" class="enabled">Enabled</span>
+      <span v-else class="disabled">Disabled</span>
+    </p>
+    <button @click="toggleMatterionAutomation" class="settings-btn">
+      {{ matterionAutomationEnabled ? "Disable" : "Enable" }}
+    </button>
+  </div>
+
+  <div v-if="player.gods.god1com">
+    <p class="automation-title">Point and point repeatable autobuyer:
+      <span v-if="pointupgrepenabled" class="enabled">Enabled</span>
+      <span v-else class="disabled">Disabled</span>
+    </p>
+    <button @click="togglePointUpgradeAutomation" class="settings-btn">
+      {{ pointupgrepenabled ? "Disable" : "Enable" }}
+    </button>
+  </div>
+</div>
 </template>
 
 
@@ -98,6 +128,8 @@ function confirmHardReset() {
   border: 2px solid gold;
   border-radius: 8px;
   background: #111;
+  width: 25%;
+  margin: 0 auto;
 }
 
 .automation-title {

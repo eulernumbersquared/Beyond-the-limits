@@ -13,6 +13,9 @@ export function okthisoneisforpoints(amount: number) {
   player.maincurrencies.Points = new Decimal(amount)
 }
 
+export function reachcalamitytier1likeagoodboy() {
+  player.infinity.calamitytier = new Decimal("1")
+}
 export function balancefixing() {
         player.maincurrencies.IP = new Decimal("100")
 }
@@ -33,8 +36,9 @@ export function debugToFupgrade6() {
   player.FCo.FCfin = true
   player.gods.god1com = true
   player.infinity.amount = new Decimal("1")
-  
+  player.infinity.calamitytier = new Decimal("2")
 }
+
 
 import { ref } from 'vue'
 import { startDialogue } from '../images/dialogue.ts'

@@ -11,7 +11,8 @@ import { gainCM } from './CM.ts'
 import { DCboost, DCprecentupd } from './Decorr.ts'
 import { godstatus } from './gods.ts'
 import { calamitymilestones, calcsolarenergy, iupgrades, solaritygen } from './infinity/infinity.ts'
-import type { Cell } from "./infinity/EL"
+import {  recalcLetterAmounts, setGrid, type Cell } from "./infinity/EL"
+import { crops } from './infinity/FoI.ts'
 
 export const TICK_MS = 100
 export const TICK_SCALE = TICK_MS / 1000
@@ -135,6 +136,7 @@ export const player = reactive({
     FCfinale: false,
     infinityintro: false,
     CT1: false,
+    CT2: false,
   },
   corrupt: {
     Incorruption: false,
@@ -187,6 +189,13 @@ export const player = reactive({
   repeatableUpgrades,
   iupgrades,
   calamitymilestones,
+  crops,
+farm: Array.from({ length: 5 }, () =>
+  Array.from({ length: 5 }, () => ({
+    cropIndex: null as number | null,
+    plantedAt: null as number | null
+  }))
+)
 })
 
 function checkMilestones() {
@@ -246,9 +255,15 @@ function checkMilestones() {
     startDialogue("calamity1")
     player.dialog.CT1 = true
   }
+  if (player.infinity.calamitytier.eq(2) && !player.dialog.CT2) {
+    startDialogue("calamity2")
+    player.dialog.CT2 = true
+  }
 }
 
 loadGame()
+setGrid(player.infinity.eternalLetters.grid)
+recalcLetterAmounts()
 
 setInterval(() => {
   player.maincurrencies.Points = player.maincurrencies.Points.add(

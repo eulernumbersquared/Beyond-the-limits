@@ -1,0 +1,15 @@
+import { reactive } from "vue"
+
+export interface Field {
+  cropIndex: number | null
+  plantedAt: number | null
+}
+
+export const farm = reactive(
+  Array.from({ length: 5 }, () =>
+    Array.from({ length: 5 }, () => ({
+      cropIndex: null,
+      plantedAt: null,
+    }))
+  )
+)

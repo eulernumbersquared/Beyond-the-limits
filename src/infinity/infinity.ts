@@ -1,8 +1,8 @@
 import Decimal from "break_eternity.js";
-import { resetFinity } from "../finity";
+import { fupgrades, resetFinity } from "../finity";
 import { milestone, player, type RepeatableUpgrade, type upgrades } from "../player";
 import { reactive } from "vue";
-import { boostlunars, boostSE, boostsolars } from "./EL";
+import { ELs } from "./EL";
 
 const BASE_REQ = new Decimal("1.79e308");
 
@@ -45,7 +45,7 @@ export function requirelessinfinity() {
 
     player.maincurrencies.Points = new Decimal(0);
     player.maincurrencies.FP = new Decimal(0);
-
+    player.maincurrencies.FP = new Decimal("0")
     player.repeatableUpgrades.forEach((a: RepeatableUpgrade) => {
         a.amountbought = new Decimal(0);
         a.scaling();
@@ -61,6 +61,8 @@ export function requirelessinfinity() {
     player.pupgrades.forEach(u => {
         u.bought = false;
     });
+        resetFinity();
+
 }
 
 export const iupgrades: upgrades[] = reactive([    
@@ -69,12 +71,12 @@ export const iupgrades: upgrades[] = reactive([
         title: "The new era",
         description: "Unlock the solarity. This is when you'll have to do a bit of micro-ing.",
         cost: new Decimal('1'),
-        bought: false
+        bought: false,
     },
     {
       id: "2",
-      title: "Generation",
-      description: "Gain 1% of FP/s. I'll be suprised if you actually get this",
+      title: "Hell upon earth itself.",
+      description: "",
       cost: new Decimal('2'),
       bought: false
     },
@@ -110,14 +112,14 @@ export function solaritylevelboost() {
 export function lunargen() {
   let gain = new Decimal('0.0001')
   gain = gain.mul(solaritylevelboost())
-  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(boostlunars())
+  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(ELs[1].effect())
   return gain
 }
 
 export function solargen() {
   let gain = new Decimal('0.0001')
   gain = gain.mul(solaritylevelboost())
-  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(boostsolars())
+  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(ELs[0].effect())
   return gain
 }
 export function solaritygen() {
@@ -142,7 +144,7 @@ export function calcsolarenergy() {
   let solar = player.infinity.solarity.solars
 
   gain = gain.mul(lunar.mul(solar))
-  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(boostSE())
+  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(ELs[3].effect())
   return gain
 }
 
@@ -226,7 +228,7 @@ export const calamitymilestones: milestone[] = [
   {
     id: "3",
     title: "Calamity tier 3",
-    description: "Unlock more eternal letters.",
+    description: "Unlock stars of the stellaris and more eternal letters.",
     achieved: false,
   },
 ]

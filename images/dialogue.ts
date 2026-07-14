@@ -190,7 +190,19 @@ export const dialogues: Record<string, Dialogue> = {
       {text: "I have destroyed the finity. Good luck trying to get the finity to help you!", speakerImg: GoHUH},
       {text: "You notice a field appears infront of you. Some sort of garden?", speakerImg: nat},
       {text: "The entity disappears infront of your eyes", speakerImg: nat},
-      {text: "An empty garden with a set of seeds. These seeds should start rejuvenating the garden with plants!", speakerImg: mc},
+      {text: "An empty field with a set of seeds.... Hm.", speakerImg: mc},
+    ]
+  },
+      calamity3: {
+    id: "calamity3",
+    lines: [
+      // canonically at CT3, luke turns into a femboy
+      {text: "You're pretty persistent.", speakerImg: GoHUH},
+      {text: "But, this is only the start of hell.", speakerImg: GoHUH},
+      {text: "I have destroyed the finity. Good luck trying to get the finity to help you!", speakerImg: GoHUH},
+      {text: "You notice a field appears infront of you. Some sort of garden?", speakerImg: nat},
+      {text: "The entity disappears infront of your eyes", speakerImg: nat},
+      {text: "An empty field with a set of seeds.... Hm.", speakerImg: mc},
     ]
   },
 }
