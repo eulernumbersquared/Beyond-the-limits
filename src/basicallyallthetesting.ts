@@ -14,7 +14,7 @@ export function okthisoneisforpoints(amount: number) {
 }
 
 export function reachcalamitytier1likeagoodboy() {
-  player.infinity.calamitytier = new Decimal("1")
+  player.infinity.solarity.solaritylevel = new Decimal("2e30")
 }
 export function balancefixing() {
         player.maincurrencies.IP = new Decimal("100")
@@ -36,7 +36,7 @@ export function debugToFupgrade6() {
   player.FCo.FCfin = true
   player.gods.god1com = true
   player.infinity.amount = new Decimal("1")
-  player.infinity.calamitytier = new Decimal("2")
+  player.infinity.calamitytier = new Decimal("0")
 }
 
 

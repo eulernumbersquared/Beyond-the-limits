@@ -8,7 +8,7 @@ export function saveGame() {
   const saveData = JSON.stringify(player, (key, value) => {
     if (value instanceof Decimal) return value.toString()
 
-    if (key === "title" || key === "description" || key === "effect" || key === "effectDisplay") {
+    if (key === "title" || key === "description" || key === "effect" || key === "effectDisplay" || key === "cost") {
       return undefined
     }
 

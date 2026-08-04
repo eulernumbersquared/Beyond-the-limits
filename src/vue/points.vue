@@ -30,7 +30,7 @@ const visibleRepeatables = computed(() => {
   if (player.FCo.inFinalCorruption) {
     return player.repeatableUpgrades.length ? [player.repeatableUpgrades[0]] : []
   }
-  if (player.pupgrades[19]?.bought) {
+  if (player.pupgrades[19]?.bought && !player.infinity.calamitytier.gte(1)) {
     return player.repeatableUpgrades
   }
   return []

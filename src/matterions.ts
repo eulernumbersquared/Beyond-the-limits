@@ -1,6 +1,7 @@
 import Decimal from "break_eternity.js";
 import { player } from "./player.ts";
 import { matterionAutomationEnabled } from "./settings"
+import { crops } from "./infinity/FoI.ts";
 
 
 export function focus() {
@@ -32,7 +33,7 @@ export function monogen() {
   if (player.fupgrades[0]?.bought) gain = gain.mul(2)
   if (player.fupgrades[2]?.bought) gain = gain.pow(1.1)
   if (player.corrupt.Incorruption) gain = gain.mul(0)
-
+  if (player.infinity.calamitytier.gte(2)) { gain = gain.mul(crops[1].effect() ?? 1)}
   return gain
 }
 
@@ -60,6 +61,7 @@ export function trigen() {
     if (player.fupgrades[0].bought) gain = gain.mul(2)
     if (player.fupgrades[4].bought) gain = gain.mul(10)
     if (player.corrupt.Incorruption) gain = gain.mul(0)
+    if (player.infinity.calamitytier.gte(2)) { gain = gain.mul(crops[1].effect() ?? 1)}
   }
   return gain
 }
@@ -145,6 +147,7 @@ export function monoboost() {
   if (player.pupgrades[11].bought) boost = boost.mul(player.pupgrades[11].effect?.() || 1)
   if (player.fupgrades[0].bought) boost = boost.mul(2)
   if (player.corrupt.Incorruption) boost = boost.pow(0)
+    if (player.infinity.calamitytier.gte(2)) { boost = boost.mul(crops[1].effect() ?? 1).add(1)}
   return boost
 }
 

@@ -13,6 +13,7 @@ import { godstatus } from './gods.ts'
 import { calamitymilestones, calcsolarenergy, iupgrades, solaritygen } from './infinity/infinity.ts'
 import {  recalcLetterAmounts, setGrid, type Cell } from "./infinity/EL"
 import { crops } from './infinity/FoI.ts'
+import { farm } from './infinity/thisfileisheretomakeFoIwork.ts'
 
 export const TICK_MS = 100
 export const TICK_SCALE = TICK_MS / 1000
@@ -96,6 +97,7 @@ export interface milestone {
   achieved: boolean
   effect?: () => Decimal
   effectDisplay?: () => Decimal
+  requirement: () => boolean
 }
 
 export const player = reactive({
@@ -190,14 +192,11 @@ export const player = reactive({
   iupgrades,
   calamitymilestones,
   crops,
-farm: Array.from({ length: 5 }, () =>
-  Array.from({ length: 5 }, () => ({
-    cropIndex: null as number | null,
-    plantedAt: null as number | null
-  }))
-)
+  farm,
 })
-
+function certainchecksthatarelikemilestonebuthenagainareabitdifferentfromthat() {
+  if(player.infinity.calamitytier.gte(1)) player.fupgrades[8].bought = true
+}
 function checkMilestones() {
   if (player.maincurrencies.Points.gte(1) && !player.dialog.introTriggered) {
     startDialogue("intro")
@@ -295,6 +294,7 @@ setInterval(() => {
   autoBPiC()
   solaritygen()
   player.infinity.solarity.solarenergy = player.infinity.solarity.solarenergy.add(calcsolarenergy())
+  certainchecksthatarelikemilestonebuthenagainareabitdifferentfromthat()
 }, TICK_MS)
 
 setInterval(() => {

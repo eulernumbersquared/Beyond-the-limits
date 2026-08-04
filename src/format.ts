@@ -1,5 +1,6 @@
 import Decimal from "break_eternity.js";
 
+
 export function formatNumber(num: Decimal): string {
   const suffixes = [
     "", "K", "M", "B", "T", "Qd", "Qn", "Sx", "Sp", "Oc", "No",
@@ -12,7 +13,9 @@ export function formatNumber(num: Decimal): string {
 
   let tier = Math.floor(num.log10().toNumber() / 3);
   if (tier >= suffixes.length) {
-    return num.toExponential(2);
+    const exp = num.log10().floor().toNumber();
+    const mantissa = num.div(Decimal.pow(10, exp)).toFixed(2);
+    return `${mantissa}e${exp}`;
   }
 
   let suffix = suffixes[tier];
@@ -21,6 +24,7 @@ export function formatNumber(num: Decimal): string {
 
   return scaled.toFixed(2) + suffix;
 }
+
 export function formatdiff(num: Decimal): string {
   const suffixes = [
     "", "K", "M", "B", "T", "Qd", "Qn", "Sx", "Sp", "Oc", "No",
@@ -33,7 +37,9 @@ export function formatdiff(num: Decimal): string {
 
   let tier = Math.floor(num.log10().toNumber() / 3);
   if (tier >= suffixes.length) {
-    return num.toExponential(4);
+    const exp = num.log10().floor().toNumber();
+    const mantissa = num.div(Decimal.pow(10, exp)).toFixed(4);
+    return `${mantissa}e${exp}`;
   }
 
   let suffix = suffixes[tier];
@@ -42,6 +48,7 @@ export function formatdiff(num: Decimal): string {
 
   return scaled.toFixed(4) + suffix;
 }
+
 
 export function formatTime(ms: number): string {
   const totalSeconds = Math.ceil(ms / 1000)

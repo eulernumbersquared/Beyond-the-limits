@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, computed } from "vue"
-import { crops, plantCrop, harvestCrop, isCropReady, getGrowthProgress, getRemainingTime } from "../../infinity/FoI"
+import { crops, plantCrop, harvestCrop, isCropReady, getGrowthProgress, getRemainingTime, removeCrop } from "../../infinity/FoI"
 import { formatNumber, formatTime } from "../../format"
-import { farm } from "../../main"
+import { farm } from "../../infinity/thisfileisheretomakeFoIwork"
 const selectedCrop = ref(0)
 const tick = ref(0)
 let intervalId: number
 
-function handleClick(row: number, col: number) {
+function handleClick(row: number, col: number, e?: MouseEvent) {
   const plot = farm[row][col]
+
+  if (e?.shiftKey && plot.cropIndex !== null) {
+    removeCrop(row, col)
+    return
+  }
+
   if (plot.cropIndex == null) {
     plantCrop(row, col, selectedCrop.value)
     return
@@ -17,6 +23,7 @@ function handleClick(row: number, col: number) {
     harvestCrop(row, col)
   }
 }
+
 
 onMounted(() => {
   intervalId = window.setInterval(() => {
@@ -49,22 +56,61 @@ const unlockedCrops = computed(() =>
       </button>
     </aside>
 
-    <section
-      class="cropInfo"
-      v-if="crops[selectedCrop] && crops[selectedCrop].unlocked()"
-    >
-      <div class="imgBox">
-        <img src="/images/FS.png" :alt="crops[selectedCrop].crop" />
-      </div>
-      <h3 class="title">{{ crops[selectedCrop].crop }}</h3>
-      <p class="desc">{{ crops[selectedCrop].description }}</p>
-      <div class="stats">
-        <p>Growtime: {{ crops[selectedCrop].growtime().div(1000) }}s</p>
-        <p>Yield: {{ crops[selectedCrop].yield().toString() }}</p>
-        <p>Amount: {{ crops[selectedCrop].amount }}</p>
-        <p>Effect: {{ formatNumber(crops[selectedCrop].effect()) }}</p>
-      </div>
-    </section>
+<!-- Fundamental structions -->
+<section
+  class="cropInfo"
+  v-if="selectedCrop === 0 && crops[0].unlocked()"
+>
+  <div class="imgBox">
+    <img src="/images/FS.png" alt="Fundamental structions" />
+  </div>
+  <h3 class="title">{{ crops[0].crop }}</h3>
+  <p class="desc">{{ crops[0].description }}</p>
+  <div class="stats">
+    <p>Growtime: {{ formatNumber(crops[0].growtime().div(1000)) }}s</p>
+    <p>Yield: {{ formatNumber(crops[0].yield()) }}</p>
+    <p>Amount: {{ formatNumber(crops[0].amount) }}</p>
+    <p>Effect: {{ formatNumber(crops[0].effect()) }}</p>
+  </div>
+</section>
+
+<!-- The Triplets -->
+<section
+  class="cropInfo"
+  v-if="selectedCrop === 1 && crops[1].unlocked()"
+>
+  <div class="imgBox">
+    <img src="/images/tt.png" alt="The Triplets" />
+  </div>
+  <h3 class="title">{{ crops[1].crop }}</h3>
+  <p class="desc">{{ crops[1].description }}</p>
+  <div class="stats">
+    <p>Growtime: {{ formatNumber(crops[1].growtime().div(1000)) }}s</p>
+    <p>Yield: {{ formatNumber(crops[1].yield()) }}</p>
+    <p>Amount: {{ formatNumber(crops[1].amount) }}</p>
+    <p>Effect: {{ formatNumber(crops[1].effect()) }}</p>
+  </div>
+</section>
+
+<!-- Solarity essence -->
+<section
+  class="cropInfo"
+  v-if="selectedCrop === 2 && crops[2].unlocked()"
+>
+  <div class="imgBox">
+    <img src="/images/SE.png" alt="Solarity essence" />
+  </div>
+  <h3 class="title">{{ crops[2].crop }}</h3>
+  <p class="desc">{{ crops[2].description }}</p>
+  <div class="stats">
+    <p>Growtime: {{ formatNumber(crops[2].growtime().div(1000)) }}s</p>
+    <p>Yield: {{ formatNumber(crops[2].yield()) }}</p>
+    <p>Amount: {{ formatNumber(crops[2].amount) }}</p>
+    <p>Effect: {{ formatNumber(crops[2].effect()) }}</p>
+  </div>
+</section>
+
+
 
     <section class="field">
       <div v-for="(row, rowIndex) in farm" :key="rowIndex" class="row">
@@ -73,14 +119,14 @@ const unlockedCrops = computed(() =>
           :key="colIndex"
           class="cell"
           :class="{ ready: isCropReady(rowIndex, colIndex) }"
-          @click="handleClick(rowIndex, colIndex)"
+          @click="handleClick(rowIndex, colIndex, $event)"
         >
           <template v-if="plot.cropIndex !== null">
             <span class="name">{{ crops[plot.cropIndex].crop }}</span>
             <span v-if="isCropReady(rowIndex, colIndex)" class="readyText">Harvest</span>
             <div v-else class="progress">
-              <div class="bar" :style="{ width: `${getGrowthProgress(rowIndex, colIndex) * 100}%` }"></div>
-              <span class="timeLeft">{{ formatTime(getRemainingTime(rowIndex, colIndex)) }}</span>
+              <div class="bar" :style="{ width: `${getGrowthProgress(rowIndex, colIndex) * 100}%` }" {{ tick  }}></div>
+              <span class="timeLeft">{{ formatTime(getRemainingTime(rowIndex, colIndex)), tick}}</span>
             </div>
           </template>
           <span v-else>Empty Plot</span>

@@ -197,12 +197,12 @@ export const dialogues: Record<string, Dialogue> = {
     id: "calamity3",
     lines: [
       // canonically at CT3, luke turns into a femboy
-      {text: "You're pretty persistent.", speakerImg: GoHUH},
-      {text: "But, this is only the start of hell.", speakerImg: GoHUH},
-      {text: "I have destroyed the finity. Good luck trying to get the finity to help you!", speakerImg: GoHUH},
-      {text: "You notice a field appears infront of you. Some sort of garden?", speakerImg: nat},
-      {text: "The entity disappears infront of your eyes", speakerImg: nat},
-      {text: "An empty field with a set of seeds.... Hm.", speakerImg: mc},
+      {text: "Still putting up a good fight huh?", speakerImg: GoHUH},
+      {text: "I'll be suprised if you can conquer the star of stellaris.", speakerImg: GoHUH},
+      {text: "The star of eternity... the ones that used to be of this universe....", speakerImg: GoHUH},
+      {text: "Universe....?", speakerImg: mc},
+      {text: "I'll let you figure that on your own", speakerImg: GoHUH},
+      {text: "You are meeting your end.", speakerImg: GoHUH},
     ]
   },
 }

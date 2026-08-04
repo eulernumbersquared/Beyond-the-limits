@@ -3,6 +3,8 @@ import { fupgrades, resetFinity } from "../finity";
 import { milestone, player, type RepeatableUpgrade, type upgrades } from "../player";
 import { reactive } from "vue";
 import { ELs } from "./EL";
+import { crops } from "./FoI";
+import { formatNumber } from "../format";
 
 const BASE_REQ = new Decimal("1.79e308");
 
@@ -112,14 +114,14 @@ export function solaritylevelboost() {
 export function lunargen() {
   let gain = new Decimal('0.0001')
   gain = gain.mul(solaritylevelboost())
-  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(ELs[1].effect())
+  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(player.fupgrades[10].effect?.() ?? new Decimal("1"))
   return gain
 }
 
 export function solargen() {
   let gain = new Decimal('0.0001')
   gain = gain.mul(solaritylevelboost())
-  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(ELs[0].effect())
+  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(player.fupgrades[10].effect?.() ?? new Decimal("1"))
   return gain
 }
 export function solaritygen() {
@@ -145,11 +147,12 @@ export function calcsolarenergy() {
 
   gain = gain.mul(lunar.mul(solar))
   if(player.infinity.calamitytier.gte(1)) gain = gain.mul(ELs[3].effect())
+    if (player.infinity.calamitytier.gte(2)) { gain = gain.mul(crops[2].effect() ?? 1)}
   return gain
 }
 
 export function solarenergyboost() {
-  let boost = player.infinity.solarity.solarenergy.add(1).log(2).add(1).pow(1.2)
+  let boost = player.infinity.solarity.solarenergy.add(1).pow(1.2)
 
   return boost
 }
@@ -182,17 +185,17 @@ export function solaritylevelrequium(): Decimal {
 // i just shit my pants because this is a terraria calamity reference
 
 export function calamityReset(): void {
-  const requiredLevels = new Decimal(2).mul(Decimal.pow(10, player.infinity.calamitytier))
+  const requiredLevels = Decimal.pow(10, Decimal.pow(2, player.infinity.calamitytier).mul(400))
 
-  if (player.infinity.solarity.solaritylevel.gte(requiredLevels)) {
+  if (player.maincurrencies.Points.gte(requiredLevels)) {
     player.infinity.calamitytier = player.infinity.calamitytier.add(1)
 
-    const tierIndex = player.infinity.calamitytier.toNumber() - 1
-    const milestone = calamitymilestones[tierIndex]
-    if (milestone && !milestone.achieved) {
-      milestone.achieved = true
-      console.log(`Milestone ${milestone.id} achieved: ${milestone.description}`)
-    }
+const milestone = calamitymilestones.find(m => m.id === player.infinity.calamitytier.toString())
+if (milestone && !milestone.achieved && milestone.requirement()) {
+  milestone.achieved = true
+  console.log(`Milestone ${milestone.id} achieved: ${milestone.description}`)
+}
+
 
     player.maincurrencies.Points = new Decimal(0)
     player.maincurrencies.FP = new Decimal(0)
@@ -209,27 +212,46 @@ export function calamityReset(): void {
 }
 
 export function calamityRequirement(): Decimal {
-  return new Decimal(2).mul(Decimal.pow(10, player.infinity.calamitytier))
+  return Decimal.pow(10, Decimal.pow(2, player.infinity.calamitytier).mul(400))
 }
 
 export const calamitymilestones: milestone[] = [
   {
     id: "1",
     title: "Calamity tier 1",
-    description: "^0.5 points, unlock the eternal letters. Yes, you saw that correctly.",
+    description: "^0.5 points, disable repeatable upgrades, and unlock the eternal letters. Yes, you saw that correctly.",
     achieved: false,
+    requirement: () => player.infinity.calamitytier.gte(1)
   },
   {
     id: "2",
     title: "Calamity tier 2",
     description: "FP's gain is entirely disabled but keep matterion's automation, unlock the farm of infinity and eternal letters E and F.",
     achieved: false,
+    requirement: () => player.infinity.calamitytier.gte(2)
   },
   {
     id: "3",
     title: "Calamity tier 3",
-    description: "Unlock stars of the stellaris and more eternal letters.",
+    description: "Unlock star of the stellaris and more eternal letters.",
     achieved: false,
+    requirement: () => player.infinity.calamitytier.gte(3)
+    
   },
+  {
+    id: "4",
+    title: "Calamity tier 5",
+    description: "You're so presistent, aren't you? Unlock calamity energy, eternal energy and lime energy. ",
+    achieved: false,
+    requirement: () => player.infinity.calamitytier.gte(5)
+  },
+    {
+    id: "5",
+    title: "Calamity tier 10",
+    description: "You think you're impressing me? ",
+    achieved: false,
+    requirement: () => player.infinity.calamitytier.gte(10)
+  },
+
 ]
 

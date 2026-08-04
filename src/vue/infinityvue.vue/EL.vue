@@ -6,7 +6,7 @@
 
   <div class="letter-strip">
 <div class="letters">
-  <div v-for="letter in ELs.filter(l => l.unlocked)"
+  <div v-for="letter in ELs.filter(l => l.unlocked())"
        :key="letter.title"
        class="letter"
        :class="{ active: selectedLetterTitle === letter.title }"

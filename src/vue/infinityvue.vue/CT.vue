@@ -1,27 +1,13 @@
 <script setup lang="ts">
-import { reactive, computed } from "vue"
+import { computed } from "vue"
 import { calamitymilestones, calamityRequirement, calamityReset } from "../../infinity/infinity"
 import { player } from "../../player"
+import Decimal from "break_eternity.js";
+import { formatNumber } from "../../format";
 
-const milestones = reactive(calamitymilestones)
-
-const visibleMilestones = computed(() => {
-  const result = []
-  for (let i = 0; i < milestones.length; i++) {
-    const milestone = milestones[i]
-    const tierRequirement = i + 1
-    const prevAchieved = i === 0 ? true : milestones[i - 1].achieved
-
-    // Only show milestone if previous is achieved
-    if (prevAchieved) {
-      result.push({
-        ...milestone,
-        locked: player.infinity.calamitytier.lt(tierRequirement)
-      })
-    }
-  }
-  return result
-})
+const nextMilestone = computed(() =>
+  calamitymilestones.findIndex(m => !m.achieved)
+)
 </script>
 
 <template>
@@ -29,26 +15,33 @@ const visibleMilestones = computed(() => {
     <h1>Calamity Tier</h1>
     <h1>You have {{ player.infinity.calamitytier }} calamity tier(s).</h1>
     <i>"The greatest hell that shall be unleashed upon thee."</i>
+
     <button id="calamity" @click="calamityReset()">
-      Reset for a Calamity Tier<br/>
-      Requires solarity level {{ calamityRequirement() }} 
+      Reset for a Calamity Tier<br />
+      Requires {{ formatNumber(calamityRequirement()) }} points
     </button>
   </div>
 
   <div id="milestone-container">
     <h2>Milestones</h2>
-    <div 
-      v-for="m in visibleMilestones" 
-      :key="m.id" 
-      class="milestone-box"
-      :class="{ achieved: m.achieved, locked: m.locked }"
-    >
-      <h3>{{ m.title }}</h3>
-      <p v-if="m.achieved">{{ m.description }}</p>
-      <p v-else-if="m.locked">{{ m.description }}</p>
-    </div>
+
+<div
+  v-for="(m, i) in calamitymilestones"
+  :key="m.id"
+  v-show="m.achieved || i === player.infinity.calamitytier.toNumber()"
+  class="milestone-box"
+  :class="{
+    achieved: m.achieved,
+    available: i === player.infinity.calamitytier.toNumber()
+  }"
+>
+  <h3>{{ m.title }}</h3>
+  <p>{{ m.description }}</p>
+</div>
+
   </div>
 </template>
+
 
 <style scoped>
 h1 {
@@ -78,6 +71,14 @@ i {
   transition: all 0.3s ease;
 }
 
+#calamity:hover {
+  transform: scale(1.03);
+}
+
+#milestone-container {
+  margin-top: 25px;
+}
+
 .milestone-box {
   border: 2px solid crimson;
   border-radius: 8px;
@@ -86,17 +87,17 @@ i {
   width: 300px;
   background: #1a1a1a;
   color: white;
-  box-shadow: 0 0 10px rgba(255,0,0,0.6);
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+  transition: all 0.25s ease;
 }
 
 .milestone-box.achieved {
   border-color: limegreen;
-  box-shadow: 0 0 15px rgba(0,255,0,0.8);
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
 }
 
-.milestone-box.locked {
-  border-color: gray;
-  box-shadow: none;
-  opacity: 0.5;
+.milestone-box.available {
+  border-color: gold;
+  box-shadow: 0 0 15px gold;
 }
 </style>

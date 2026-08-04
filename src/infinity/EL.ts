@@ -82,21 +82,17 @@ function isNear(r: number, c: number, target: string, includeDiagonal = true): b
 export const ELs: LetterDef[] = reactive([
 {
   title: "A",
-  desc: "Boost solars based on amount placed. If placed next to B, its effect will be doubled.",
+  desc: "Exponetial boost to points. If near B, effect is x1.05 stronger. Does not get effected by C",
   amount: new Decimal(0),
 effect() {
-  let base = Decimal.pow(1.2, this.amount)
+  let base = Decimal.add(1, this.amount.div(100))
 
   if (gridRef) {
     for (const row of gridRef) {
       for (const cell of row) {
         if (cell.letter === "A") {
           if (isNear(cell.row, cell.col, "B")) {
-            base = base.mul(2)
-          }
-          const cornerCount = countCornerCs(cell.row, cell.col)
-          if (cornerCount > 0) {
-            base = base.mul(Decimal.pow(2, cornerCount))
+            base = base.mul(1.05)
           }
         }
       }
@@ -107,27 +103,24 @@ effect() {
 },
 
   effectDisplay() {
-    return `Solars are boosted by x${formatNumber(this.effect())}`
+    return `Points are boosted by ^${formatNumber(this.effect())}`
   },
   unlocked() { return player.infinity.calamitytier.gte(1)}
 },
   {
     title: "B",
-    desc: "Boost lunars based on amount placed. If placed next to A, it's effect will be doubled",
+    desc: "Multiply points based on points.",
     amount: new Decimal(0),
 effect() {
-  let base = Decimal.pow(1.2, this.amount)
+  let base = Decimal.pow(2, this.amount)
 
   if (gridRef) {
     for (const row of gridRef) {
       for (const cell of row) {
         if (cell.letter === "B") {
-          if (isNear(cell.row, cell.col, "A")) {
-            base = base.mul(2)
-          }
           const cornerCount = countCornerCs(cell.row, cell.col)
           if (cornerCount > 0) {
-            base = base.mul(Decimal.pow(2, cornerCount))
+            base = base.mul(Decimal.pow(ELs[2].effect(), cornerCount))
           }
         }
       }
@@ -138,7 +131,7 @@ effect() {
 },
 
     effectDisplay() {
-      return `Lunars are boosted by x${formatNumber(this.effect())}`
+      return `Points are boosted by x${formatNumber(this.effect())}`
     },
     unlocked() { return player.infinity.calamitytier.gte(1)}
   },
@@ -148,7 +141,7 @@ effect() {
     desc: "Boosts any letters to the corner of such.",
     amount: new Decimal(0),
     effect() {
-      return new Decimal("2")
+      return new Decimal("5")
     },
     effectDisplay() {
       return `Currently boosting other letters by x${formatNumber(this.effect())}`
@@ -189,16 +182,41 @@ effect() {
 },
     {
     title: "E",
-    desc: "Reduces the time for crops growing. This does not get effected by C",
+    desc: "Reduces the time for crops growing. However this isn't effected by C. If next to F, effect is x1.5'd",
+    amount: new Decimal(0),
+    effect() {
+      let base = Decimal.pow(1.1, this.amount)
+        if (gridRef) {
+    for (const row of gridRef) {
+      for (const cell of row) {
+        if (cell.letter === "E") {
+          if (isNear(cell.row, cell.col, "F")) {
+            base = base.mul(1.5)
+          }
+        }
+      }
+    }
+  }
+
+      return base
+    },
+    effectDisplay() {
+      return `Reducing the grow time by x${formatNumber(this.effect())}`
+    },
+    unlocked() { return player.infinity.calamitytier.gte(2)}
+  },
+  {
+    title: "F",
+    desc: "Increase the yield of crops.",
     amount: new Decimal(0),
     effect() {
       let base = Decimal.pow(1.1, this.amount)
       return base
     },
     effectDisplay() {
-      return `Solar energy (SE) is boosted by x${formatNumber(this.effect())}`
+      return `Increasing the yield by x${formatNumber(this.effect())}`
     },
-    unlocked() { return player.infinity.calamitytier.gte(1)}
+    unlocked() { return player.infinity.calamitytier.gte(2)}
   }
 ])
 

@@ -3,6 +3,7 @@ import Decimal from "break_eternity.js";
 import { player } from "./player";
 import type { upgrades } from "./player";
 import { formatNumber } from "./format";
+import { ELs } from "./infinity/EL";
 export function canResetFinity(): boolean {
   if (player.FCo.inFinalCorruption) return false
   return player.finity.unlocked && player.maincurrencies.Points.gte(player.finity.requirement);
@@ -16,6 +17,7 @@ export function FPgain() {
   if(player.repeatableUpgrades[2].amountbought.gte(1)) gain = gain.mul(player.repeatableUpgrades[2].effect?.() ?? new Decimal("1"))
   if(player.pupgrades[21].bought) gain = gain.mul(10)
   if(player.infinity.calamitytier.gte(2)) gain = gain.mul(0)
+  if(player.infinity.calamitytier.gte(1)) gain = gain.pow(player.fupgrades[9].effect?.() ?? new Decimal("1"))
   return gain
 }
 
@@ -113,15 +115,61 @@ export const fupgrades = reactive([
     id: "7",
     title: "Some help",
     description: "Based on FP, boost points ",
-    cost: new Decimal("1e18"),
-    effect() {
+    cost: new Decimal("1e15"),
+    effect(): Decimal {
       return player.maincurrencies.FP.log10().pow(0.5)
     },
     effectDisplay() {
       return "Currently x" + formatNumber(this.effect?.() ?? new Decimal(1)) + " points"
     },
-    bought:false
-  }
+    bought:false,
+  },
+  {
+    id: "8",
+    title: "Roadblock",
+    description: "How about you get calamity tier 1 before you can actually get this?",
+    cost: new Decimal("1e33333333333"),
+    bought: false,
+  },
+    {
+    id: "9",
+    title: "A",
+    description: "Welcome back again. A's effect can also boost FP at the same rate",
+    effect() {
+      return ELs[0].effect().pow(0.95)
+    },
+    effectDisplay() {
+      return "Currently ^" + formatNumber(this.effect?.() ?? new Decimal(1)) + " FP"
+    },
+    cost: new Decimal("5e19"),
+    bought: false,
+  },
+  {
+    id: "10",
+    title: "Astrum potens.",
+    description: "Scary latin name, D's effect boosts both solars and lunars at a reduced rate.",
+    effect() {
+      return ELs[3].effect()
+    },
+    effectDisplay() {
+      return "Currently x" + formatNumber(this.effect?.() ?? new Decimal(1)) + " to both solars and lunars"
+    },
+    cost: new Decimal("1e39"),
+    bought: false,
+  },
+    {
+    id: "11",
+    title: "BEEYOND THE MATTERS????",
+    description: "Unlock hadronic matter. A feature related to the finity.",
+    effect() {
+      return ELs[3].effect().pow(0.5).add(1)
+    },
+    effectDisplay() {
+      return "Currently x" + formatNumber(this.effect?.() ?? new Decimal(1)) + " to both solars and lunars"
+    },
+    cost: new Decimal("1e39"),
+    bought: false,
+  },
 ])
 export function buyFpUpgrade(index: number) {
   const def = fupgrades[index]
