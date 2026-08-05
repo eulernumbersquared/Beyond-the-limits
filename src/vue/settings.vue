@@ -2,13 +2,20 @@
 import { ref } from "vue"
 import { loadGame, saveGame, hardReset } from "../save"
 import { matterionAutomationEnabled, pointupgrepenabled } from "../settings"
-import { player } from "../main"
+import { player } from "../main.ts"
+import Decimal from "break_eternity.js"
+
 const showLoadPopup = ref(false)
+const showExportPopup = ref(false)
+const showConfirmReset = ref(false) 
 const saveInput = ref("")
+const exportString = ref("")
 const errorMessage = ref("")
 
 function tryLoadSave() {
   try {
+    const decoded = atob(saveInput.value.trim())
+    const restored = JSON.parse(decoded)
     localStorage.setItem("incrementalSave", saveInput.value.trim())
     loadGame()
     showLoadPopup.value = false
@@ -18,6 +25,26 @@ function tryLoadSave() {
   }
 }
 
+
+function exportSave() {
+  try {
+    const saveData = JSON.stringify(player, (_key, value) => {
+      if (value instanceof Decimal) return value.toString()
+      return value
+    })
+    const encoded = btoa(saveData)
+    exportString.value = encoded
+    showExportPopup.value = true
+  } catch {
+    exportString.value = "Failed to export save!"
+    showExportPopup.value = true
+  }
+}
+
+function confirmHardReset() {
+  hardReset()
+  showConfirmReset.value = false
+}
 function toggleMatterionAutomation() {
   matterionAutomationEnabled.value = !matterionAutomationEnabled.value
 }
@@ -30,36 +57,22 @@ function togglePointUpgradeAutomation() {
 <template>
   <div class="settings-container">
     <h2 class="settings-title">Settings</h2>
-    <button @click="saveGame" class="settings-btn">💾 Save Game</button>
-    <button @click="showLoadPopup = true" class="settings-btn">📂 Load Save</button>
-    <button @click="hardReset" class="settings-btn danger">🗑 Hard Reset</button>
+    <button @click="saveGame" class="settings-btn">Save Game</button>
+    <button @click="showLoadPopup = true" class="settings-btn">Load Save</button>
+    <button @click="exportSave" class="settings-btn">Export Save</button>
+    <button @click="showConfirmReset = true" class="settings-btn danger">Hard Reset</button>
 
-<div class="automation-section">
-  <h3 class="automation-title">Automation</h3>
+    <div v-if="showConfirmReset" class="popup-overlay">
+      <div class="popup">
+        <h3 id="loadingsave">Confirm Hard Reset</h3>
+        <p id="stylizing">This will permanently erase your progress. Are you sure?</p>
+        <div class="popup-buttons">
+          <button @click="confirmHardReset" class="settings-btn danger">Yes, Reset</button>
+          <button @click="showConfirmReset = false" class="settings-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
 
-  <div v-if="player.fupgrades[1].bought">
-    <p class="automation-title">Matterion Automation:
-      <span v-if="matterionAutomationEnabled" class="enabled">Enabled</span>
-      <span v-else class="disabled">Disabled</span>
-    </p>
-    <button @click="toggleMatterionAutomation" class="settings-btn">
-      {{ matterionAutomationEnabled ? "Disable" : "Enable" }} Matterion Automation
-    </button>
-  </div>
-
-  <div v-if="player.gods.god1com">
-    <p class="automation-title">Point + Repeatable Autobuy:
-      <span v-if="pointupgrepenabled" class="enabled">Enabled</span>
-      <span v-else class="disabled">Disabled</span>
-    </p>
-    <button @click="togglePointUpgradeAutomation" class="settings-btn">
-      {{ pointupgrepenabled ? "Disable" : "Enable" }} Point + Repeatable Autobuy
-    </button>
-  </div>
-</div>
-
-
-    <!-- Popup -->
     <div v-if="showLoadPopup" class="popup-overlay">
       <div class="popup">
         <h3 id="loadingsave">Load Save</h3>
@@ -71,8 +84,42 @@ function togglePointUpgradeAutomation() {
         </div>
       </div>
     </div>
+
+    <div v-if="showExportPopup" class="popup-overlay">
+      <div class="popup">
+        <h3 id="loadingsave">Export Save</h3>
+        <textarea readonly :value="exportString"></textarea>
+        <div class="popup-buttons">
+          <button @click="showExportPopup = false" class="settings-btn danger">Close</button>
+        </div>
+      </div>
+    </div>
   </div>
+  <div class="automation-section">
+  <h3 class="automation-title">Automation</h3>
+
+  <div v-if="player.fupgrades[1].bought || player.infinity.calamitytier.gte(2)">
+    <p class="automation-title">Matterion autobuyer:
+      <span v-if="matterionAutomationEnabled" class="enabled">Enabled</span>
+      <span v-else class="disabled">Disabled</span>
+    </p>
+    <button @click="toggleMatterionAutomation" class="settings-btn">
+      {{ matterionAutomationEnabled ? "Disable" : "Enable" }}
+    </button>
+  </div>
+
+  <div v-if="player.gods.god1com">
+    <p class="automation-title">Point and point repeatable autobuyer:
+      <span v-if="pointupgrepenabled" class="enabled">Enabled</span>
+      <span v-else class="disabled">Disabled</span>
+    </p>
+    <button @click="togglePointUpgradeAutomation" class="settings-btn">
+      {{ pointupgrepenabled ? "Disable" : "Enable" }}
+    </button>
+  </div>
+</div>
 </template>
+
 
 <style scoped>
 .automation-section {
@@ -81,6 +128,8 @@ function togglePointUpgradeAutomation() {
   border: 2px solid gold;
   border-radius: 8px;
   background: #111;
+  width: 25%;
+  margin: 0 auto;
 }
 
 .automation-title {
