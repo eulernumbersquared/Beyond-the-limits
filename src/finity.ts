@@ -159,15 +159,9 @@ export const fupgrades = reactive([
   },
     {
     id: "11",
-    title: "BEEYOND THE MATTERS????",
-    description: "Unlock hadronic matter. A feature related to the finity.",
-    effect() {
-      return ELs[3].effect().pow(0.5).add(1)
-    },
-    effectDisplay() {
-      return "Currently x" + formatNumber(this.effect?.() ?? new Decimal(1)) + " to both solars and lunars"
-    },
-    cost: new Decimal("1e39"),
+    title: "Reference?",
+    description: "Unlock hadronic matter. A feature related to the finity but is in the infinity tab.",
+    cost: new Decimal("1e64"),
     bought: false,
   },
 ])

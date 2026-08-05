@@ -8,7 +8,7 @@ import solarity from './infinityvue.vue/solarity.vue'
 import CT from './infinityvue.vue/CT.vue';
 import EL from './infinityvue.vue/EL.vue';
 import FoI from './infinityvue.vue/FoI.vue';
-import SoS from './infinityvue.vue/SoS.vue';
+import HM from './infinityvue.vue/HM.vue';
 
 const BASE_REQ = new Decimal("1.79e308");
 
@@ -17,7 +17,7 @@ function nextIPRequirement() {
 }
 
 
-const activeTab = ref<'infinity' | 'iupgrades' | 'Solarity' | 'Calamity tier' | 'Eternal letters' | 'Farm of Infinity' | 'Stars of stellaris'>();
+const activeTab = ref<'infinity' | 'iupgrades' | 'Solarity' | 'Calamity tier' | 'Eternal letters' | 'Hadronic matter' | 'Farm of Infinity'>();
 
 
 const visibleInfinityUpgrades = computed(() => {
@@ -38,7 +38,7 @@ const visibleInfinityUpgrades = computed(() => {
     <button :class="{active: activeTab === 'Calamity tier'}" @click="activeTab = 'Calamity tier'" v-if="player.infinity.solarity.solaritylevel.gte(2) || player.infinity.calamitytier.gte(1)">Calamity tier</button>
     <button :class="{active: activeTab === 'Eternal letters'}" @click="activeTab = 'Eternal letters'" v-if="player.infinity.calamitytier.gte(1)">Eternal letters</button>
     <button :class="{active: activeTab === 'Farm of Infinity'}" @click="activeTab = 'Farm of Infinity'" v-if="player.infinity.calamitytier.gte(2)">Farm of infinity</button>
-    <button :class="{active: activeTab === 'Stars of stellaris'}" @click="activeTab = 'Stars of stellaris'" v-if="player.infinity.calamitytier.gte(3)">Star of stellaris</button>
+    <button :class="{active: activeTab === 'Hadronic matter'}" @click="activeTab = 'Hadronic matter'" v-if="player.infinity.calamitytier.gte(3)">Star of stellaris</button>
   </div>
 
   <section v-if="activeTab === 'infinity'" class="infinity-panel">
@@ -92,8 +92,8 @@ const visibleInfinityUpgrades = computed(() => {
       <fo-i />
     </section>
   </keep-alive>
-  <section v-if="activeTab === 'Stars of stellaris'" class="infinity-panel">
-    <so-s />
+  <section v-if="activeTab === 'Hadronic matter'" class="infinity-panel">
+    <h-m />
   </section>
 
 </template>

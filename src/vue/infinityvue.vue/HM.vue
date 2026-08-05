@@ -4,14 +4,6 @@
 
 <template>
 
-<div class="star">
-  <div class="node top"></div>
-  <div class="node upper-left"></div>
-  <div class="node upper-right"></div>
-  <div class="node center"></div>
-  <div class="node lower-left"></div>
-  <div class="node lower-right"></div>
-</div>
 </template>
 
 <style>
