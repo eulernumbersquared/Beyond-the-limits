@@ -39,6 +39,6 @@ export function calculatepointboosting() {
 
 export function autoBPiC() {
   if (player.gods.god1com) {
-    player.corrupt.BPiC = player.maincurrencies.Points.pow(1.0005)
+    player.corrupt.BPiC = player.maincurrencies.Points.pow(0.5)
   }
 }

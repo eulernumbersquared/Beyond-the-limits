@@ -16,7 +16,6 @@ import FC from './FC.vue'
 import CMM from './CMM.vue'
 import Decorruptionizer from './Decorruptionizer.vue'
 import Infinity from './infinity.vue'
-import { requirelessfinity } from '../finity.ts'
 import { requirelessinfinity } from '../infinity/infinity.ts'
 import { synergyTick } from '../infinity/FoI.ts'
 
@@ -398,6 +397,12 @@ body {
   color: #c77dff !important;
   text-shadow: 0 0 8px purple !important;
 }
-
+@font-face {
+  font-family: 'MG';
+  src: url('../font/mg-rising.otf.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 </style>
 

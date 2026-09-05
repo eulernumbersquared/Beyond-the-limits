@@ -3,7 +3,9 @@
   <p class="letter-info">
     Place letters on the grid for certain effects. Certain letters synergize with others, but some will nullify.
   </p>
-
+  <p class="letter-info">You have {{ formatNumber(player.infinity.eternalenergy) }} ({{ formatNumber(EEgain()) }}/s) eternal energy</p>
+  <p class="letter-info">Requirement to place another eternal letter: {{ formatNumber(heycanyourecheckthatagain()) }} eternal energy</p>
+  <p class="letter-info" v-if="player.infinity.eternalenergy.lte(1e6)">Unlock the forge at 1e6 eternal energy.</p>
   <div class="letter-strip">
 <div class="letters">
   <div v-for="letter in ELs.filter(l => l.unlocked())"
@@ -43,8 +45,9 @@
 <script setup lang="ts">
 import { ref, computed } from "vue"
 import { player } from "../../player"
-import { clearAll, ELs, placeLetter, removeLetter, setGrid } from "../../infinity/EL"
+import { clearAll, EEgain, ELs, heycanyourecheckthatagain, placeLetter, removeLetter, setGrid } from "../../infinity/EL"
 import Decimal from "break_eternity.js"
+import { formatNumber } from "../../format"
 
 const grid = player.infinity.eternalLetters.grid
 setGrid(grid)
@@ -108,12 +111,12 @@ const currentEffect = computed(() =>
 }
 .grid {
   display: grid;
-  grid-template-rows: repeat(4, 60px);
+  grid-template-rows: repeat(7, 60px);
   gap: 8px;
 }
 .row {
   display: grid;
-  grid-template-columns: repeat(4, 60px);
+  grid-template-columns: repeat(7, 60px);
   gap: 8px;
 }
 .cell {

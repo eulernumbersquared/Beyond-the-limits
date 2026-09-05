@@ -2,8 +2,9 @@ import Decimal from "break_eternity.js"
 import { reactive } from "vue"
 import { farm } from "./thisfileisheretomakeFoIwork"
 import { ELs } from "./EL"
+import { player } from "../player"
 
-// femboy certified code (please help me)
+// shit certified code (please help me)
 export interface Crop {
   crop: string
   description: string
@@ -18,10 +19,11 @@ export interface Crop {
 export const crops: Crop[] = reactive([
   {
     crop: "Fundamental structions",
-    description: "Boost amount of points by an exponent based on amount harvested",
+    description: "Boost the gain of points and matter by an exponent based on amount harvested",
     growtime() { 
       let base = new Decimal("15600000")
-      if(ELs[4].effect().gte(1)) base = base.div(ELs[4].effect())
+      if(ELs[6].effect().gte(1)) base = base.div(ELs[6].effect())
+      if(player.infinity.calamitytier.gte(2) && player.infinity.matterX.gte(1)) base = base.div(player.infinity.matterX)
       return base
      },
     amount: new Decimal(0),
@@ -35,10 +37,11 @@ export const crops: Crop[] = reactive([
   },
   {
     crop: "The Triplets", // this is not a terraria reference go away
-    description: "Mono's boost to points is boosted, duo's generation is boosted and tri's focus is boosted based on amount harvested",
+    description: "Mono's boost to points is boosted, duo's generation is boosted, hadronic matter gain is boosted and tri's focus is boosted based on amount harvested",
     growtime() { 
       let base = new Decimal("49680000")
-      if(ELs[4].effect().gte(1)) base = base.div(ELs[4].effect())
+      if(ELs[6].effect().gte(1)) base = base.div(ELs[6].effect())
+      if(player.infinity.calamitytier.gte(2) && player.infinity.matterX.gte(1)) base = base.div(player.infinity.matterX)
       return base
      },
     amount: new Decimal(0),
@@ -55,7 +58,8 @@ export const crops: Crop[] = reactive([
     description: "Boost solarity energy.",
     growtime() { 
       let base = new Decimal("259200000")
-      if(ELs[4].effect().gte(1)) base = base.div(ELs[4].effect())
+      if(ELs[6].effect().gte(1)) base = base.div(ELs[6].effect())
+      if(player.infinity.calamitytier.gte(2) && player.infinity.matterX.gte(1)) base = base.div(player.infinity.matterX)
       return base
      },
     amount: new Decimal(0),
@@ -64,7 +68,7 @@ export const crops: Crop[] = reactive([
       if(ELs[5].effect().gte(1)) base = base.mul(ELs[5].effect())
       return base
      },
-    effect() { return this.amount.div(10).add(1) },
+    effect() { return this.amount.add(1) },
     unlocked() { return this.amount.gte(1) }
   },
 ])

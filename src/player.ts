@@ -11,9 +11,11 @@ import { gainCM } from './CM.ts'
 import { DCboost, DCprecentupd } from './Decorr.ts'
 import { godstatus } from './gods.ts'
 import { calamitymilestones, calcsolarenergy, iupgrades, solaritygen } from './infinity/infinity.ts'
-import {  recalcLetterAmounts, setGrid, type Cell } from "./infinity/EL"
+import {  EEgain, recalcLetterAmounts, setGrid, type Cell } from "./infinity/EL"
 import { crops } from './infinity/FoI.ts'
 import { farm } from './infinity/thisfileisheretomakeFoIwork.ts'
+import { matterupdate } from './infinity/matter.ts'
+
 
 export const TICK_MS = 100
 export const TICK_SCALE = TICK_MS / 1000
@@ -177,14 +179,19 @@ export const player = reactive({
     },
     calamitytier: new Decimal('0'),
     eternalLetters: {
-      grid: Array.from({ length: 4 }, (_, r) =>
-        Array.from({ length: 4 }, (_, c) => ({
+      grid: Array.from({ length: 7 }, (_, r) =>
+        Array.from({ length: 7 }, (_, c) => ({
           row: r,
           col: c,
           letter: null as Cell["letter"]
         }))
       )
-    }
+    },
+    eternalenergy: new Decimal('0'),
+    thiscurrencyisonlycalledprobablymaybeonceforonelittlethingbutok: new Decimal("0"),
+    matter: new Decimal("1"),
+    matterX: new Decimal("0"),
+    hmatter: new Decimal("0"),
   },
   pupgrades,
   fupgrades,
@@ -194,9 +201,6 @@ export const player = reactive({
   crops,
   farm,
 })
-function certainchecksthatarelikemilestonebuthenagainareabitdifferentfromthat() {
-  if(player.infinity.calamitytier.gte(1)) player.fupgrades[8].bought = true
-}
 function checkMilestones() {
   if (player.maincurrencies.Points.gte(1) && !player.dialog.introTriggered) {
     startDialogue("intro")
@@ -294,7 +298,9 @@ setInterval(() => {
   autoBPiC()
   solaritygen()
   player.infinity.solarity.solarenergy = player.infinity.solarity.solarenergy.add(calcsolarenergy())
-  certainchecksthatarelikemilestonebuthenagainareabitdifferentfromthat()
+  if(player.infinity.calamitytier.gte(1)) player.infinity.eternalenergy = player.infinity.eternalenergy.add(EEgain())
+    
+  matterupdate()
 }, TICK_MS)
 
 setInterval(() => {

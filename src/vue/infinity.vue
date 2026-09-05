@@ -1,23 +1,17 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import Decimal from 'break_eternity.js';
-import { infinitygain, infinityreset, iupgrades, buyIUpgradesReal } from '../infinity/infinity';
+import { infinityreset, iupgrades, buyIUpgradesReal, infinitygain } from '../infinity/infinity';
 import { player } from '../player.ts';
 import { formatNumber } from '../format';
 import solarity from './infinityvue.vue/solarity.vue'
 import CT from './infinityvue.vue/CT.vue';
 import EL from './infinityvue.vue/EL.vue';
 import FoI from './infinityvue.vue/FoI.vue';
-import HM from './infinityvue.vue/HM.vue';
-
-const BASE_REQ = new Decimal("1.79e308");
-
-function nextIPRequirement() {
-  return BASE_REQ.pow(player.maincurrencies.IP.add(1));
-}
+import Matter from './infinityvue.vue/matter.vue';
 
 
-const activeTab = ref<'infinity' | 'iupgrades' | 'Solarity' | 'Calamity tier' | 'Eternal letters' | 'Hadronic matter' | 'Farm of Infinity'>();
+const activeTab = ref<'infinity' | 'iupgrades' | 'Solarity' | 'Calamity tier' | 'Eternal letters' | 'Matter' | 'Stars of solaris' | 'Farm of Infinity'>();
 
 
 const visibleInfinityUpgrades = computed(() => {
@@ -37,22 +31,22 @@ const visibleInfinityUpgrades = computed(() => {
     <button :class="{active: activeTab === 'Solarity'}" @click="activeTab = 'Solarity'" v-if="iupgrades[0].bought">Solarity</button>
     <button :class="{active: activeTab === 'Calamity tier'}" @click="activeTab = 'Calamity tier'" v-if="player.infinity.solarity.solaritylevel.gte(2) || player.infinity.calamitytier.gte(1)">Calamity tier</button>
     <button :class="{active: activeTab === 'Eternal letters'}" @click="activeTab = 'Eternal letters'" v-if="player.infinity.calamitytier.gte(1)">Eternal letters</button>
+    <button :class="{active: activeTab === 'Matter'}" @click="activeTab = 'Matter'" v-if="player.infinity.eternalenergy.gte(1e6)">Matter</button>
     <button :class="{active: activeTab === 'Farm of Infinity'}" @click="activeTab = 'Farm of Infinity'" v-if="player.infinity.calamitytier.gte(2)">Farm of infinity</button>
-    <button :class="{active: activeTab === 'Hadronic matter'}" @click="activeTab = 'Hadronic matter'" v-if="player.infinity.calamitytier.gte(3)">Star of stellaris</button>
+    <button :class="{active: activeTab === 'Stars of solaris'}" @click="activeTab = 'Stars of solaris'" v-if="player.infinity.calamitytier.gte(3)">Star of stellaris</button>
   </div>
 
   <section v-if="activeTab === 'infinity'" class="infinity-panel">
     <button 
       id="infinity-button" 
       @click="infinityreset()" 
-      :class="{ disabled: player.maincurrencies.Points.lt(nextIPRequirement()) }"
+      :class="{ disabled: player.maincurrencies.Points.lt(1.79e308) }"
     >
       Endorse the infinity for {{ formatNumber(infinitygain()) }} IP
     </button>
     <h3 class="infinity-warm">This will reset everything before this except god of corruption's completion! Good luck with the new era.</h3>
     <h1 class="infinity-ipamount">
-      You currently have {{ formatNumber(player.maincurrencies.IP) }} IP 
-      (Gain +1 after {{ formatNumber(nextIPRequirement()) }} points!)
+      You currently have {{ formatNumber(player.maincurrencies.IP) }} IP
     </h1>
   </section>
 
@@ -86,13 +80,17 @@ const visibleInfinityUpgrades = computed(() => {
   <section v-if="activeTab === 'Eternal letters'" class="infinity-panel">
     <e-l />
   </section>
-  </keep-alive>
+    </keep-alive>
+    <section v-if="activeTab === 'Matter'" class="infinity-panel">
+    <matter />
+  </section>
+
   <keep-alive>
     <section v-if="activeTab === 'Farm of Infinity'" class="infinity-panel">
       <fo-i />
     </section>
   </keep-alive>
-  <section v-if="activeTab === 'Hadronic matter'" class="infinity-panel">
+  <section v-if="activeTab === 'Stars of solaris'" class="infinity-panel">
     <h-m />
   </section>
 

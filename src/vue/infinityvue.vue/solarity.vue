@@ -33,6 +33,7 @@ function investAll() {
         ({{ formatdiff(calcsolarenergy()) }}/s) solar energy based on the product of solars and lunars
       </p>
       <p id="solarity">S.E (solar energy) boosts points by x{{ formatdiff(solarenergyboost()) }}</p>
+      <p id="solarity" v-if="player.infinity.calamitytier.gte(1)">S.E additionally boosts eternal energy by x{{ formatNumber(solarenergyboost().pow(0.8)) }}</p>
     </div>
         <div id="level-box">
     <h2 id="solarity">Currently solarity level {{ player.infinity.solarity.solaritylevel }}</h2>

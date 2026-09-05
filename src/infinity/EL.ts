@@ -1,7 +1,8 @@
 import Decimal from "break_eternity.js"
-import { reactive, ref } from "vue"
+import { h, reactive, ref } from "vue"
 import { formatNumber } from "../format"
 import { player } from "../player"
+import { solarenergyboost, solaritylevelboost } from "./infinity"
 
 export interface LetterDef {
   title: string
@@ -22,6 +23,25 @@ export interface Cell {
 let gridRef: Cell[][] | null = null
 export function setGrid(grid: Cell[][]) {
   gridRef = grid
+}
+
+export function EEgain() {
+  let gain = new Decimal("0")
+  if(player.infinity.calamitytier.gte(1)) {
+    gain = new Decimal("1")
+    gain = gain.mul(solarenergyboost().pow(0.8))
+  }
+  return gain
+}
+export function heycanyourecheckthatagain() {
+  const totalLettersOnGrid = ELs.reduce((sum, currentLetter) => {
+    return sum + currentLetter.amount.toNumber();
+  }, 0);
+
+  const baseCost = new Decimal("1");
+  const costMultiplier = new Decimal("1e3");
+  
+  return baseCost.times(costMultiplier.pow(totalLettersOnGrid));
 }
 
 export function countAdjacentLetters(r: number, c: number): number {
@@ -182,28 +202,17 @@ effect() {
 },
     {
     title: "E",
-    desc: "Reduces the time for crops growing. However this isn't effected by C. If next to F, effect is x1.5'd",
+    desc: "Boost matter gain, but not effected by C",
     amount: new Decimal(0),
     effect() {
       let base = Decimal.pow(1.1, this.amount)
-        if (gridRef) {
-    for (const row of gridRef) {
-      for (const cell of row) {
-        if (cell.letter === "E") {
-          if (isNear(cell.row, cell.col, "F")) {
-            base = base.mul(1.5)
-          }
-        }
-      }
-    }
-  }
 
       return base
     },
     effectDisplay() {
-      return `Reducing the grow time by x${formatNumber(this.effect())}`
+      return `Boosting matter gain by x${formatNumber(this.effect())}`
     },
-    unlocked() { return player.infinity.calamitytier.gte(2)}
+    unlocked() { return player.infinity.hmatter.gte(1)}
   },
   {
     title: "F",
@@ -217,12 +226,25 @@ effect() {
       return `Increasing the yield by x${formatNumber(this.effect())}`
     },
     unlocked() { return player.infinity.calamitytier.gte(2)}
+  },
+    {
+    title: "G",
+    desc: "Decrease the time to grow crops.",
+    amount: new Decimal(0),
+    effect() {
+      let base = Decimal.pow(2.5, this.amount)
+      return base
+    },
+    effectDisplay() {
+      return `Decreasing such by x${formatNumber(this.effect())}`
+    },
+    unlocked() { return player.infinity.calamitytier.gte(2)}
   }
 ])
 
 
 export function placeLetter(r: number, c: number, letter: string|null) {
-  if (!gridRef || !letter) return
+  if (!gridRef || !letter || player.infinity.eternalenergy.lte(heycanyourecheckthatagain())) return
   const cell = gridRef[r][c]
   if (cell.letter) return
 

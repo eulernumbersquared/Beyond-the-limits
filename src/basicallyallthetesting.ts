@@ -14,28 +14,19 @@ export function okthisoneisforpoints(amount: number) {
 }
 
 export function reachcalamitytier1likeagoodboy() {
-  player.infinity.solarity.solaritylevel = new Decimal("2e30")
+  player.infinity.matter = new Decimal("1e3434")
+  player.infinity.eternalenergy = new Decimal("1e11")
 }
 export function balancefixing() {
         player.maincurrencies.IP = new Decimal("100")
 }
 
 export function debugToFupgrade6() {
-  player.maincurrencies.FP = new Decimal('1e30')
-  player.maincurrencies.Points = new Decimal('1e30')
-
-  player.pupgrades.forEach((upgrade) => {
-    upgrade.bought = true
-  })
-
-  player.fupgrades.forEach((upgrade) => {
-    upgrade.bought = true
-  })
-  player.iupgrades[0].bought = true
-  player.infinity.solarity.solaritylevel = new Decimal("2")
+  player.finity.amount = new Decimal("1")
+  player.maincurrencies.FP = new Decimal("1e8")
+  player.maincurrencies.Points = new Decimal("1e30")
   player.FCo.FCfin = true
   player.gods.god1com = true
-  player.infinity.amount = new Decimal("1")
   player.infinity.calamitytier = new Decimal("0")
 }
 

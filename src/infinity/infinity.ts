@@ -6,19 +6,16 @@ import { ELs } from "./EL";
 import { crops } from "./FoI";
 import { formatNumber } from "../format";
 
-const BASE_REQ = new Decimal("1.79e308");
-
 export function infinitygain() {
-    return player.maincurrencies.Points.log(BASE_REQ).floor().max(0);
+    if(player.maincurrencies.Points.lt('1.79e308')) return new Decimal(0);
+    let gain = new Decimal("1")
+    gain = player.maincurrencies.Points.log10().div(308).pow(0.85)
+    return gain
 }
 
 export function infinityreset() {
-    if (player.maincurrencies.Points.lt(BASE_REQ.pow(player.maincurrencies.IP.add(1)))) {
-        return;
-    }
-
-    const gain = infinitygain();
-    player.maincurrencies.IP = player.maincurrencies.IP.add(gain);
+    if(player.maincurrencies.Points.gte(1.79e308)) {
+    player.maincurrencies.IP = player.maincurrencies.IP.add(infinitygain())
     player.infinity.amount = player.infinity.amount.add(1)
     resetFinity();
 
@@ -40,6 +37,7 @@ export function infinityreset() {
     player.pupgrades.forEach(u => {
         u.bought = false;
     });
+  }
 }
 
 export function requirelessinfinity() {
@@ -77,8 +75,8 @@ export const iupgrades: upgrades[] = reactive([
     },
     {
       id: "2",
-      title: "Hell upon earth itself.",
-      description: "",
+      title: "This is how you make past currencies useful",
+      description: "Unlock the forge and hadronic matter.",
       cost: new Decimal('2'),
       bought: false
     },
@@ -114,14 +112,12 @@ export function solaritylevelboost() {
 export function lunargen() {
   let gain = new Decimal('0.0001')
   gain = gain.mul(solaritylevelboost())
-  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(player.fupgrades[10].effect?.() ?? new Decimal("1"))
   return gain
 }
 
 export function solargen() {
   let gain = new Decimal('0.0001')
   gain = gain.mul(solaritylevelboost())
-  if(player.infinity.calamitytier.gte(1)) gain = gain.mul(player.fupgrades[10].effect?.() ?? new Decimal("1"))
   return gain
 }
 export function solaritygen() {
@@ -206,7 +202,9 @@ if (milestone && !milestone.achieved && milestone.requirement()) {
     })
     player.fupgrades.forEach(u => (u.bought = false))
     player.pupgrades.forEach(u => (u.bought = false))
-    player.infinity.solarity.solaritylevel = new Decimal("0")
+    player.infinity.matter = new Decimal("1")
+    player.infinity.matterX = new Decimal("0")
+    player.infinity.hmatter = new Decimal("0")
     requirelessinfinity()
   }
 }
@@ -226,7 +224,7 @@ export const calamitymilestones: milestone[] = [
   {
     id: "2",
     title: "Calamity tier 2",
-    description: "FP's gain is entirely disabled but keep matterion's automation, unlock the farm of infinity and eternal letters E and F.",
+    description: "FP's gain is entirely disabled but keep matterion's automation, and reduce the gains of matter and hadronic matter by ^0.5, unlock the farm of infinity and eternal letters F and G.",
     achieved: false,
     requirement: () => player.infinity.calamitytier.gte(2)
   },

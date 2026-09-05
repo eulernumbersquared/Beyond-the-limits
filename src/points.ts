@@ -62,11 +62,11 @@ export function pointgen(): Decimal {
     if (player.pupgrades[15]?.bought) gain = gain.mul(5)
   }
 
-  if(player.gods.god1com) { gain = gain.pow(1.5)}
-  if(player.gods.god1com) { gain = gain.times(10)}
+  if(player.gods.god1com) { gain = gain.pow(1.1)}
+  if(player.gods.god1com) { gain = gain.times(1e10)}
 
   if (player.pupgrades[22].bought) { gain = gain.times('1e20')}
-  if (player.pupgrades[23].bought) { gain = gain.pow(1.2)}
+  if (player.pupgrades[23].bought) { gain = gain.times('1e30')}
   if (player.pupgrades[24].bought) {gain = gain.mul(1e65)}
   if (player.fupgrades[7].bought) { gain = gain.mul(player.fupgrades[7].effect?.() ?? 1)}
   if (player.iupgrades[0]?.bought && player.infinity.solarity.solarenergy.gte(0.0001)) { gain = gain.mul(solarenergyboost())}
@@ -77,6 +77,9 @@ export function pointgen(): Decimal {
     if(player.infinity.calamitytier.gte(1)) gain = gain.pow(ELs[0].effect())
       
     if(player.infinity.calamitytier.gte(1)) gain = gain.mul(ELs[1].effect())
+    if(player.infinity.hmatter.gte(1)) gain = gain.mul(player.infinity.hmatter.mul(1e10))
+    if(player.infinity.hmatter.gte(10)) gain = gain.mul(player.infinity.matter.add(1).log10())
+    if(player.infinity.hmatter.gte(1e15)) gain = gain.mul('1e700')
   return gain.isFinite() && !gain.isNan() ? gain : new Decimal(1)
 }
 export const pupgrades: upgrades[] = reactive([
@@ -286,17 +289,17 @@ export const pupgrades: upgrades[] = reactive([
 
   { 
     id: "22",
-    title: "Welcome back.",
-    description: "Hi! x1e20 points!!",
-    cost: new Decimal('1e66'),
+    title: "Jump.",
+    description: "x1e20 points",
+    cost: new Decimal('1e53'),
     bought: false,
     pointboost: true,
   },
   {
     id: "23",
-    title: "Hope the automation is nice!",
-    description: "It's nice isn't it? ^1.2 points",
-    cost: new Decimal('1e123'),
+    title: "The higher hopes",
+    description: "x1e30 points",
+    cost: new Decimal('5e107'),
     bought: false,
     pointboost: true,
   },

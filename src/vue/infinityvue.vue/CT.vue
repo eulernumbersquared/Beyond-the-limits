@@ -15,7 +15,8 @@ const nextMilestone = computed(() =>
     <h1>Calamity Tier</h1>
     <h1>You have {{ player.infinity.calamitytier }} calamity tier(s).</h1>
     <i>"The greatest hell that shall be unleashed upon thee."</i>
-
+    <i>This will do an infinity reset</i>
+    <i v-if="player.infinity.calamitytier.gte(1)">Resets matter related feature on reset!</i>
     <button id="calamity" @click="calamityReset()">
       Reset for a Calamity Tier<br />
       Requires {{ formatNumber(calamityRequirement()) }} points
