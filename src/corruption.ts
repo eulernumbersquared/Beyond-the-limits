@@ -1,6 +1,7 @@
 import Decimal from "break_eternity.js"
 import { requirelessfinity, fupgrades } from "./finity"
 import { player } from "./player"
+import { iupgrades } from "./infinity/infinity"
 
 export function enterCorruption() {
   if (fupgrades[1].bought) {
@@ -30,6 +31,11 @@ export function corruptionTick() {
 }
 
 export function calculatepointboosting() {
+  
+      if (player.corrupt.Cpoints.gte(1) && player.iupgrades[0].bought) {
+    let gain = player.corrupt.Cpoints.pow(0.3).mul(10)
+    return gain
+  }
   if (player.corrupt.Cpoints.gte(1)) {
     return player.corrupt.Cpoints.pow(0.3)
   }
@@ -38,7 +44,7 @@ export function calculatepointboosting() {
 }
 
 export function autoBPiC() {
-  if (player.gods.god1com) {
-    player.corrupt.BPiC = player.maincurrencies.Points.pow(0.5)
+  if (player.gods.god1com && !player.corrupt.Incorruption) {
+    player.corrupt.BPiC = player.corrupt.BPiC.add(player.maincurrencies.Points.pow(0.5))
   }
 }

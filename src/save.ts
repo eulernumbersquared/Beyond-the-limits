@@ -8,7 +8,7 @@ export function saveGame() {
   const saveData = JSON.stringify(player, (key, value) => {
     if (value instanceof Decimal) return value.toString()
 
-    if (key === "title" || key === "description" || key === "effect" || key === "effectDisplay" || key === "cost") {
+    if (key === "title" || key === "description" || key === "effect" || key === "effectDisplay" || key === "cost" || key === "id") {
       return undefined
     }
 
@@ -26,6 +26,48 @@ function sanitizeSave(restored: any) {
       delete upg.description
       delete upg.effect
       delete upg.effectDisplay
+      delete upg.id
+    }
+  }
+    if (restored.CErepeatables) {
+    for (const upg of restored.CErepeatables) {
+      delete upg.title
+      delete upg.description
+      delete upg.basecost
+      delete upg.effect
+      delete upg.effectDisplay
+    }
+  }
+      if (restored.playerRepeat) {
+    for (const upg of restored.playerRepeat) {
+      delete upg.title
+      delete upg.description
+      delete upg.basecost
+      delete upg.effect
+      delete upg.effectDisplay
+      delete upg.basecost
+    }
+  }
+        if (restored.cosmicRepeats) {
+    for (const upg of restored.cosmicRepeats) {
+      delete upg.title
+      delete upg.description
+      delete upg.basecost
+      delete upg.effect
+      delete upg.effectDisplay
+      delete upg.basecost
+      delete upg.effect
+    }
+  }
+          if (restored.hindRepeats) {
+    for (const upg of restored.hindRepeats) {
+      delete upg.title
+      delete upg.description
+      delete upg.basecost
+      delete upg.effect
+      delete upg.effectDisplay
+      delete upg.basecost
+      delete upg.effect
     }
   }
   return restored

@@ -13,7 +13,7 @@ const nextMilestone = computed(() =>
 <template>
   <div id="calamity-container">
     <h1>Calamity Tier</h1>
-    <h1>You have {{ player.infinity.calamitytier }} calamity tier(s).</h1>
+    <h1>You have {{ formatNumber(player.infinity.calamitytier) }} calamity tier(s).</h1>
     <i>"The greatest hell that shall be unleashed upon thee."</i>
     <i>This will do an infinity reset</i>
     <i v-if="player.infinity.calamitytier.gte(1)">Resets matter related feature on reset!</i>
@@ -29,7 +29,7 @@ const nextMilestone = computed(() =>
 <div
   v-for="(m, i) in calamitymilestones"
   :key="m.id"
-  v-show="m.achieved || i === player.infinity.calamitytier.toNumber()"
+  v-show="m.achieved || i <= player.infinity.calamitytier.toNumber()"
   class="milestone-box"
   :class="{
     achieved: m.achieved,

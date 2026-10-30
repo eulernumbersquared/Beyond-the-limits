@@ -19,7 +19,7 @@ export interface Crop {
 export const crops: Crop[] = reactive([
   {
     crop: "Fundamental structions",
-    description: "Boost the gain of points and matter by an exponent based on amount harvested",
+    description: "Boost the gain of points and matter by an exponent based on amount harvested. If you are growing a fundamental struction and keep it growing long enough, it will grow a new crop besides it!",
     growtime() { 
       let base = new Decimal("15600000")
       if(ELs[6].effect().gte(1)) base = base.div(ELs[6].effect())
@@ -37,7 +37,7 @@ export const crops: Crop[] = reactive([
   },
   {
     crop: "The Triplets", // this is not a terraria reference go away
-    description: "Mono's boost to points is boosted, duo's generation is boosted, hadronic matter gain is boosted and tri's focus is boosted based on amount harvested",
+    description: "Mono's boost to points is boosted, duo's generation is boosted, hadronic matter gain is boosted and tri's focus is boosted based on amount harvested. If the triplets and fundamental struction are nearby, a new crop will arise!",
     growtime() { 
       let base = new Decimal("49680000")
       if(ELs[6].effect().gte(1)) base = base.div(ELs[6].effect())
@@ -50,12 +50,12 @@ export const crops: Crop[] = reactive([
       if(ELs[5].effect().gte(1)) base = base.mul(ELs[5].effect())
       return base
      },
-    effect() { return this.amount.pow(1.1) },
+    effect() { return this.amount.pow(1.1).add(1) },
     unlocked() { return this.amount.gte(1) }
   },
   {
     crop: "Solarity essence",
-    description: "Boost solarity energy.",
+    description: "Boost solarity energy and eternal energy.",
     growtime() { 
       let base = new Decimal("259200000")
       if(ELs[6].effect().gte(1)) base = base.div(ELs[6].effect())
@@ -162,7 +162,6 @@ export function removeCrop(row: number, col: number): boolean {
 export function synergyTick() {
   const fsPlots: { row: number; col: number }[] = []
 
-  // Find all Fundamental structions
   for (let row = 0; row < farm.length; row++) {
     for (let col = 0; col < farm[row].length; col++) {
       const field = farm[row][col]
@@ -207,9 +206,6 @@ export function synergyTick() {
             field.cropIndex = tripletsIndex
             field.plantedAt = Date.now()
 
-            console.log(
-              `Triplets auto-planted at (${n.r}, ${n.c}) from FS synergy!`
-            )
 
             break
           }
@@ -218,7 +214,6 @@ export function synergyTick() {
     }
   }
 
-  // Check if any Fundamental structions is adjacent to a Triplets
   let hasSynergy = false
 
   for (const fs of fsPlots) {
@@ -252,7 +247,6 @@ export function synergyTick() {
     if (hasSynergy) break
   }
 
-  // Spawn Solary Essence if the synergy exists
   if (hasSynergy && Math.random() < 0.001) {
     const solarityIndex = crops.findIndex(
       c => c.crop === "Solarity essence"
@@ -267,9 +261,6 @@ export function synergyTick() {
             field.cropIndex = solarityIndex
             field.plantedAt = Date.now()
 
-            console.log(
-              `Solary essence spawned at (${row}, ${col})!`
-            )
 
             return
           }

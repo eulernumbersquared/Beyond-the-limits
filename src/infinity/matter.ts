@@ -5,8 +5,8 @@
 import Decimal from "break_eternity.js";
 import { player } from "../player";
 import { ELs } from "./EL";
-import EL from "../vue/infinityvue.vue/EL.vue";
 import { crops } from "./FoI.ts";
+import { solarenergyboost } from "./infinity.ts";
 
 
 
@@ -29,6 +29,7 @@ export function mattergain() {
     if(player.infinity.matter.gte('2.71e7389056')) gain = gain.log10().log10()
     if(player.infinity.calamitytier.gte(2)) gain = gain.pow(0.5)
     if(player.infinity.calamitytier.gte(2) && crops[0].effect().gte(1)) gain = gain.pow(crops[0].effect())
+    if(player.infinity.calamitytier.gte(2)) gain = gain.pow(solarenergyboost().pow(0.01))
     return gain
 }
 

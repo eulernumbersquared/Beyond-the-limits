@@ -3,6 +3,8 @@ import { h, reactive, ref } from "vue"
 import { formatNumber } from "../format"
 import { player } from "../player"
 import { solarenergyboost, solaritylevelboost } from "./infinity"
+import { crops } from "./FoI"
+import { cosmicRepeats } from "./ss"
 
 export interface LetterDef {
   title: string
@@ -29,7 +31,10 @@ export function EEgain() {
   let gain = new Decimal("0")
   if(player.infinity.calamitytier.gte(1)) {
     gain = new Decimal("1")
-    gain = gain.mul(solarenergyboost().pow(0.8))
+    gain = gain.mul(solarenergyboost().pow(0.1))
+    gain = gain.mul(crops[2].effect())
+    if(player.infinity.calamitytier.gte(3)) gain = gain.mul(player.infinity.stats.bestStage.add(1).pow(2))
+    if(cosmicRepeats[4].effect().gte(3)) gain = gain.mul(cosmicRepeats[4].effect())
   }
   return gain
 }
@@ -41,7 +46,10 @@ export function heycanyourecheckthatagain() {
   const baseCost = new Decimal("1");
   const costMultiplier = new Decimal("1e3");
   
-  return baseCost.times(costMultiplier.pow(totalLettersOnGrid));
+  let cost = baseCost.times(costMultiplier.pow(totalLettersOnGrid));
+  if(cost.gte(1e30)) {cost = cost.pow(5)}
+  if(cost.gte(1e300)) cost = cost.pow(1.5)
+  return cost
 }
 
 export function countAdjacentLetters(r: number, c: number): number {
@@ -229,17 +237,42 @@ effect() {
   },
     {
     title: "G",
-    desc: "Decrease the time to grow crops.",
+    desc: "Decrease the time to grow crops. If next to F, effect will be x1.5'd",
     amount: new Decimal(0),
     effect() {
-      let base = Decimal.pow(2.5, this.amount)
+    let base = Decimal.pow(2.5, this.amount)
+        if (gridRef) {
+    for (const row of gridRef) {
+      for (const cell of row) {
+        if (cell.letter === "G") {
+          if (isNear(cell.row, cell.col, "F")) {
+            base = base.mul(1.5)
+          }
+        }
+      }
+    }
+  }
+
       return base
     },
     effectDisplay() {
       return `Decreasing such by x${formatNumber(this.effect())}`
     },
     unlocked() { return player.infinity.calamitytier.gte(2)}
-  }
+  },
+      {
+    title: "H",
+    desc: "A basic boost to calamity energy.",
+    amount: new Decimal(0),
+    effect() {
+    let base = Decimal.pow(1.5, this.amount)
+      return base
+    },
+    effectDisplay() {
+      return `Boosting such by x${formatNumber(this.effect())}`
+    },
+    unlocked() { return player.infinity.calamitytier.gte(3)}
+  },
 ])
 
 

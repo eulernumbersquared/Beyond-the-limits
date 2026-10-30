@@ -28,7 +28,7 @@ function handleClick(row: number, col: number, e?: MouseEvent) {
 onMounted(() => {
   intervalId = window.setInterval(() => {
     tick.value++
-  }, 1000)
+  }, 10)
 })
 
 onUnmounted(() => {
@@ -56,7 +56,6 @@ const unlockedCrops = computed(() =>
       </button>
     </aside>
 
-<!-- Fundamental structions -->
 <section
   class="cropInfo"
   v-if="selectedCrop === 0 && crops[0].unlocked()"
@@ -74,7 +73,6 @@ const unlockedCrops = computed(() =>
   </div>
 </section>
 
-<!-- The Triplets -->
 <section
   class="cropInfo"
   v-if="selectedCrop === 1 && crops[1].unlocked()"
@@ -92,7 +90,6 @@ const unlockedCrops = computed(() =>
   </div>
 </section>
 
-<!-- Solarity essence -->
 <section
   class="cropInfo"
   v-if="selectedCrop === 2 && crops[2].unlocked()"

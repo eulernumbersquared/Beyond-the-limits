@@ -152,19 +152,28 @@ export function monoboost() {
 }
 
 
+
 export function autobuymatterion() {
   if (!matterionAutomationEnabled.value) return
   if (player.corrupt.Incorruption) return
-  if (player.pupgrades[2].bought && (player.fupgrades[1]?.bought || player.infinity.calamitytier.gte(2))) {
-    while (player.maincurrencies.Points.gte(getUpgradeCost("mono"))) {
-      costlessmatterion("mono")
-    }
-    while (player.maincurrencies.Points.gte(getUpgradeCost("duo"))) {
-      costlessmatterion("duo")
-    }
-    while (player.maincurrencies.Points.gte(getUpgradeCost("tri"))) {
-      costlessmatterion("tri")
+
+  if (
+    !player.pupgrades[2].bought ||
+    !(player.fupgrades[1]?.bought ||
+      player.infinity.calamitytier.gte(2))
+  ) return
+
+  const MAX_PURCHASES_PER_TYPE = 100
+
+  for (const type of ["mono", "duo", "tri"] as const) {
+    let purchases = 0
+
+    while (
+      purchases < MAX_PURCHASES_PER_TYPE &&
+      player.maincurrencies.Points.gte(getUpgradeCost(type))
+    ) {
+      costlessmatterion(type)
+      purchases++
     }
   }
 }
-

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import Decimal from 'break_eternity.js';
 import { infinityreset, iupgrades, buyIUpgradesReal, infinitygain } from '../infinity/infinity';
 import { player } from '../player.ts';
@@ -9,10 +9,44 @@ import CT from './infinityvue.vue/CT.vue';
 import EL from './infinityvue.vue/EL.vue';
 import FoI from './infinityvue.vue/FoI.vue';
 import Matter from './infinityvue.vue/matter.vue';
+import ce from './infinityvue.vue/CE.vue';
+import Hind from './infinityvue.vue/hind.vue';
 
 
-const activeTab = ref<'infinity' | 'iupgrades' | 'Solarity' | 'Calamity tier' | 'Eternal letters' | 'Matter' | 'Stars of solaris' | 'Farm of Infinity'>();
+type InfinityTab =
+  | 'infinity'
+  | 'iupgrades'
+  | 'Solarity'
+  | 'Calamity tier'
+  | 'Eternal letters'
+  | 'Matter'
+  | 'Farm of Infinity'
+  | 'Calamity energy'
+  | 'Hindrance';
 
+const validTabs: InfinityTab[] = [
+  'infinity',
+  'iupgrades',
+  'Solarity',
+  'Calamity tier',
+  'Eternal letters',
+  'Matter',
+  'Farm of Infinity',
+  'Calamity energy',
+  'Hindrance'
+];
+
+const savedTab = localStorage.getItem('lastInfinityTab');
+
+const activeTab = ref<InfinityTab>(
+  validTabs.includes(savedTab as InfinityTab)
+    ? (savedTab as InfinityTab)
+    : 'infinity'
+);
+
+watch(activeTab, (tab) => {
+  localStorage.setItem('lastInfinityTab', tab);
+});
 
 const visibleInfinityUpgrades = computed(() => {
   const lastBoughtIndex = iupgrades.findIndex(
@@ -28,12 +62,13 @@ const visibleInfinityUpgrades = computed(() => {
   <div class="infinity-tabs">
     <button :class="{active: activeTab === 'infinity'}" @click="activeTab = 'infinity'">Infinity</button>
     <button :class="{active: activeTab === 'iupgrades'}" @click="activeTab = 'iupgrades'">Upgrades</button>
-    <button :class="{active: activeTab === 'Solarity'}" @click="activeTab = 'Solarity'" v-if="iupgrades[0].bought">Solarity</button>
-    <button :class="{active: activeTab === 'Calamity tier'}" @click="activeTab = 'Calamity tier'" v-if="player.infinity.solarity.solaritylevel.gte(2) || player.infinity.calamitytier.gte(1)">Calamity tier</button>
+    <button :class="{active: activeTab === 'Solarity'}" @click="activeTab = 'Solarity'" v-if="iupgrades[3].bought">Solarity</button>
+    <button :class="{active: activeTab === 'Calamity tier'}" @click="activeTab = 'Calamity tier'" v-if="player.infinity.solarity.solaritylevel.gte(5) || player.infinity.calamitytier.gte(1)">Calamity tier</button>
     <button :class="{active: activeTab === 'Eternal letters'}" @click="activeTab = 'Eternal letters'" v-if="player.infinity.calamitytier.gte(1)">Eternal letters</button>
     <button :class="{active: activeTab === 'Matter'}" @click="activeTab = 'Matter'" v-if="player.infinity.eternalenergy.gte(1e6)">Matter</button>
     <button :class="{active: activeTab === 'Farm of Infinity'}" @click="activeTab = 'Farm of Infinity'" v-if="player.infinity.calamitytier.gte(2)">Farm of infinity</button>
-    <button :class="{active: activeTab === 'Stars of solaris'}" @click="activeTab = 'Stars of solaris'" v-if="player.infinity.calamitytier.gte(3)">Star of stellaris</button>
+    <button :class="{active: activeTab === 'Calamity energy'}" @click="activeTab = 'Calamity energy'" v-if="player.infinity.calamitytier.gte(3)">Calamity energy</button>
+    <button :class="{active: activeTab === 'Hindrance'}" @click="activeTab = 'Hindrance'" v-if="player.infinity.calamitytier.gte(15)">Hindrance</button>
   </div>
 
   <section v-if="activeTab === 'infinity'" class="infinity-panel">
@@ -61,6 +96,7 @@ const visibleInfinityUpgrades = computed(() => {
         <h3>{{ upg.title }}</h3>
         <p>{{ upg.description }}</p>
         <p>Cost: {{ formatNumber(upg.cost) }} IP</p>
+        <p>{{ (upg.effectDisplay?.()) }}</p>
         <button 
           :disabled="upg.bought || player.maincurrencies.IP.lt(upg.cost)" 
           @click.stop="buyIUpgradesReal(idx)"
@@ -90,10 +126,12 @@ const visibleInfinityUpgrades = computed(() => {
       <fo-i />
     </section>
   </keep-alive>
-  <section v-if="activeTab === 'Stars of solaris'" class="infinity-panel">
-    <h-m />
+  <section v-if="activeTab === 'Calamity energy'" class="infinity-panel">
+    <ce />
   </section>
-
+    <section v-if="activeTab === 'Hindrance'" class="infinity-panel">
+    <hind />
+  </section>
 </template>
 
 <style scoped>

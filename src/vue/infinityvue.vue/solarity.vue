@@ -27,19 +27,20 @@ function investAll() {
   <div id="solarity-row">
     <div id="scarysolarity">
       <img src="/images/basesolarity.png" style="width:200px;">
-      <h2 id="solarity">Currently using: Base solarity</h2>
       <p id="solarity">
         You have {{ formatdiff(player.infinity.solarity.solarenergy) }}
         ({{ formatdiff(calcsolarenergy()) }}/s) solar energy based on the product of solars and lunars
       </p>
       <p id="solarity">S.E (solar energy) boosts points by x{{ formatdiff(solarenergyboost()) }}</p>
-      <p id="solarity" v-if="player.infinity.calamitytier.gte(1)">S.E additionally boosts eternal energy by x{{ formatNumber(solarenergyboost().pow(0.8)) }}</p>
+      <p id="solarity" v-if="player.infinity.calamitytier.gte(1)">S.E additionally boosts eternal energy by x{{ formatNumber(solarenergyboost().pow(0.1)) }}</p>
+      <p id="solarity" v-if="player.infinity.calamitytier.gte(2)">S.E also boosts matter by x{{ formatNumber(solarenergyboost().pow(0.01)) }}</p>
+      <p id="solarity" v-if="player.infinity.calamitytier.gte(3) && player.infinity.calamen.gte(1e10)">S.E also boosts calamity energy by x{{ formatNumber(solarenergyboost().pow(0.05)) }}</p>
     </div>
         <div id="level-box">
     <h2 id="solarity">Currently solarity level {{ player.infinity.solarity.solaritylevel }}</h2>
     <p id="solarity">Solarity levels are used to unlock certain features</p>
     <p id="solarity">They are boosting solars and lunars by x{{ formatNumber(solaritylevelboost()) }}</p>
-    <i id="solarity" v-if="player.infinity.solarity.solaritylevel.lt(2)">Unlock calamity tiers at solarity level 2</i>
+    <i id="solarity" v-if="player.infinity.solarity.solaritylevel.lt(5)">Unlock calamity tiers at solarity level 5</i>
     <p id="solarity">XP: {{ formatdiff(player.infinity.solarity.solarityxp) }} / {{ formatdiff(solaritylevelrequium()) }}</p>
     <button @click="investAll" id="femboy">Invest All Solar Energy</button>
     </div>

@@ -94,7 +94,8 @@ const visibleRepeatables = computed(() => {
   padding: 8px 16px;
   font-family: 'Orbitron', monospace;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease
+  ;
 }
 #tabs button:hover {
   box-shadow: 0 0 10px crimson;
@@ -137,7 +138,6 @@ const visibleRepeatables = computed(() => {
   color: inherit;     
 }
 
-/* Purchase button */
 .upgrade button {
   background: black;
   color: crimson;
@@ -152,7 +152,6 @@ const visibleRepeatables = computed(() => {
   text-shadow: 0 0 5px crimson;
 }
 
-/* Bought state — lime override */
 .upgrade.bought {
   border-color: lime;
   color: lime;
@@ -166,7 +165,7 @@ const visibleRepeatables = computed(() => {
   box-shadow: 0 0 15px lime !important;
 }
 
-/* Repeatables container */
+
 #repeatables {
   display: flex;
   flex-wrap: wrap;
@@ -176,7 +175,6 @@ const visibleRepeatables = computed(() => {
   text-align: center;
 }
 
-/* Repeatables base */
 .repeatable {
   width: 300px;
   min-height: 150px;

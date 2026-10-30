@@ -4,6 +4,7 @@ const nat = new URL('./Narrator.png', import.meta.url).href
 const GoC = new URL('./GoC.png', import.meta.url).href
 const GoCe = new URL('./GoCbutpissed.png', import.meta.url).href
 const GoHUH = new URL('./GoHunhindered.png', import.meta.url).href
+const GoH = new URL('./GoH.png', import.meta.url).href
 import { ref } from 'vue'
 
 export interface DialogueLine {
@@ -73,8 +74,8 @@ export const dialogues: Record<string, Dialogue> = {
     lines: [
       {text: "As you explore the finity, strange errors of the reality are appearing", speakerImg: nat},
       {text: "This is strange... what could be the cause of this", speakerImg: mc},
-      {text: "Hey! Be careful! The god of corruption is nearby!", speakerImg: esquared},
-      {text: "God of what now?", speakerImg: mc},
+      {text: "Hey! Be careful! Phthoros is nearby!", speakerImg: esquared},
+      {text: "Who?", speakerImg: mc},
       {text: "One of the gods of this place. He is the creator of all this corruption. He was born from the mistakes of the god of fundamentals, you will meet him at the citadel", speakerImg: esquared},
       {text: "You'll need to prove yourself to summon the citadel", speakerImg: esquared},
       {text: "Good luck however, the corruption can be aggressive sometimes....", speakerImg: esquared},
@@ -85,10 +86,10 @@ export const dialogues: Record<string, Dialogue> = {
     lines: [
       {text: "You feel a strange presence", speakerImg: nat},
       {text: "I swear i feel like im getting watched.....", speakerImg: mc},
-      {text: "YOU", speakerImg: GoC},
-      {text: "You think you can get past me? The god of corruption? No... You will never end the reign of corruption.", speakerImg: GoC},
+      {text: "You.", speakerImg: GoC},
+      {text: "You think you can get past me? Phthoros, the god of corruption? No... You will never end the reign of corruption.", speakerImg: GoC},
       {text: "If you dare want to challenge me. Enter my domain and prove me wrong", speakerImg: GoC},
-      {text: "You realize that e squared was talking about him, the god of corruption", speakerImg: nat},
+      {text: "You realize that e squared was talking about him, the handbringer of corrupton.", speakerImg: nat},
       {text: "Oh, that explains alot i guess", speakerImg: mc},
     ]
   },
@@ -144,7 +145,7 @@ export const dialogues: Record<string, Dialogue> = {
       {text: "WHAT HAVE YOU DONE", speakerImg: GoC},
       {text: "You see him starting to fall to his own corruption...", speakerImg: nat},
       {text: "YOU'LL PAY FOR THIS....", speakerImg: GoC},
-      {text: "THE GOD OF HINDRANCES WILL DEAL WITH YOU", speakerImg: GoC},
+      {text: "ANANKE WILL DEAL WITH YOU", speakerImg: GoC},
       {text: ".......", speakerImg: GoC},
       {text: "Wow.... i guess i defeated him!", speakerImg: mc}
     ]
@@ -176,9 +177,9 @@ export const dialogues: Record<string, Dialogue> = {
       {text: "Just note from now on.", speakerImg: GoHUH},
       {text: "There is no more mercy here.", speakerImg: GoHUH},
       {text: "Who are you? What are you?", speakerImg: mc},
-      {text: "You must've heard my name from the god of corruptions.", speakerImg: GoHUH},
-      {text: "You're the god of hindrances?", speakerImg: mc},
-      {text: "A form of him, he is very strategic in his ways.", speakerImg: GoHUH},
+      {text: "You must've heard my name from Phthoros.", speakerImg: GoHUH},
+      {text: "You're Ananke?", speakerImg: mc},
+      {text: "A form of her, she is very strategic in his ways.", speakerImg: GoHUH},
       {text: "Goodbye, i'll see you the next time you do the calamity tier. If i'll even see you do such thing", speakerImg: GoHUH},
     ]
   },
@@ -197,14 +198,53 @@ export const dialogues: Record<string, Dialogue> = {
     id: "calamity3",
     lines: [
       // canonically at CT3, luke turns into a femboy
-      {text: "Still putting up a good fight huh?", speakerImg: GoHUH},
-      {text: "I'll be suprised if you can conquer the star of stellaris.", speakerImg: GoHUH},
-      {text: "The star of eternity... the ones that used to be of this universe....", speakerImg: GoHUH},
-      {text: "Universe....?", speakerImg: mc},
-      {text: "I'll let you figure that on your own", speakerImg: GoHUH},
+      {text: "Your determination is high.", speakerImg: GoHUH},
+      {text: "Many people before you would've quit here.", speakerImg: GoHUH},
+      {text: "Maybe it's better if you quit as well.", speakerImg: GoHUH},
+      {text: "And why should I?", speakerImg: mc},
+      {text: "Well, i'll let you figure that out on your own.", speakerImg: GoHUH},
       {text: "You are meeting your end.", speakerImg: GoHUH},
     ]
   },
+  calamity15: {
+    id: 'calamity15',
+    lines: [
+      {text: "Hello.", speakerImg: GoH},
+      {text: "Phthoros had alerted one of my probes about your presence", speakerImg: GoH},
+      {text: "You impress me... It reminds me of atraxial.", speakerImg: GoH},
+      {text: "Used to be a special friend of mine before the incident...", speakerImg: GoH},
+      {text: "Now it feels lonely, only guarding the tower alone now that he and phthoros is gone...", speakerImg: GoH},
+      {text: "Anyways, you aren't meant to be here. No one in the entirety of this land's existence has reached this point.", speakerImg: GoH},
+      {text: "There's no use in escaping, you're stuck in my hands now.", speakerImg: GoH},
+    ]
+  },
+    hp1: {
+    id: 'hp1',
+    lines: [
+      {text: "Welcome to my palace.", speakerImg: GoH},
+      {text: "You'll be stuck here for a whole while", speakerImg: GoH},
+      {text: "Isn't it nice? Me and Pthoros made it eons ago.", speakerImg: GoH},
+      {text: "Although it does get a bit lonely in here...", speakerImg: GoH},
+      {text: "...which is why you'll be here for eternity!", speakerImg: GoH},
+    ]
+  },
+    hpend: {
+    id: 'hpend',
+    lines: [
+      {text: "Oh...", speakerImg: GoH},
+      {text: "Someone was finally strong enough to defeat me.....", speakerImg: GoH},
+      {text: "Finally.... it took so long...", speakerImg: GoH},
+      {text: "I'm free from him... I'm finally free....", speakerImg: GoH},
+      {text: "I hope i can see the true purity of Phtoros....", speakerImg: GoH},
+      {text: "Atraxial should be alerted... Goodbye... genesis....", speakerImg: GoH},
+      {text: "Huh? My name is.... genesis..?", speakerImg: mc},
+      {text: "You stand there in her palace, looking at the ashes that used to be of her.", speakerImg: nat},
+      {text: "A strange portal opens infront of you", speakerImg: nat},
+      {text: "Standing next to it makes you feel dizzy..", speakerImg: nat},
+      {text: "You wondering where e^2 is, and most importantly, who 'him' is talking about to", speakerImg: nat},
+      {text: "The portal seems to grow more agro, it implies you have to enter it...", speakerImg: nat},
+    ]
+  }
 }
 
 export const inDialogue = ref(false)
@@ -232,4 +272,66 @@ export function nextLine() {
   } else {
     inDialogue.value = false
   }
+}
+
+export const inTitleCard = ref(false)
+export const titleCardTitle = ref("")
+export const displayedSubtitle = ref("")
+export const titleCardGradient = ref(
+    "linear-gradient(90deg, white, white)"
+)
+
+let titleCardTimeout: ReturnType<typeof setTimeout> | null = null
+let typewriterTimeout: ReturnType<typeof setTimeout> | null = null
+export function showTitleCard(
+    title: string,
+    subtitle: string,
+    color: string = "linear-gradient(90deg, white, white)",
+    duration: number = 5000
+) {
+    // Reset everything
+    titleCardTitle.value = ""
+    displayedSubtitle.value = ""
+    titleCardGradient.value = color
+
+    inTitleCard.value = true
+
+    if (titleCardTimeout) {
+        clearTimeout(titleCardTimeout)
+    }
+
+    if (typewriterTimeout) {
+        clearTimeout(typewriterTimeout)
+    }
+
+    let index = 0
+
+    function typeNextCharacter() {
+        if (index < subtitle.length) {
+            displayedSubtitle.value += subtitle[index]
+            index++
+
+            typewriterTimeout = setTimeout(
+                typeNextCharacter,
+                60
+            )
+
+            return
+        }
+
+        // Subtitle has finished typing
+        typewriterTimeout = setTimeout(() => {
+
+            titleCardTitle.value = title
+
+            titleCardTimeout = setTimeout(() => {
+                inTitleCard.value = false
+                titleCardTitle.value = ""
+                displayedSubtitle.value = ""
+            }, duration)
+
+        }, 500)
+    }
+
+    typeNextCharacter()
 }

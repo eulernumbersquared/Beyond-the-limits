@@ -5,7 +5,9 @@
 import { createApp } from 'vue'
 import App from './vue/App.vue'
 import { player } from './player.ts'
+import { syncCalamityMilestones } from './infinity/infinity.ts'
 export var matter = player.infinity.matter
 export var matterx = player.infinity.matterX
 export var hmatterx = player.infinity.hmatter
 createApp(App).mount('#app')
+syncCalamityMilestones();

@@ -12,27 +12,47 @@ export function secretdebug(amount: number) {
 export function okthisoneisforpoints(amount: number) {
   player.maincurrencies.Points = new Decimal(amount)
 }
-
+// showTitleCard("God of corruption", "Errors of the singularity" ,"linear-gradient(90deg, #d1009d, #ff72ec, white")
 export function reachcalamitytier1likeagoodboy() {
-  player.infinity.matter = new Decimal("1e3434")
-  player.infinity.eternalenergy = new Decimal("1e11")
+  showTitleCard("Phthoros", "Errors of the singularity" ,"linear-gradient(90deg, #d1009d, #ff72ec")
 }
 export function balancefixing() {
-        player.maincurrencies.IP = new Decimal("100")
+        crops[0].amount = new Decimal("100")
+        crops[1].amount = new Decimal("100")
+        crops[2].amount = new Decimal("100")
+        player.infinity.hmatter = new Decimal("1e6")
 }
 
 export function debugToFupgrade6() {
   player.finity.amount = new Decimal("1")
-  player.maincurrencies.FP = new Decimal("1e8")
-  player.maincurrencies.Points = new Decimal("1e30")
-  player.FCo.FCfin = true
+  player.maincurrencies.IP = new Decimal("50")
+  player.crops[0].amount = new Decimal("200")
+  player.crops[1].amount = new Decimal("200")
+  player.crops[2].amount = new Decimal("200")
+  player.infinity.eternalenergy = new Decimal("1e9")
+  player.infinity.solarity.solaritylevel = new Decimal("42")
+  player.maincurrencies.Points = new Decimal("1e801")
   player.gods.god1com = true
-  player.infinity.calamitytier = new Decimal("0")
+  player.FCo.FCfin = true
+  player.infinity.hmatter = new Decimal("1e6")
 }
 
+export function resetce() {
+  player.infinity.calamitytier = new Decimal("15")
+}
 
+export function heyheymanguesswhat() {
+  player.infinity.god2.bossStage = new Decimal("0")
+  player.infinity.stats.bestStage = new Decimal("50")
+  hindRepeats[0].amountbought = new Decimal("0")
+  generateBoss()
+  generateEnemy()
+}
 import { ref } from 'vue'
-import { startDialogue } from '../images/dialogue.ts'
+import { nextLine, showTitleCard, startDialogue } from '../images/dialogue.ts'
+import { crops } from "./infinity/FoI.ts"
+import { generateEnemy, playerRepeat, SPrepeats } from "./infinity/ss.ts"
+import { generateBoss, hindRepeats } from "./infinity/hind.ts"
 
 export const dialogueInput = ref('')
 

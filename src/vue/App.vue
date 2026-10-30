@@ -10,7 +10,7 @@ import Finity from './finity.vue'
 import Settings from './settings.vue'
 import Finityupgrades from './finityupgrades.vue'
 import Corruption from './corruption.vue'
-import { secretdebug, balancefixing, failing, okthisoneisforpoints, activateDialogue, dialogueInput, debugToFupgrade6, reachcalamitytier1likeagoodboy } from '../basicallyallthetesting.ts'
+import { secretdebug, balancefixing, failing, okthisoneisforpoints, activateDialogue, dialogueInput, debugToFupgrade6, reachcalamitytier1likeagoodboy, resetce, heyheymanguesswhat } from '../basicallyallthetesting.ts'
 import { player } from '../player.ts'
 import FC from './FC.vue'
 import CMM from './CMM.vue'
@@ -18,6 +18,10 @@ import Decorruptionizer from './Decorruptionizer.vue'
 import Infinity from './infinity.vue'
 import { requirelessinfinity } from '../infinity/infinity.ts'
 import { synergyTick } from '../infinity/FoI.ts'
+import Taboftheneferoustesting from './taboftheneferoustesting.vue'
+// @ts-ignore Vue SFC declaration is not available for this module path.
+import Delusion from './infinityvue.vue/Delusion.vue'
+import { fuckingkillgod2 } from '../infinity/hind.ts'
 
 const fpAmount = ref<number>(0)
 const pointA = ref<number>(0)
@@ -34,7 +38,7 @@ function makePersistentTab(key: string, options: string[], initial: string) {
   return tab
 }
 
-const tabs = ['Upgrades', 'Matterions', 'Finity', 'Infinity', 'Settings', 'CMM', 'Decorruptionizer']
+const tabs = ['Upgrades', 'Matterions', 'Finity', 'Infinity', 'Settings', 'CMM', 'Decorruptionizer', 'Delusion']
 const activeTab = makePersistentTab('activeTab', tabs, 'Upgrades')
 
 const visibleTabs = computed(() => {
@@ -44,7 +48,8 @@ const visibleTabs = computed(() => {
     if (t === 'Repeatables') return pupgrades[19]?.bought
     if (t === 'CMM') return player.pupgrades[9]?.bought && player.FCo.inFinalCorruption
     if (t === 'Decorruptionizer') return player.FCo.inFinalCorruption && player.pupgrades[16]?.bought
-    if (t === 'Infinity') return  player.infinity.amount.gte(1) || player.maincurrencies.Points.gte(1.79e308)
+    if (t === 'Infinity') return  player.infinity.amount.gte(1) || player.maincurrencies.Points.gte(1.79e308) || player.maincurrencies.IP.gte(0.01)
+    if (t === 'Delusion') return player.gods.good2com
     return true
   })
 })
@@ -56,12 +61,14 @@ const finityTabs = computed(() => {
   return base
 })
 const activeFinityTab = makePersistentTab('activeFinityTab', finityTabs.value, 'Upgrades')
+watch(() => player.infinity.del.inDel, (inDel) => {
+  document.body.classList.toggle('delusion-mode', inDel)
+}, { immediate: true })
+
 </script>
 
-
-
 <template>
- <p>Debug: FC={{ player.FCo.inFinalCorruption }} | Upg16={{ pupgrades[16]?.bought }}</p>
+ <!--<p>Debug: FC={{ player.FCo.inFinalCorruption }} | Upg16={{ pupgrades[16]?.bought }}</p>
   <button @click="hardReset()">unstylized button.mp4</button>
   <button @click="failing()">return of unstylized button.mp3</button>
   <button @click="balancefixing()">ok this button does something useful</button>
@@ -75,10 +82,12 @@ const activeFinityTab = makePersistentTab('activeFinityTab', finityTabs.value, '
     <button @click="activateDialogue">Start Dialogue</button>
   </div>
   <button @click="reachcalamitytier1likeagoodboy()">CT1 scary</button>
-
+<button @click="resetce()">reset CE</button>
+<button @click="heyheymanguesswhat()">testing</button>
+<button @click="fuckingkillgod2()">kill ananke because its very important</button>
   <input type="Decimal" v-model.number="pointA" placeholder ="Points!!!" />
   <button @click="addPoint()">ok now this is for points</button>
-
+--> 
   <div id="app" :class="{ finalcorruption: player.FCo.inFinalCorruption }">
     <h1 id="points">
       Points: {{ formatNumber(player.maincurrencies.Points) }} ({{ formatNumber(pointgen()) }}/s)
@@ -88,6 +97,9 @@ const activeFinityTab = makePersistentTab('activeFinityTab', finityTabs.value, '
     </span>
     <span v-if="player.FCo.inFinalCorruption" class="Basicwarningtext">
       You are currently in the FINAL CORRUPTION.
+    </span>
+    <span v-if="player.maincurrencies.Points.gte('1e800') && player.infinity.calamitytier.eq(2)" class="Basicwarningtext">
+      To prevent you from getting alot of points before the end of calamity tier, your points gain have been ^0.1, starting at 1e800 points, until you reach calamity tier 3.
     </span>
     <Finity />
     <Dialogue />
@@ -143,10 +155,17 @@ const activeFinityTab = makePersistentTab('activeFinityTab', finityTabs.value, '
       <div v-if="activeTab === 'Infinity'">
         <Infinity />
       </div>
+            <div v-if="activeTab === 'Delusion'">
+        <Delusion />
+      </div>
+          <!-- <div v-if="activeTab === 'Neferous Testing!!'">
+        <Taboftheneferoustesting />
+      </div>-->
     </div>
   </div>
 </template>
 <style>
+
 body {
   margin: 0;
   background-color: #000000;
@@ -222,6 +241,26 @@ body {
   color: white;
   border: 2px solid #fff;
   text-shadow: 0 0 6px black;
+}
+
+.tab-btn.delusion {
+  background: linear-gradient(90deg, rgb(7, 7, 7), white);
+  color: white;
+  border: 2px solid #fff;
+  text-shadow: 0 0 6px black;
+}
+
+.tab-btn.delusion {
+  background: linear-gradient(90deg, rgb(7, 7, 7), white);
+  color: white;
+  border: 2px solid #fff;
+  text-shadow: 0 0 6px black;
+}
+
+
+.tab-btn.delusion.active {
+  background: linear-gradient(90deg, white, rgb(75, 75, 75));
+  transform: scale(1.05);
 }
 
 .tab-btn.matterions:hover {
@@ -403,6 +442,63 @@ body {
   font-weight: normal;
   font-style: normal;
   font-display: swap;
+}
+@font-face {
+  font-family: 'ST';
+  src: url('../font/ShareTech-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'WR';
+  src: url('../font/wannant-regular.otf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+body {
+  transition: filter 1s ease;
+}
+
+body.delusion-mode {
+  filter: grayscale(0.85) brightness(0.85);
+}
+.music-player {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 9999;
+  width: 230px;
+  padding: 12px;
+  background: #080808;
+  color: white;
+  border: 1px solid crimson;
+  box-shadow: 0 0 10px crimson;
+  font-family: ST, monospace;
+}
+
+.music-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.music-info small {
+  letter-spacing: 2px;
+  opacity: 0.6;
+}
+
+.music-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.music-controls input {
+  width: 90px;
+  accent-color: crimson;
 }
 </style>
 

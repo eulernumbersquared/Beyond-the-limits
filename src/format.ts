@@ -11,16 +11,27 @@ export function formatNumber(num: Decimal): string {
     return num.toFixed(2);
   }
 
-  let tier = Math.floor(num.log10().toNumber() / 3);
+  const exp = num.log10().floor().toNumber();
+
+  const tier = Math.floor(exp / 3);
+
   if (tier >= suffixes.length) {
-    const exp = num.log10().floor().toNumber();
+
+    if (exp >= 1_000_000) {
+      const doubleExp = Math.floor(Math.log10(exp));
+      const doubleMantissa = exp / Math.pow(10, doubleExp);
+
+      return `e${doubleMantissa.toFixed(2).replace(/\.?0+$/, "")}e${doubleExp}`;
+    }
+
     const mantissa = num.div(Decimal.pow(10, exp)).toFixed(2);
+
     return `${mantissa}e${exp}`;
   }
 
-  let suffix = suffixes[tier];
-  let scale = Decimal.pow(10, tier * 3);
-  let scaled = num.div(scale);
+  const suffix = suffixes[tier];
+  const scale = Decimal.pow(10, tier * 3);
+  const scaled = num.div(scale);
 
   return scaled.toFixed(2) + suffix;
 }
@@ -32,7 +43,7 @@ export function formatdiff(num: Decimal): string {
   ];
 
   if (num.lt(1000)) {
-    return num.toFixed(4);
+    return num.toFixed(6);
   }
 
   let tier = Math.floor(num.log10().toNumber() / 3);
@@ -46,7 +57,7 @@ export function formatdiff(num: Decimal): string {
   let scale = Decimal.pow(10, tier * 3);
   let scaled = num.div(scale);
 
-  return scaled.toFixed(4) + suffix;
+  return scaled.toFixed(6) + suffix;
 }
 
 

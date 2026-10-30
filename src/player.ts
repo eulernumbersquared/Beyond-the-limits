@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 import Decimal from 'break_eternity.js'
-import { startDialogue } from '../images/dialogue.ts'
+import { showTitleCard, startDialogue } from '../images/dialogue.ts'
 import { autoBuyAll, pointgen, pupgrades, repeatableUpgrades } from './points.ts'
 import { monogen, duogen, trigen, focus, autobuymatterion } from './matterions.ts'
 import { loadGame, saveGame } from './save.ts'
@@ -15,10 +15,25 @@ import {  EEgain, recalcLetterAmounts, setGrid, type Cell } from "./infinity/EL"
 import { crops } from './infinity/FoI.ts'
 import { farm } from './infinity/thisfileisheretomakeFoIwork.ts'
 import { matterupdate } from './infinity/matter.ts'
+import { attackEnemy, autoBuyCoSPRepeats, autoBuyPlayerRepeats, calcdamage, calcdefense, calcHP, cegain, cosmicGain, cosmicRepeats, likeareallyfastattackenemyfunction, playerRepeat, SPrepeats } from './infinity/ss.ts'
+import { hindRepeats } from './infinity/hind.ts'
+import { delRepeats, ppgain, updateBestPoints } from './infinity/del.ts'
 
 
 export const TICK_MS = 100
 export const TICK_SCALE = TICK_MS / 1000
+
+function profileTick<T>(name: string, fn: () => T): T {
+  const start = performance.now()
+  const result = fn()
+  const elapsed = performance.now() - start
+
+  if (elapsed > 5) {
+    console.warn(`[Slow tick] ${name}: ${elapsed.toFixed(2)}ms`)
+  }
+
+  return result
+}
 
 export function applyUpgradeEffects(
   upgrades: upgrades[],
@@ -82,7 +97,7 @@ export interface RepeatableUpgrade {
   description: string
   amountbought: Decimal
   basecost: Decimal
-  cost: Decimal
+  cost: Decimal | (() => Decimal)
   scaling: () => Decimal
   effect: () => Decimal
   effectDisplay?: () => string
@@ -92,6 +107,17 @@ export interface RepeatableUpgrade {
   CPointsboost?: boolean
 }
 
+export interface repeatableupgradebutbetterlmao {
+  id: string
+  title: string
+  description: string
+  amountbought: Decimal
+  basecost: Decimal
+  cost: () => Decimal
+  effect: () => Decimal
+  effectDisplay: () => string
+  unlocked: () => boolean
+}
 export interface milestone {
   id: string,
   title: string,
@@ -141,6 +167,12 @@ export const player = reactive({
     infinityintro: false,
     CT1: false,
     CT2: false,
+    CT3: false,
+    CT15: false,
+    notdialogbutshh: false,
+    god2stitlecard: false,
+    god2KILL: false,
+    delenter: false,
   },
   corrupt: {
     Incorruption: false,
@@ -163,7 +195,7 @@ export const player = reactive({
   },
   gods: {
     god1com: false,
-    god2com: false,
+    good2com: false,
   },
   infinity: {
     amount: new Decimal('0'),
@@ -187,17 +219,56 @@ export const player = reactive({
         }))
       )
     },
+    calamen: new Decimal("0"),
     eternalenergy: new Decimal('0'),
     thiscurrencyisonlycalledprobablymaybeonceforonelittlethingbutok: new Decimal("0"),
     matter: new Decimal("1"),
     matterX: new Decimal("0"),
     hmatter: new Decimal("0"),
+    stats: {
+      HP: new Decimal("100"),
+      maxHP: new Decimal("100"),
+      DMG: new Decimal("1"),
+      Def: new Decimal("1"),
+      stage: new Decimal("0"),
+      bestStage: new Decimal("0"),
+      CosP: new Decimal("0"),
+      SP: new Decimal("0")
+    },
+    enemy: {
+      HP: new Decimal("250"),
+      maxHP: new Decimal("250"),
+      DMG: new Decimal("10"),
+    },
+    god2: {
+      HP: new Decimal("1e1500"),
+      maxHP: new Decimal("1e1500"),
+      DMG: new Decimal("1e700"),
+
+      bossStage: new Decimal("0"),
+      bestbossStage: new Decimal("0"),
+
+      hindpoint: new Decimal("0")
+    },
+    del: {
+      inDel: false,
+      PPoints: new Decimal("0"),
+      bestPoints: new Decimal("0"),  
+      rank: new Decimal("0"),
+      tier: new Decimal("0")  
+    }
   },
+
   pupgrades,
   fupgrades,
   repeatableUpgrades,
   iupgrades,
   calamitymilestones,
+  playerRepeat,
+  cosmicRepeats,
+  SPrepeats,
+  hindRepeats,
+  delRepeats,
   crops,
   farm,
 })
@@ -236,6 +307,7 @@ function checkMilestones() {
   }
   if (player.maincurrencies.Points.gte(1) && player.FCo.inFinalCorruption && !player.dialog.FC1) {
     startDialogue("FC1")
+    showTitleCard("Phthoros", "Errors of the singularity" ,"linear-gradient(90deg, #d1009d, #ff72ec")
     player.dialog.FC1 = true
   }
   if (player.DCs.DCprecent.gte(1) && !player.dialog.FC2) {
@@ -261,6 +333,31 @@ function checkMilestones() {
   if (player.infinity.calamitytier.eq(2) && !player.dialog.CT2) {
     startDialogue("calamity2")
     player.dialog.CT2 = true
+  }
+  if(player.infinity.calamitytier.eq(3) && !player.dialog.CT3) {
+    startDialogue("calamity3")
+    player.dialog.CT3 = true
+  }
+  if(player.infinity.stats.SP.gte(1) && !player.dialog.notdialogbutshh) {
+    showTitleCard("Supernova", "You have reached the" ,"linear-gradient(90deg, #dfd005, #ecbd3b, #fcf4fb")
+    player.dialog.notdialogbutshh = true
+  }
+  if(player.infinity.calamitytier.eq(15) && !player.dialog.CT15) {
+    startDialogue("calamity15")
+    player.dialog.CT15 = true
+  }
+    if(player.infinity.god2.bossStage.gte(1) && !player.dialog.god2stitlecard) {
+    showTitleCard("Ananke", "Weaver of the eternal suffering" ,"linear-gradient(90deg, #7500ac, #a70016")
+    startDialogue("hp1")
+    player.dialog.god2stitlecard = true
+  }
+  if(player.gods.good2com && !player.dialog.god2KILL) {
+    startDialogue("hpend")
+    player.dialog.god2KILL = true
+  }
+    if(player.infinity.del.inDel && !player.dialog.delenter) {
+    showTitleCard("Delusion", "You have enter the" ,"linear-gradient(90deg, #000000, #fcfbfb")
+    player.dialog.delenter = true
   }
 }
 
@@ -290,7 +387,6 @@ setInterval(() => {
   checkunlFC()
 
   player.CM.CM = player.CM.CM.add(gainCM().mul(TICK_SCALE))
-
   DCprecentupd()
   DCboost()
   godstatus()
@@ -299,11 +395,19 @@ setInterval(() => {
   solaritygen()
   player.infinity.solarity.solarenergy = player.infinity.solarity.solarenergy.add(calcsolarenergy())
   if(player.infinity.calamitytier.gte(1)) player.infinity.eternalenergy = player.infinity.eternalenergy.add(EEgain())
-    
+  if(player.infinity.calamitytier.gte(3)) player.infinity.calamen = player.infinity.calamen.add(cegain())
+  player.infinity.stats.DMG = calcdamage()
+  player.infinity.stats.Def = calcdefense()
+  player.infinity.stats.maxHP = calcHP()
+  if(player.infinity.stats.SP.gte(1)) player.infinity.stats.CosP = player.infinity.stats.CosP.add(cosmicGain())
+  if(player.infinity.stats.SP.gte(5)) likeareallyfastattackenemyfunction()
+    if(player.infinity.stats.SP.gte(10)) autoBuyPlayerRepeats()
+      if(player.infinity.stats.SP.gte(1e24)) autoBuyCoSPRepeats()
+  player.infinity.del.PPoints = player.infinity.del.PPoints.add(ppgain())
+  updateBestPoints()
   matterupdate()
 }, TICK_MS)
 
 setInterval(() => {
   saveGame()
 }, 10000)
-
