@@ -15,7 +15,7 @@ export default {
       <h1><i>Congratulations....</i></h1>
       <h2>Since you've finished the 1st god, here are the rewards!</h2>
       <p>Unlock the next reset layer.</p>
-      <p>Outside of corruption, BPiC updates automatiaclly without you having to enter corruption at a greater rate</p>
+      <p>Outside of corruption, BPiC updates automatiaclly without you having to enter corruption at a reduced rate</p>
       <p>Autobuy repeatable upgrades and point upgrades</p>
       <p>^1.5 and x10 points</p>
       <p>Good luck with the new era! It will be very, very long</p>

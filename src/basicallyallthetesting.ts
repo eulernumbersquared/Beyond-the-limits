@@ -25,16 +25,17 @@ export function balancefixing() {
 
 export function debugToFupgrade6() {
   player.finity.amount = new Decimal("1")
-  player.maincurrencies.IP = new Decimal("50")
-  player.crops[0].amount = new Decimal("200")
-  player.crops[1].amount = new Decimal("200")
-  player.crops[2].amount = new Decimal("200")
-  player.infinity.eternalenergy = new Decimal("1e9")
-  player.infinity.solarity.solaritylevel = new Decimal("42")
-  player.maincurrencies.Points = new Decimal("1e801")
+  player.infinity.amount = new Decimal("1")
+  player.maincurrencies.IP = new Decimal("1")
+  player.crops[0].amount = new Decimal("0")
+  player.crops[1].amount = new Decimal("0")
+  player.crops[2].amount = new Decimal("0")
+  player.infinity.eternalenergy = new Decimal("0")
+  player.infinity.solarity.solaritylevel = new Decimal("1")
+  player.maincurrencies.Points = new Decimal("1")
   player.gods.god1com = true
   player.FCo.FCfin = true
-  player.infinity.hmatter = new Decimal("1e6")
+  player.infinity.hmatter = new Decimal("0")
 }
 
 export function resetce() {
