@@ -14,7 +14,7 @@ export default {
     <div v-if="player.gods.god1com" class="congrats-message">
       <h1><i>Congratulations....</i></h1>
       <h2>Since you've finished the 1st god, here are the rewards!</h2>
-      <p>Unlock the next reset layer.</p>
+      <p>Unlock the next reset layer at 1.79e308 points.</p>
       <p>Outside of corruption, BPiC updates automatiaclly without you having to enter corruption at a reduced rate</p>
       <p>Autobuy repeatable upgrades and point upgrades</p>
       <p>^1.5 and x10 points</p>
