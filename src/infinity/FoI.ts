@@ -247,7 +247,7 @@ export function synergyTick() {
     if (hasSynergy) break
   }
 
-  if (hasSynergy && Math.random() < 0.001) {
+  if (hasSynergy && Math.random() < 0.1) {
     const solarityIndex = crops.findIndex(
       c => c.crop === "Solarity essence"
     )
