@@ -10,7 +10,7 @@ import { player } from '../../player';
     <div class="hello">
         <p id="matter">You have {{ formatNumber(player.infinity.matter) }} matter.</p>
         <p id="matterfart">Replicates itself at a rate of x{{ formatNumber(mattergain()) }}</p>
-        <p id="matterfart" v-if="player.infinity.hmatter.gte(10)">Points are boosted by x{{ formatNumber(player.infinity.matter.add(1).log10()) }}</p>
+        <p id="matterfart" v-if="player.infinity.hmatter.gte(10)">Points are boosted by x{{ formatNumber(player.infinity.matter.add(1).log10().pow(1.25)) }}</p>
         <p id="matterfart" v-if="player.infinity.matter.gte(1e100)">At 1e100 matter, gain is reduced by ^0.3</p>
         <p id="matterfart" v-if="player.infinity.matter.gte(1e150)">At 1e150 matter, gain is reduced by ^0.4</p>
         <p id="matterfart" v-if="player.infinity.matter.gte('1e500')">At 1e500 matter, gain is reduced by ^0.1</p>

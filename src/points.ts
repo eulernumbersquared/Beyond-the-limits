@@ -78,7 +78,7 @@ export function pointgen(): Decimal {
       
     if(player.infinity.calamitytier.gte(1)) gain = gain.mul(ELs[1].effect())
     if(player.infinity.hmatter.gte(1)) gain = gain.mul(player.infinity.hmatter.mul(1e10))
-    if(player.infinity.hmatter.gte(10)) gain = gain.mul(player.infinity.matter.add(1).log10())
+    if(player.infinity.hmatter.gte(10)) gain = gain.mul(player.infinity.matter.add(1).log10().pow(1.25))
     if(player.infinity.hmatter.gte(1e15)) gain = gain.mul('1e350')
     if(player.iupgrades[2].bought) gain = gain.mul(3)
     if(player.maincurrencies.Points.gte('1e800') && player.infinity.calamitytier.eq(2)) { gain = gain.pow(0.1)}
