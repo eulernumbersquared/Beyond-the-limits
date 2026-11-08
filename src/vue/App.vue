@@ -16,12 +16,13 @@ import FC from './FC.vue'
 import CMM from './CMM.vue'
 import Decorruptionizer from './Decorruptionizer.vue'
 import Infinity from './infinity.vue'
-import { requirelessinfinity } from '../infinity/infinity.ts'
+import { infinitygain, requirelessinfinity } from '../infinity/infinity.ts'
 import { synergyTick } from '../infinity/FoI.ts'
 import Taboftheneferoustesting from './taboftheneferoustesting.vue'
 // @ts-ignore Vue SFC declaration is not available for this module path.
 import Delusion from './infinityvue.vue/Delusion.vue'
 import { fuckingkillgod2 } from '../infinity/hind.ts'
+import { FPgain } from '../finity.ts'
 
 const fpAmount = ref<number>(0)
 const pointA = ref<number>(0)
@@ -56,6 +57,7 @@ const visibleTabs = computed(() => {
 
 const finityTabs = computed(() => {
   const base = ['Upgrades']
+  if (player.pupgrades[14].bought) base.push('Finity')
   if (player.fupgrades[1]?.bought) base.push('Corruption')
   if (player.fupgrades[6]?.bought) base.push('Final Corruption')
   return base
@@ -86,150 +88,212 @@ watch(() => player.infinity.del.inDel, (inDel) => {
 <button @click="heyheymanguesswhat()">testing</button>
 <button @click="fuckingkillgod2()">kill ananke because its very important</button>
   <input type="Decimal" v-model.number="pointA" placeholder ="Points!!!" />
-  <button @click="addPoint()">ok now this is for points</button>-->
-  <div id="app" :class="{ finalcorruption: player.FCo.inFinalCorruption }">
-    <h1 id="points">
-      Points: {{ formatNumber(player.maincurrencies.Points) }} ({{ formatNumber(pointgen()) }}/s)
-    </h1>
-    <span v-if="player.corrupt.Incorruption && !player.FCo.inFinalCorruption" class="Basicwarningtext" id="corruption">
-      You are currently inside the corruption!
-    </span>
-    <span v-if="player.FCo.inFinalCorruption" class="Basicwarningtext">
-      You are currently in the FINAL CORRUPTION.
-    </span>
-    <span v-if="player.maincurrencies.Points.gte('1e800') && player.infinity.calamitytier.eq(2)" class="Basicwarningtext">
-      To prevent you from getting alot of points before the end of calamity tier, your points gain have been ^0.1, starting at 1e800 points, until you reach calamity tier 3.
-    </span>
-    <Finity />
+  <button @click="addPoint()">ok now this is for points</button> -->
+<div id="app" :class="{ finalcorruption: player.FCo.inFinalCorruption }">
+
     <Dialogue />
 
-    <div id="tabs">
-      <div class="tab-buttons">
-        <button 
-          v-for="tab in visibleTabs" 
-          :key="tab" 
-          :class="['tab-btn', tab.toLowerCase(), { active: activeTab === tab }]"
-          @click="activeTab = tab">
-          {{ tab }}
-        </button>
-      </div>
+  <div class="game-layout">
 
-      <div v-if="activeTab === 'Upgrades'">
-        <Points />
-      </div>
+    <aside class="left-sidebar">
+      <div class="sidebar-title">Navigation</div>
 
-            <div v-if="activeTab === 'Matterions' && !player.corrupt.Incorruption">
-        <Matterions />
-      </div>
-              <div v-if="activeTab === 'Decorruptionizer'">
-          <Decorruptionizer />
-        </div>
-        <div v-if="activeTab === 'CMM'">
-          <CMM />
-        </div>
-      <div v-if="activeTab === 'Finity'">
-        <div class="sub-tab-buttons">
-          <button 
-            v-for="tab in finityTabs" 
-            :key="tab" 
-            :class="['sub-tab-btn', tab.toLowerCase(), { active: activeFinityTab === tab }]"
-            @click="activeFinityTab = tab">
-            {{ tab }}
-          </button>
-        </div>
-        <div v-if="activeFinityTab === 'Upgrades'">
-          <Finityupgrades />
-        </div>
-        <div v-if="activeFinityTab === 'Corruption' && player.fupgrades[1]?.bought">
-          <Corruption />
-        </div>
-        <div v-if="activeFinityTab === 'Final Corruption' && player.FCo.FCunl">
-            <FC />
-      </div>
-      </div>
+      <button
+        v-for="tab in visibleTabs"
+        :key="tab"
+        :class="['tab-btn', tab.toLowerCase(), { active: activeTab === tab }]"
+        @click="activeTab = tab"
+      >
+        {{ tab }}
+      </button>
+    </aside>
 
-      <div v-if="activeTab === 'Settings'">
-        <Settings />
-      </div>
-      <div v-if="activeTab === 'Infinity'">
-        <Infinity />
-      </div>
-            <div v-if="activeTab === 'Delusion'">
-        <Delusion />
-      </div>
-          <!-- <div v-if="activeTab === 'Neferous Testing!!'">
-        <Taboftheneferoustesting />
-      </div>-->
-    </div>
+    <main class="main-content">
+
+      <h1 id="points">
+        Points: {{ formatNumber(player.maincurrencies.Points) }}
+        ({{ formatNumber(pointgen()) }}/s)
+      </h1>
+
+<div v-if="activeTab === 'Upgrades'">
+  <Points />
+</div>
+
+<div v-if="activeTab === 'Matterions' && !player.corrupt.Incorruption">
+  <Matterions />
+</div>
+
+<div v-if="activeTab === 'Decorruptionizer'">
+  <Decorruptionizer />
+</div>
+
+<div v-if="activeTab === 'CMM'">
+  <CMM />
+</div>
+
+<div v-if="activeTab === 'Finity'">
+  <div class="sub-tab-buttons">
+    <button
+      v-for="tab in finityTabs"
+      :key="tab"
+      :class="['sub-tab-btn', tab.toLowerCase(), { active: activeFinityTab === tab }]"
+      @click="activeFinityTab = tab"
+    >
+      {{ tab }}
+    </button>
   </div>
+
+  <Finityupgrades v-if="activeFinityTab === 'Upgrades'" />
+  <Finity 
+  v-if="activeFinityTab === 'Finity' && player.pupgrades[14]?.bought" />
+  <Corruption
+    v-if="activeFinityTab === 'Corruption' && player.fupgrades[1]?.bought"
+  />
+
+  <FC
+    v-if="activeFinityTab === 'Final Corruption' && player.FCo.FCunl"
+  />
+</div>
+
+<div v-if="activeTab === 'Settings'">
+  <Settings />
+</div>
+
+<div v-if="activeTab === 'Infinity'">
+  <Infinity />
+</div>
+
+<div v-if="activeTab === 'Delusion'">
+  <Delusion />
+</div>
+
+    </main>
+
+    <aside class="right-sidebar">
+      <div class="sidebar-title">Currencies</div>
+
+      <div class="currency">
+        <span>Points</span>
+        <strong>{{ formatNumber(player.maincurrencies.Points) }}</strong>
+        <strong> ({{ formatNumber(pointgen()) }}/s)</strong>
+      </div>
+
+      <div class="currency" id="finity" v-if="player.finity.amount.gte(1)">
+        <span>FP</span>
+        <strong>{{ formatNumber(player.maincurrencies.FP) }}</strong>
+        <strong> (+{{ formatNumber(FPgain()) }})</strong>
+      </div>
+      <div class="currency" id="infinity" v-if="player.infinity.amount.gte(1)">
+        <span>IP</span>
+        <strong>{{ formatNumber(player.maincurrencies.IP) }}</strong>
+        <strong> (+{{ formatNumber(infinitygain()) }})</strong>
+      </div>
+    </aside>
+
+  </div>
+</div>
 </template>
 <style>
+#finity {
+  background: #332b00;
+  border-color: gold;
+}
 
+#finity strong {
+  color: gold;
+}
+
+.currency#infinity {
+  background: #001a33;
+  border: 1px solid #00e5ff;
+}
+
+.currency#infinity strong {
+  color: #00e5ff;
+}
 body {
   margin: 0;
   background-color: #000000;
+  transition: filter 1s ease;
 }
 
-#points { 
-  color: rgb(255, 0, 0);
-  text-shadow: 0 0 5px rgb(255, 0, 0);
+body.delusion-mode {
+  filter: grayscale(0.85) brightness(0.85);
+}
+
+#app {
+  min-height: 100vh;
+  color: white;
   font-family: monospace;
-  text-align: center;
 }
 
-.tab-buttons {
+
+.game-layout {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr) 220px;
+  gap: 15px;
+  padding: 15px;
+  align-items: start;
+  min-height: calc(100vh - 100px);
+}
+
+.left-sidebar {
   display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
+  flex-direction: column;
+  gap: 8px;
+  position: sticky;
+  top: 10px;
+  padding: 10px;
+  background: #080808;
+  border: 1px solid #550011;
+  border-radius: 8px;
 }
 
-.tab-buttons button {
-  background: black;
-  color: rgb(230, 0, 0);
-  border: 2px solid crimson;
-  padding: 8px 16px;
-  margin: 0 5px;
-  font-family: 'Orbitron', monospace;
+.sidebar-title {
+  color: crimson;
+  font-size: 18px;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid crimson;
+  text-shadow: 0 0 8px crimson;
+}
+
+.tab-btn {
+  width: 100%;
+  padding: 12px 5px;
+  margin: 0;
+  font-family: ST;
+  font-size: 14px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease;
+  border: 2px solid crimson;
+  background: #111;
+  color: crimson;
 }
 
-.tab-buttons button.active {
+.tab-btn:hover {
   background: crimson;
   color: white;
+  transform: translateX(3px);
+  box-shadow: 0 0 12px crimson;
 }
 
-.tab-content {
-  border: 2px solid crimson;
-  padding: 20px;
-  min-height: 200px;
-  color: rgb(255, 0, 0);
-  font-family: monospace;
-}
-.tab-content h2 {
-  color: rgb(255, 0, 0);
-  text-shadow: 0 0 5px crimson;
-  text-align: center;
-}
-.tab-btn {
-  padding: 10px 20px;
-  margin: 5px;
-  font-family: 'Orbitron', monospace;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-  border: 2px solid transparent;
+.tab-btn.active {
+  background: crimson;
+  color: white;
+  box-shadow: 0 0 15px crimson;
 }
 
 .tab-btn.settings {
   background: #222;
   color: gold;
   border-color: gold;
-  text-shadow: 0 0 8px gold;
 }
 
-.tab-btn.settings:hover {
+.tab-btn.settings:hover,
+.tab-btn.settings.active {
   background: gold;
   color: black;
   box-shadow: 0 0 15px gold;
@@ -238,38 +302,114 @@ body {
 .tab-btn.matterions {
   background: linear-gradient(90deg, red, purple, gold);
   color: white;
-  border: 2px solid #fff;
-  text-shadow: 0 0 6px black;
+  border-color: white;
 }
 
-.tab-btn.delusion {
-  background: linear-gradient(90deg, rgb(7, 7, 7), white);
-  color: white;
-  border: 2px solid #fff;
-  text-shadow: 0 0 6px black;
-}
-
-.tab-btn.delusion {
-  background: linear-gradient(90deg, rgb(7, 7, 7), white);
-  color: white;
-  border: 2px solid #fff;
-  text-shadow: 0 0 6px black;
-}
-
-
-.tab-btn.delusion.active {
-  background: linear-gradient(90deg, white, rgb(75, 75, 75));
-  transform: scale(1.05);
-}
-
-.tab-btn.matterions:hover {
+.tab-btn.matterions:hover,
+.tab-btn.matterions.active {
   box-shadow: 0 0 15px red, 0 0 15px purple, 0 0 15px gold;
-  transform: scale(1.05);
+}
+
+.tab-btn.finity {
+  background: #222;
+  color: #ffeb3b;
+  border-color: #ffeb3b;
+  text-shadow: 0 0 8px orange;
+}
+
+.tab-btn.finity:hover,
+.tab-btn.finity.active {
+  background: #eeff00;
+  color: black;
+  box-shadow: 0 0 20px yellow, 0 0 30px orange;
+}
+
+.tab-btn.infinity {
+  background: #000814;
+  color: #00e5ff;
+  border-color: #00e5ff;
+}
+
+.tab-btn.infinity:hover,
+.tab-btn.infinity.active {
+  background: #0077ff;
+  color: white;
+  box-shadow: 0 0 20px #00e5ff;
+}
+
+.tab-btn.delusion {
+  background: linear-gradient(90deg, #070707, white);
+  color: white;
+  border-color: white;
+}
+
+.tab-btn.delusion:hover,
+.tab-btn.delusion.active {
+  background: linear-gradient(90deg, white, #4b4b4b);
+  transform: scale(1.03);
+}
+
+.main-content {
+  min-width: 0;
+  text-align: center;
+  padding: 10px;
+}
+
+#points {
+  color: rgb(252, 0, 0);
+  text-shadow: 2px 2px 4px #ff3300d7;
+  font-family: monospace;
+  text-align: center;
+  font-family: ST;
+}
+
+.right-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: sticky;
+  top: 10px;
+  padding: 10px;
+  background: #000000;
+  border: 1px solid #550011;
+  border-radius: 8px;
+}
+
+.currency {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+  background: #111;
+  border: 1px solid crimson;
+  border-radius: 5px;
+  color: white;
+  font-family: monospace;
+  text-align: center;
+  transition: 0.2s;
+}
+
+.currency:hover {
+  border-color: red;
+  box-shadow: 0 0 10px crimson;
+}
+
+.currency span {
+  color: #aaa;
+  font-size: 13px;
+}
+
+.currency strong {
+  color: crimson;
+  font-size: 16px;
+  overflow-wrap: anywhere;
 }
 
 .sub-tab-buttons {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
   margin: 15px 0;
 }
 
@@ -278,7 +418,6 @@ body {
   color: gold;
   border: 2px solid gold;
   padding: 8px 16px;
-  margin: 0 6px;
   font-family: 'Orbitron', monospace;
   font-size: 14px;
   border-radius: 6px;
@@ -298,54 +437,22 @@ body {
   background: gold;
   color: white;
   border-color: gold;
-  text-shadow: 0 0 10px gold, 0 0 15px purple;
   box-shadow: 0 0 20px gold, 0 0 30px purple;
 }
+
 .sub-tab-btn.corruption {
   background: #1a001a;
   color: #c77dff;
-  border: 2px solid purple;
-  text-shadow: 0 0 6px purple, 0 0 12px black;
+  border-color: purple;
 }
 
-.sub-tab-btn.corruption:hover {
+.sub-tab-btn.corruption:hover,
+.sub-tab-btn.corruption.active {
   background: purple;
   color: white;
-  box-shadow: 0 0 15px purple, 0 0 25px black;
-  transform: scale(1.05);
+  box-shadow: 0 0 20px purple;
 }
 
-.sub-tab-btn.corruption.active {
-  background: black;
-  color: #e0b3ff; /* softer glowing purple */
-  border-color: purple;
-  text-shadow: 0 0 10px purple, 0 0 20px black;
-  box-shadow: 0 0 20px purple, 0 0 30px black;
-}
-/* Finity tab: bright yellow glow */
-.tab-btn.finity {
-  background: #222; /* dark base so yellow pops */
-  color: #ffeb3b;   /* bright yellow text */
-  border: 2px solid #ffeb3b;
-  text-shadow: 0 0 8px #ffeb3b, 0 0 12px orange;
-  box-shadow: 0 0 10px rgba(255, 235, 59, 0.6), 0 0 20px rgba(255, 165, 0, 0.6);
-  transition: all 0.3s ease;
-}
-
-.tab-btn.finity:hover {
-  background: yellow;
-  color: black;
-  box-shadow: 0 0 20px #ffeb3b, 0 0 30px orange;
-  transform: scale(1.08);
-}
-
-.tab-btn.finity.active {
-  background: rgb(238, 255, 0);
-  color: black;
-  border-color: #ffeb3b;
-  text-shadow: 0 0 12px #ffeb3b, 0 0 20px orange;
-  box-shadow: 0 0 25px #ffeb3b, 0 0 40px orange;
-}
 .Basicwarningtext {
   font-family: retro, monospace;
   color: crimson;
@@ -355,34 +462,12 @@ body {
   font-size: 1.2rem;
   text-align: center;
 }
+
 .Basicwarningtext#corruption {
-  font-family: retro, monospace;
   color: #c77dff;
   text-shadow: 0 0 10px #c77dff, 0 0 20px purple;
 }
-.tab-btn.infinity {
-  background: #000814;
-  color: #00e5ff;
-  border: 2px solid #00e5ff;
-  text-shadow: 0 0 8px #00e5ff, 0 0 12px #0077ff;
-  box-shadow: 0 0 12px rgba(0, 229, 255, 0.7), 0 0 25px rgba(0, 119, 255, 0.6);
-  transition: all 0.3s ease;
-}
 
-.tab-btn.infinity:hover {
-  background: #00e5ff;
-  color: black;
-  box-shadow: 0 0 20px #00e5ff, 0 0 35px #0077ff;
-  transform: scale(1.08);
-}
-
-.tab-btn.infinity.active {
-  background: #0077ff;
-  color: white;
-  border-color: #00e5ff;
-  text-shadow: 0 0 12px #00e5ff, 0 0 20px #0077ff;
-  box-shadow: 0 0 25px #00e5ff, 0 0 40px #0077ff;
-}
 .finalcorruption {
   background-color: #000;
   color: #c77dff;
@@ -392,10 +477,20 @@ body {
 .finalcorruption h2,
 .finalcorruption h3,
 .finalcorruption p,
-.finalcorruption span,
-.finalcorruption .Basicwarningtext {
+.finalcorruption span {
   color: #c77dff !important;
   text-shadow: 0 0 10px #c77dff, 0 0 20px purple !important;
+}
+
+.finalcorruption .left-sidebar,
+.finalcorruption .right-sidebar {
+  background: #080008;
+  border-color: purple;
+}
+
+.finalcorruption .sidebar-title {
+  color: #c77dff;
+  border-color: purple;
 }
 
 .finalcorruption .tab-btn,
@@ -403,22 +498,14 @@ body {
   background: #1a001a !important;
   color: #e0b3ff !important;
   border: 2px solid purple !important;
-  text-shadow: 0 0 8px purple, 0 0 12px black !important;
+  text-shadow: 0 0 8px purple !important;
 }
 
 .finalcorruption .tab-btn.active,
 .finalcorruption .sub-tab-btn.active {
   background: purple !important;
   color: white !important;
-  border-color: #c77dff !important;
-  box-shadow: 0 0 20px purple, 0 0 30px black !important;
-}
-
-.finalcorruption button {
-  background: #2a0033 !important;
-  color: #e0b3ff !important;
-  border: 2px solid purple !important;
-  text-shadow: 0 0 6px purple !important;
+  box-shadow: 0 0 20px purple !important;
 }
 
 .finalcorruption button:hover {
@@ -427,7 +514,11 @@ body {
   box-shadow: 0 0 15px purple, 0 0 25px black !important;
 }
 
-/* Upgrade cards */
+.finalcorruption .currency {
+  background: #1a001a;
+  border-color: purple;
+}
+
 .finalcorruption .upgrade,
 .finalcorruption .matter-box {
   background: rgba(30, 0, 40, 0.8) !important;
@@ -435,69 +526,57 @@ body {
   color: #c77dff !important;
   text-shadow: 0 0 8px purple !important;
 }
+
 @font-face {
   font-family: 'MG';
   src: url('../font/mg-rising.otf.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
 }
+
 @font-face {
   font-family: 'ST';
   src: url('../font/ShareTech-Regular.ttf');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
 }
+
 @font-face {
   font-family: 'WR';
   src: url('../font/wannant-regular.otf');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-body {
-  transition: filter 1s ease;
 }
 
-body.delusion-mode {
-  filter: grayscale(0.85) brightness(0.85);
-}
-.music-player {
-  position: fixed;
-  top: 12px;
-  right: 12px;
-  z-index: 9999;
-  width: 230px;
-  padding: 12px;
-  background: #080808;
-  color: white;
-  border: 1px solid crimson;
-  box-shadow: 0 0 10px crimson;
-  font-family: ST, monospace;
+
+@media (max-width: 900px) {
+  .game-layout {
+    grid-template-columns: 150px minmax(0, 1fr);
+  }
+
+  .right-sidebar {
+    grid-column: 2;
+    position: static;
+  }
 }
 
-.music-info {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  margin-bottom: 10px;
+@media (max-width: 550px) {
+  .game-layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .left-sidebar,
+  .right-sidebar,
+  .main-content {
+    width: 100%;
+    box-sizing: border-box;
+    position: static;
+  }
+
+  .left-sidebar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .left-sidebar .sidebar-title {
+    grid-column: 1 / -1;
+  }
 }
 
-.music-info small {
-  letter-spacing: 2px;
-  opacity: 0.6;
-}
-
-.music-controls {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.music-controls input {
-  width: 90px;
-  accent-color: crimson;
-}
 </style>
 

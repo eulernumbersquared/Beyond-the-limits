@@ -171,6 +171,7 @@ export const player = reactive({
     CT15: false,
     notdialogbutshh: false,
     god2stitlecard: false,
+    hp10: false,
     god2KILL: false,
     delenter: false,
   },
@@ -351,12 +352,16 @@ function checkMilestones() {
     startDialogue("hp1")
     player.dialog.god2stitlecard = true
   }
+      if(player.infinity.god2.bossStage.gte(10) && !player.dialog.hp10) {
+    startDialogue("hp10")
+    player.dialog.god2stitlecard = true
+  }
   if(player.gods.good2com && !player.dialog.god2KILL) {
     startDialogue("hpend")
     player.dialog.god2KILL = true
   }
     if(player.infinity.del.inDel && !player.dialog.delenter) {
-    showTitleCard("Delusion", "You have enter the" ,"linear-gradient(90deg, #000000, #fcfbfb")
+    showTitleCard("Delusion", "You have entered the" ,"linear-gradient(90deg, #000000, #fcfbfb")
     player.dialog.delenter = true
   }
 }

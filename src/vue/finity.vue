@@ -13,7 +13,7 @@ import { formatNumber } from "../format";
       class="finity-btn" 
       @click="resetFinity"
     >
-      Enter the Finity and gain {{ formatNumber(FPgain()) }} FP
+      Offer your progress to the finity and gain {{ formatNumber(FPgain()) }} FP
     </button>
 
     <p v-else class="finity-locked">

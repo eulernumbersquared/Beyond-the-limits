@@ -1,19 +1,28 @@
 
 <template>
-  <div v-if="inDialogue" id="dialogue-overlay">
+<div v-if="inDialogue" id="dialogue-overlay">
+  <div id="dialogue-container">
+
+<div id="dialogue-name">
+  {{ currentSpeakerName }}
+</div>
+
     <div id="dialogue-box">
       <img
         v-if="currentSpeakerImg"
         :src="currentSpeakerImg"
         class="speaker-img"
       />
+
       <h2>{{ currentMessage }}</h2>
     </div>
 
-    <button @click="nextLine" id="continue">
-      Continue
-    </button>
   </div>
+
+  <button @click="nextLine" id="continue">
+    Continue
+  </button>
+</div>
 
   <Transition name="title-card">
     <div
@@ -38,10 +47,12 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import {
   inDialogue,
   currentMessage,
   currentSpeakerImg,
+  currentSpeakerName,
   nextLine,
   inTitleCard,
   titleCardTitle,
@@ -65,6 +76,23 @@ import {
   z-index: 9999;
 }
 
+#dialogue-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#dialogue-name {
+  background: black;
+  border: 2px solid crimson;
+  border-bottom: none;
+  padding: 8px 20px;
+  font-family: ST;
+  font-size: 20px;
+  color: red;
+  text-shadow: 0 0 8px crimson;
+}
+
 #dialogue-box {
   background: black;
   border: 2px solid crimson;
@@ -74,12 +102,21 @@ import {
   display: flex;
   align-items: center;
   font-family: ST;
-  color: rgb(255, 0, 0);
+  color: red;
   text-shadow: 0 0 8px red;
   box-sizing: border-box;
-  margin-bottom: 50px;
 }
 
+#dialogue-box h2 {
+  flex: 1;
+  font-size: 16px;
+  line-height: 1.4;
+  margin-left: 20px;
+  overflow-wrap: break-word;
+}
+#dialogue-container {
+  transform: translateY(-50px);
+}
 .speaker-img {
   width: 100px;
   height: 100px;
@@ -88,7 +125,6 @@ import {
   border-right: 2px solid crimson;
   padding-right: 20px;
 }
-
 #dialogue-box h2 {
   flex: 1;
   font-size: 16px;
