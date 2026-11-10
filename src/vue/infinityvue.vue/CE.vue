@@ -239,7 +239,7 @@ watch(CEtabs, (tab) => {
   cursor: not-allowed;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   #calamity-energy {
     padding: 20px 15px;
   }
@@ -261,7 +261,7 @@ watch(CEtabs, (tab) => {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 800px) {
   .calamity-tabs {
     gap: 7px;
   }
