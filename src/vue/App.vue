@@ -70,7 +70,8 @@ watch(() => player.infinity.del.inDel, (inDel) => {
 </script>
 
 <template>
-<p>Debug: FC={{ player.FCo.inFinalCorruption }} | Upg16={{ pupgrades[16]?.bought }}</p>
+  <!--
+ <p>Debug: FC={{ player.FCo.inFinalCorruption }} | Upg16={{ pupgrades[16]?.bought }}</p>
   <button @click="hardReset()">unstylized button.mp4</button>
   <button @click="failing()">return of unstylized button.mp3</button>
   <button @click="balancefixing()">ok this button does something useful</button>
@@ -89,8 +90,7 @@ watch(() => player.infinity.del.inDel, (inDel) => {
 <button @click="fuckingkillgod2()">kill ananke because its very important</button>
   <input type="Decimal" v-model.number="pointA" placeholder ="Points!!!" />
   <button @click="addPoint()">ok now this is for points</button>
-<div id="app" :class="{ finalcorruption: player.FCo.inFinalCorruption }">
-
+<div id="app" :class="{ finalcorruption: player.FCo.inFinalCorruption }"> -->
     <Dialogue />
 
   <div class="game-layout">
@@ -191,7 +191,6 @@ watch(() => player.infinity.del.inDel, (inDel) => {
     </aside>
 
   </div>
-</div>
 </template>
 <style>
 #finity {
