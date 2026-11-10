@@ -542,9 +542,9 @@ body.delusion-mode {
 }
 
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
   .game-layout {
-    grid-template-columns: 150px minmax(0, 1fr);
+    grid-template-columns: 125px minmax(0, 1fr);
   }
 
   .right-sidebar {

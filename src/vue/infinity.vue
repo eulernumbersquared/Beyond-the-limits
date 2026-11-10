@@ -429,14 +429,14 @@ const visibleInfinityUpgrades = computed(() => {
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 1200px) {
 
   .infinity-tabs {
     gap: 5px;
   }
 
   .infinity-tabs button {
-    font-size: 11px;
+    font-size: 10px;
     padding: 8px 6px;
   }
 
