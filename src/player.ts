@@ -354,7 +354,7 @@ function checkMilestones() {
   }
       if(player.infinity.god2.bossStage.gte(10) && !player.dialog.hp10) {
     startDialogue("hp10")
-    player.dialog.god2stitlecard = true
+    player.dialog.hp10 = true
   }
   if(player.gods.good2com && !player.dialog.god2KILL) {
     startDialogue("hpend")

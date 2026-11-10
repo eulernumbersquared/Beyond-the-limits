@@ -51,7 +51,6 @@ import { formatNumber } from "../format"
   background: radial-gradient(circle at center, #1a001a 0%, #000000 100%);
 }
 
-/* Image styling */
 .corruption-image {
   display: block;
   height: 150px;
@@ -60,10 +59,9 @@ import { formatNumber } from "../format"
   border: none;
   box-shadow: none;
   border-radius: 0;
-  transform: translateX(10px); /* shift slightly to the right */
+  transform: translateX(10px);
 }
 
-/* Stats section */
 .corruption-stats {
   margin: 15px 0;
   padding: 15px;

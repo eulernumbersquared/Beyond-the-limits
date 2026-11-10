@@ -41,68 +41,109 @@ import { player } from '../../player';
 </template>
 
 <style scoped>
+
 .the-entire-thing {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    gap: 400px;
+    align-items: stretch;
+    gap: 2rem;
     width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
 }
-.hello {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-#matter {
-    color: rgb(254, 254, 255);
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 40px;
-    padding-top: 30px;
-    margin: 0;
-}
-#matterfart {
-    color: rgb(254, 254, 255);
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 15px;
-}
+
+.hello,
 .matterrX {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    flex: 1;
+    min-width: 0;
+    padding: 20px;
+    background: rgba(25, 25, 25, 0.85);
+    border: 1px solid #555;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
+
+#matter {
+    color: rgb(254, 254, 255);
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: clamp(22px, 3vw, 40px);
+    padding-top: 10px;
+    margin: 0 0 15px;
+}
+
+#matterfart {
+    color: #ccc;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 5px 0;
+}
+
 #matterX {
-    color: rgb(255, 0, 0);
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 30px;
-    padding-top: 30px;
-    margin: 0;
+    color: #ff4545;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: clamp(20px, 2.5vw, 30px);
+    padding-top: 10px;
+    margin: 0 0 15px;
+    overflow-wrap: anywhere;
 }
+
 #matterXre {
     background-color: beige;
     background-image: linear-gradient(to right, #535353, #ff0000);
+    background-size: 200% auto;
+    animation: shineText 5s linear infinite;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 30px;
-    margin-top: 10px;
-    width: 300px;
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: clamp(16px, 2vw, 25px);
+    font-weight: bold;
+    margin-top: 15px;
+    width: 100%;
+    max-width: 300px;
+    min-height: 55px;
+    border: 1px solid #777;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 10px;
 }
+
 .HADRONIZE {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 60px;
+    text-align: center;
+    width: min(90%, 700px);
+    margin: 30px auto;
+    padding: 25px;
+    box-sizing: border-box;
+    background: rgba(25, 25, 25, 0.9);
+    border: 1px solid #8b762c;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(255, 200, 0, 0.08);
 }
+
 #hadbutton {
-    background-color: rgb(114, 114, 0);
-    outline-color: invert;
-    height: 150px;
-    width: 500px;
+    background: linear-gradient(135deg, #6e5b00, #a17b00, #302700);
+    border: 2px solid #b99b32;
+    border-radius: 12px;
+    min-height: 140px;
+    width: 100%;
+    max-width: 500px;
+    padding: 10px 20px;
+    cursor: pointer;
 }
+
 #hadtext {
-    font-size: 30px;
+    font-size: clamp(22px, 4vw, 30px);
     background-image: linear-gradient(to right, #ffe11a, #e0932e, #000000, #ffe11a);
     font-family: MG;
     -webkit-background-clip: text;
@@ -112,17 +153,10 @@ import { player } from '../../player';
     background-size: 200% auto;
     animation: shineText 5s linear infinite;
 }
-@keyframes shineText {
-    0% {
-        background-position: 0% center;
-    }
-    100% {
-        background-position: 200% center;
-    }
-}
-#hadgain{
-    font-family:Verdana, Geneva, Tahoma, sans-serif ;
-    font-size: 15px;
+
+#hadgain {
+    font-family: Verdana, sans-serif;
+    font-size: clamp(11px, 2vw, 15px);
     background-image: linear-gradient(to right, #ffe11a, #e0932e, #000000, #ffe11a);
     -webkit-background-clip: text;
     background-clip: text;
@@ -131,9 +165,25 @@ import { player } from '../../player';
     background-size: 200% auto;
     animation: shineText 5s linear infinite;
 }
-#hadcurrent{
-    font-family:Verdana, Geneva, Tahoma, sans-serif ;
-    font-size: 30px;
+
+#hadcurrent {
+    font-family: Verdana, sans-serif;
+    font-size: clamp(20px, 3vw, 30px);
+    text-align: center;
+    background-image: linear-gradient(to right, #ffe11a, #e0932e, #000000, #ffe11a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: bold;
+    background-size: 200% auto;
+    overflow-wrap: anywhere;
+}
+
+#hadmall {
+    font-family: Verdana, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
     background-image: linear-gradient(to right, #ffe11a, #e0932e, #000000, #ffe11a);
     -webkit-background-clip: text;
     background-clip: text;
@@ -141,14 +191,64 @@ import { player } from '../../player';
     font-weight: bold;
     background-size: 200% auto;
 }
-#hadmall{
-    font-family:Verdana, Geneva, Tahoma, sans-serif ;
-    font-size: 15px;
-    background-image: linear-gradient(to right, #ffe11a, #e0932e, #000000, #ffe11a);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-weight: bold;
-    background-size: 200% auto;
+
+@keyframes shineText {
+    0% {
+        background-position: 0% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
 }
+
+@media (max-width: 800px) {
+    .the-entire-thing {
+        gap: 1rem;
+        padding: 12px;
+    }
+
+    .hello,
+    .matterrX {
+        padding: 15px 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .the-entire-thing {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .hello,
+    .matterrX {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 18px 12px;
+    }
+
+    .HADRONIZE {
+        width: calc(100% - 20px);
+        margin: 20px auto;
+        padding: 18px 12px;
+    }
+
+    #hadbutton {
+        min-height: 130px;
+        padding: 8px 12px;
+    }
+
+    #matter,
+    #matterX,
+    #hadcurrent {
+        overflow-wrap: anywhere;
+    }
+
+    #matterfart,
+    #hadmall {
+        max-width: 100%;
+    }
+}
+
 </style>

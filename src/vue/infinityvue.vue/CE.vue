@@ -238,4 +238,105 @@ watch(CEtabs, (tab) => {
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+@media (max-width: 768px) {
+  #calamity-energy {
+    padding: 20px 15px;
+  }
+
+  .battle {
+    gap: 15px;
+  }
+
+  .battle h3 {
+    font-size: 23px;
+  }
+
+  .stage-info {
+    font-size: 22px;
+  }
+
+  .player-repeat {
+    flex-basis: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .calamity-tabs {
+    gap: 7px;
+  }
+
+  .calamity-tabs button {
+    flex: 1 1 auto;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  #calamity-energy {
+    width: 96%;
+    padding: 16px 10px;
+    border-radius: 8px;
+  }
+
+  .CE {
+    font-size: 14px;
+  }
+
+  .stage-info {
+    font-size: 19px;
+  }
+
+  .battle {
+    gap: 8px;
+  }
+
+  .battle .player,
+  .battle .enemy {
+    padding: 12px 5px;
+  }
+
+  .battle h3 {
+    font-size: 20px;
+  }
+
+  .battle p {
+    font-size: 13px;
+  }
+
+  .attack-button {
+    width: 85%;
+    padding: 13px 15px;
+    font-size: 19px;
+  }
+
+  #playerRepeat {
+    padding: 20px 10px;
+    gap: 12px;
+  }
+
+  .player-repeat {
+    flex: 1 1 100%;
+    max-width: 100%;
+    min-height: auto;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 350px) {
+  .battle {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .battle .player,
+  .battle .enemy {
+    width: 100%;
+    max-width: none;
+  }
+
+  .calamity-tabs button {
+    font-size: 12px;
+    padding: 9px 8px;
+  }
+}
 </style>

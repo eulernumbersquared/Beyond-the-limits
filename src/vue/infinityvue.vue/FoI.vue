@@ -40,6 +40,26 @@ const unlockedCrops = computed(() =>
     .map((crop, index) => ({ crop, index }))
     .filter(c => c.crop.unlocked())
 )
+let pressTimer: ReturnType<typeof setTimeout> | null = null
+let longPressTriggered = false
+
+function startLongPress(row: number, col: number) {
+  longPressTriggered = false
+
+  pressTimer = setTimeout(() => {
+    if (farm[row][col].cropIndex !== null) {
+      removeCrop(row, col)
+      longPressTriggered = true
+    }
+  }, 500)
+}
+
+function cancelLongPress() {
+  if (pressTimer) {
+    clearTimeout(pressTimer)
+    pressTimer = null
+  }
+}
 </script>
 
 <template>
@@ -134,13 +154,20 @@ const unlockedCrops = computed(() =>
 </template>
 
 <style scoped>
+
 .game {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
   gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px;
+  box-sizing: border-box;
 }
+
 .cropSelector {
   display: flex;
   flex-direction: column;
@@ -149,7 +176,9 @@ const unlockedCrops = computed(() =>
   max-height: 400px;
   overflow-y: auto;
   padding-right: .5rem;
+  flex-shrink: 0;
 }
+
 .selectorButton {
   width: 100%;
   padding: .75rem;
@@ -161,18 +190,23 @@ const unlockedCrops = computed(() =>
   text-align: center;
   transition: background .2s, border-color .2s;
 }
+
 .selectorButton.active {
   border-color: #4c7cff;
   background: #2a3f70;
 }
+
 .cropInfo {
-  flex: 0 0 250px;
+  flex: 0 1 250px;
+  min-width: 0;
   border: 2px solid #666;
   border-radius: 12px;
   background: #1e1e1e;
   color: white;
   padding: 1rem;
+  box-sizing: border-box;
 }
+
 .imgBox {
   width: 100%;
   height: 120px;
@@ -181,19 +215,24 @@ const unlockedCrops = computed(() =>
   align-items: center;
   margin-bottom: .5rem;
 }
+
 .imgBox img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
 }
+
 .title {
   font-size: 1rem;
   margin-bottom: .25rem;
 }
+
 .desc {
   font-size: .9rem;
   margin-bottom: .5rem;
+  overflow-wrap: anywhere;
 }
+
 .stats {
   font-size: .85rem;
   line-height: 1.4;
@@ -201,19 +240,29 @@ const unlockedCrops = computed(() =>
   padding: .5rem;
   border-radius: 8px;
 }
+
+.stats p {
+  margin: 5px 0;
+  overflow-wrap: anywhere;
+}
+
 .field {
   display: flex;
   flex-direction: column;
   gap: .4rem;
   align-items: center;
+  flex-shrink: 0;
 }
+
 .row {
   display: flex;
   gap: .4rem;
 }
+
 .cell {
   width: 100px;
   height: 100px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -223,22 +272,30 @@ const unlockedCrops = computed(() =>
   color: white;
   cursor: pointer;
   transition: background .2s, transform .15s;
+  padding: 5px;
+  box-sizing: border-box;
 }
+
 .cell:hover {
   transform: scale(1.03);
 }
+
 .cell.ready {
   background: #2b8f45;
 }
+
 .name {
   font-size: 12px;
   margin-bottom: 8px;
   text-align: center;
+  overflow-wrap: anywhere;
 }
+
 .readyText {
   font-weight: bold;
   color: #ffd94a;
 }
+
 .progress {
   width: 80%;
   height: 8px;
@@ -247,19 +304,141 @@ const unlockedCrops = computed(() =>
   overflow: visible;
   margin-top: 4px;
 }
+
 .bar {
   height: 100%;
   background: #4cc2ff;
   transition: width .15s linear;
 }
+
 .work {
   font-size: 10px;
   margin-top: 2px;
   color: #ccc;
 }
+
 .timeLeft {
   font-size: 10px;
   color: #ffd94a;
   margin-top: 2px;
+  white-space: nowrap;
 }
+
+/* Tablet */
+@media (max-width: 1000px) {
+  .game {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .cropInfo {
+    flex-basis: 220px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .game {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+  }
+
+  /* Horizontal crop selector */
+  .cropSelector {
+    flex-direction: row;
+    width: 100%;
+    max-width: 100%;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 5px 0 10px;
+    box-sizing: border-box;
+  }
+
+  .selectorButton {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 100px;
+    padding: 10px;
+  }
+
+  /* Crop information */
+  .cropInfo {
+    flex: none;
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+  }
+
+  .imgBox {
+    height: 140px;
+  }
+
+  /* Scale the farm to fit the screen */
+  .field {
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+  }
+
+  .row {
+    width: 100%;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .cell {
+    width: calc((100vw - 50px) / 5);
+    height: calc((100vw - 50px) / 5);
+    max-width: 100px;
+    max-height: 100px;
+    min-width: 0;
+    min-height: 0;
+    padding: 2px;
+  }
+
+  .name {
+    font-size: clamp(8px, 2.5vw, 12px);
+    margin-bottom: 4px;
+  }
+
+  .readyText {
+    font-size: 11px;
+  }
+
+  .timeLeft {
+    font-size: 9px;
+  }
+
+  .progress {
+    width: 85%;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .game {
+    padding: 5px;
+  }
+
+  .row {
+    gap: 3px;
+  }
+
+  .cell {
+    width: calc((100vw - 32px) / 5);
+    height: calc((100vw - 32px) / 5);
+  }
+
+  .name {
+    font-size: 8px;
+  }
+
+  .timeLeft {
+    font-size: 8px;
+  }
+}
+
 </style>

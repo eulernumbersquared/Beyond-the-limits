@@ -314,7 +314,7 @@ const visibleInfinityUpgrades = computed(() => {
   font-family: monospace;
   text-align: center;
   transition: all 0.3s ease;
-  background: black; /* keep background black */
+  background: black;
 }
 .infinity-upgrade-card h3 {
   margin: 0;      
@@ -323,7 +323,6 @@ const visibleInfinityUpgrades = computed(() => {
   color: inherit;     
 }
 
-/* Purchase button */
 .infinity-upgrade-card button {
   background: black;
   color: dodgerblue;
@@ -338,7 +337,6 @@ const visibleInfinityUpgrades = computed(() => {
   text-shadow: 0 0 5px dodgerblue;
 }
 
-/* Bought state — lime override */
 .infinity-upgrade-card.bought {
   border-color: lime;
   color: lime;
@@ -350,5 +348,109 @@ const visibleInfinityUpgrades = computed(() => {
   color: lime !important;
   text-shadow: 0 0 10px lime !important;
   box-shadow: 0 0 15px lime !important;
+}
+@media (max-width: 768px) {
+
+  .infinity-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .infinity-tabs button {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    padding: 9px 10px;
+    font-size: 12px;
+    white-space: normal;
+  }
+
+  .infinity-panel {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  #infinity-button {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    min-height: 80px;
+    font-size: 16px;
+  }
+
+  .infinity-ipamount {
+    font-size: 22px;
+    overflow-wrap: anywhere;
+  }
+
+  .infinity-warm {
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  .infinity-upgrade-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .infinity-upgrade-card {
+    width: 100%;
+    max-width: 300px;
+    min-width: 0;
+    box-sizing: border-box;
+    margin: 5px 0;
+  }
+
+  .infinity-upgrade-card button {
+    max-width: 100%;
+  }
+
+  .infinity-grid {
+    grid-template-columns: repeat(3, minmax(0, 70px));
+    grid-auto-rows: 70px;
+    gap: 5px;
+  }
+
+  .infinity-node {
+    min-width: 0;
+    font-size: 10px;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 400px) {
+
+  .infinity-tabs {
+    gap: 5px;
+  }
+
+  .infinity-tabs button {
+    font-size: 11px;
+    padding: 8px 6px;
+  }
+
+  .infinity-panel {
+    padding: 7px;
+  }
+
+  .infinity-grid {
+    grid-template-columns: repeat(3, minmax(0, 60px));
+    grid-auto-rows: 60px;
+  }
+
+  .infinity-upgrade-card {
+    padding: 8px;
+  }
 }
 </style>

@@ -26,7 +26,7 @@ export function balancefixing() {
 export function debugToFupgrade6() {
   player.finity.amount = new Decimal("1")
   player.infinity.amount = new Decimal("1")
-  player.maincurrencies.IP = new Decimal("1")
+  player.maincurrencies.IP = new Decimal("10")
   player.crops[0].amount = new Decimal("0")
   player.crops[1].amount = new Decimal("0")
   player.crops[2].amount = new Decimal("0")
@@ -36,6 +36,7 @@ export function debugToFupgrade6() {
   player.gods.god1com = true
   player.FCo.FCfin = true
   player.infinity.hmatter = new Decimal("0")
+  player.infinity.eternalenergy = new Decimal("1e10")
 }
 
 export function resetce() {
@@ -43,7 +44,7 @@ export function resetce() {
 }
 
 export function heyheymanguesswhat() {
-  player.infinity.god2.bossStage = new Decimal("0")
+  player.infinity.god2.bossStage = new Decimal("500")
   player.infinity.stats.bestStage = new Decimal("50")
   hindRepeats[0].amountbought = new Decimal("0")
   generateBoss()
