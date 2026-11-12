@@ -37,6 +37,7 @@ watch(CEtabs, (tab) => {
       Your base damage is equal to your calamity energy. <br>
       If your defense is greater than the enemy's damage. It will deal 1 damage to you.</p>
       <p class="CE">Reach stage 30 to unlock a sub-reset layer.</p>
+      <p class="CE">Reach stage 70 to unlock another sub-reset layer.</p>
     <p class="CE">Boosts: <br>
       x{{ formatNumber(player.infinity.stats.stage.add(1)) }} calamity energy <br>
       ^{{ formatNumber(player.infinity.stats.bestStage.mul(0.1).add(1)) }} points<br>
