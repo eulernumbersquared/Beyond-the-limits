@@ -247,7 +247,6 @@ export const dialogues: Record<string, Dialogue> = {
       {text: "You stand there in her palace, looking at the ashes that used to be of her.", speakerImg: nat},
       {text: "A strange portal opens infront of you", speakerImg: nat},
       {text: "Standing next to it makes you feel dizzy..", speakerImg: nat},
-      {text: "You wondering where e^2 is, and most importantly, who 'him' is talking about to", speakerImg: nat},
       {text: "The portal seems to grow more agro, it implies you have to enter it...", speakerImg: nat},
     ]
   }

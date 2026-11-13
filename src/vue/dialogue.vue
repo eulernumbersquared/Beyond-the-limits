@@ -142,7 +142,6 @@ import {
   margin-bottom: 85px;
 }
 
-/* Title card */
 #title-card {
   position: fixed;
   inset: 0;
@@ -160,7 +159,7 @@ import {
   text-transform: uppercase;
 }
 
-/* Animated gradient for both text elements */
+
 #title-card-title,
 #title-card-subtitle {
   background: var(--title-gradient);
@@ -195,7 +194,6 @@ import {
   }
 }
 
-/* Fade-in effect */
 @keyframes title-appear {
   from {
     opacity: 0;

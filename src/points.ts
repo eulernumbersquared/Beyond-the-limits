@@ -14,7 +14,7 @@ import { delRepeats } from "./infinity/del"
 
 export function pointgen(): Decimal {
   let gain = new Decimal(1)
-
+  
   const safeLog10 = (x: Decimal) => x.gt(0) ? x.log10() : new Decimal(0)
   if (player.pupgrades[0]?.bought) gain = gain.mul(2)
   if (player.pupgrades[1]?.bought) gain = gain.mul(3)
@@ -96,7 +96,7 @@ if (gain.gt("1e100000")) {
   gain = gain.div("1e100000").pow(0.005).mul("1e100000")
 }
 if(player.infinity.del.inDel) {gain = gain.log10()
-  gain = gain.div(1e5)
+  gain = gain.div(10)
 }
 if(player.infinity.del.inDel && delRepeats[1].effect().gte(1)) gain = gain.mul(delRepeats[1].effect())
   return gain.isFinite() && !gain.isNan() ? gain : new Decimal(1)

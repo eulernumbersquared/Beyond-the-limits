@@ -7,7 +7,7 @@ import { player } from '../../player';
 
 <template>
   <div class="delusion">
-    <h1 class="delu-text">hi ok so small spoilers like something really epic and cool was meant to happen when you reach finity in delusion but like ya your gonna have to wait for v0.3 sowwy</h1>
+    <h1 class="delu-text">hi ok so small spoilers like something really epic and cool was meant to happen when you reach finity in delusion but like ya your gonna have to wait for v0.3 mb i got artemis ohio beam'd by a billion things</h1>
     <h1 class="delu-text">"False dreams arise within your eyes..."</h1>
     <h1 class="delu-texty">Best points in delusion: {{ formatNumber(player.infinity.del.bestPoints) }} <br> You have {{ formatNumber(player.infinity.del.PPoints) }} ({{ formatNumber(ppgain()) }}/s) psuedo-points.</h1>
     <button class="delu-button" @click="enterdelusion()">ENTER THE DELUSION</button>
@@ -22,7 +22,7 @@ import { player } from '../../player';
   <p>{{ rupg.description }}</p>
 
   <div class="hind-stats">
-    <p>Requies: Hindrance {{ formatNumber(rupg.cost()) }}</p>
+    <p>Cost: {{ formatNumber(rupg.cost()) }} psuedo points</p>
     <p>{{ rupg.effectDisplay() }}</p>
     <p>Bought: {{ formatNumber(rupg.amountbought) }}</p>
       </div>
@@ -31,7 +31,7 @@ import { player } from '../../player';
     @click="() => {
       buyDelupgrade(rupg.id)
     }"
-    :disabled="player.infinity.calamen.lt(rupg.cost())"
+    :disabled="player.infinity.del.PPoints.lt(rupg.cost())"
   >
     Buy
   </button>
