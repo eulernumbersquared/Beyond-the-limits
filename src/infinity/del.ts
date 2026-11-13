@@ -38,7 +38,9 @@ export const delRepeats = reactive<repeatableupgradebutbetterlmao[]>([
         let scale = this.basecost.mul(
         Decimal.pow(2, this.amountbought)
         )
-
+        if(this.amountbought.gte(75)) scale = this.basecost.mul(
+        Decimal.pow(2.2, this.amountbought)
+        )
         return scale
         },
         effect() {
